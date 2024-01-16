@@ -69,3 +69,14 @@ class TestView(APIView):
         users = User.objects.all()
         serialized_user = TestSerializer(users, many=True)
         return Response(serialized_user.data)
+    
+
+
+
+
+
+
+
+
+
+

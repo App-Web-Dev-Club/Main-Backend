@@ -3,3 +3,6 @@ django
 PyJWT
 djangorestframework-simplejwt
 djangorestframework-jwt
+social-auth-core
+social-auth-app-django
+django-cors-headers

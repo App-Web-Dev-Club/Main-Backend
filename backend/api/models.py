@@ -7,8 +7,23 @@ class User(AbstractUser):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=255)
-    permission = models.CharField(max_length=255, default="")
-    username = None
+    designation = models.CharField(max_length=255, default="")
+    date_of_birth = models.DateField()
+    register_no = models.CharField(max_length=100)
+    BRANCH_CHOICE = [
+        ('Btech','btech'),
+        ('B.Sc','bsc')
+    ]
+    branch = models.CharField(max_length=100, choices = BRANCH_CHOICE)
+    dept = models.CharField(max_length=100)
+    passout_year = models.IntegerField()
+    student_status = models.BooleanField()
+
+    CHOICES = [
+        ('male', 'Male'),
+        ('female', 'Female'),
+    ]
+    gender = models.CharField(max_length=100, choices=CHOICES)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -19,7 +34,7 @@ class Attendanance_type(models.Model):
     barcode = models.BooleanField()
 
 class Event(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete = models.CASCADE,related_name='events_creator')
     title = models.CharField(max_length=255)
     description = models.TextField()
     registation_date = models.DateTimeField(auto_now_add=True)
@@ -30,10 +45,67 @@ class Event(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     venue = models.TextField()
-    type_of_attendance = models.OneToOneField(Attendanance_type)
+    type_of_attendance = models.OneToOneField(Attendanance_type, on_delete = models.CASCADE)
     accept_new_entry = models.BooleanField()
-    paticipantss = models.ForeignKey(User)
-    attendanance_markers = models.ForeignKey(User)
-    Status = models.CharField(max_length=255)
+    paticipants = models.ForeignKey(User, on_delete = models.CASCADE,related_name='events_participats')
+    attendanance_markers = models.ForeignKey(User, on_delete = models.CASCADE,related_name='events_attendance_marked')
+
+    STATUS_CHOICES = [
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+        ('onprocess', 'On Process'),
+        ('hold', 'Hold'),
+    ]
+    status = models.CharField(max_length=255,choices=STATUS_CHOICES)
+
+class Event_Attendanance(models.Model):
+    person_marked =  models.ForeignKey(User, on_delete = models.CASCADE, related_name='attendances_marked_by')
+    event = models.ForeignKey(Event, on_delete = models.CASCADE)
+    paticipant = models.ForeignKey(User, on_delete = models.CASCADE,related_name='attendances_participated')
+    date_time = models.DateTimeField(auto_now_add = True)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+
+
+class KH_Club_Members(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='club_member')
+    club = models.CharField(max_length=100)#add choices
+    permission = models.CharField(max_length=100)
+    join_date = models.DateTimeField(auto_now_add= True)
+    edited_date = models.DateTimeField(auto_now=True)
+
+class KH_Project(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    project_lead = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='project_led')
+    kh_members = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='project_team')
+
+    STATUS_CHOICES = [
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+        ('onprocess', 'On Process'),
+        ('hold', 'Hold'),
+    ]
+    status = models.CharField(max_length=255,choices=STATUS_CHOICES)
+
+class KH_Club_Members_Attendanance(models.Model):
+    date_time = models.DateTimeField(auto_now_add=True)
+    word_done = models.TextField()
+    project = models.ForeignKey(KH_Project, on_delete = models.CASCADE)
+    user = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='club_attendances')
+
+class KH_Permission(models.Model):
+    user = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='permissions')
+    date_time = models.DateTimeField()
+    CHOICES = [
+        ('late_night', 'Late_Night'),
+        ('1st_year', '1st_Year'),
+    ]
+    type = models.CharField(max_length=100, choices=CHOICES)
+
+
+
+
+
 
 
