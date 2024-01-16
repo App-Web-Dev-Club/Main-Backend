@@ -1,2 +1,5 @@
 djangorestframework
 django
+PyJWT
+djangorestframework-simplejwt
+djangorestframework-jwt
