@@ -6,3 +6,7 @@ djangorestframework-jwt
 social-auth-core
 social-auth-app-django
 django-cors-headers
+
+
+social-auth-app-django
+social-auth-core
