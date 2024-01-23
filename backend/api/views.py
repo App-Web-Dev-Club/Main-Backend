@@ -1,13 +1,142 @@
-# from rest_framework.views import APIView
-# from rest_framework.response import Response
-# from rest_framework import status
-# from rest_framework.permissions import AllowAny
-# from rest_framework_simplejwt.tokens import RefreshToken
-# from rest_framework_simplejwt.views import TokenObtainPairView
-# from rest_framework.permissions import IsAuthenticated
-# from rest_framework_simplejwt.authentication import JWTAuthentication
+from .models import User
+from .serializers import *
+from django.contrib.auth import authenticate, login
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import StudentSerializer
 
-# from .serializers import *
+class UserRegistrationView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class UserLoginView(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email')
+
+        user = authenticate(request, email=email)
+        if user is not None:
+            login(request, user)
+            token, created = Token.objects.get_or_create(user=user)
+            if created:
+                token.delete()  # Delete the token if it was already created
+                token = Token.objects.create(user=user)
+            return Response({'token': token.key, 'username': user.username, 'role': user.role})
+        else:
+            return Response({'message': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+
+class UserLogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            refresh_token = request.data['refresh']  # Assuming refresh token is sent in request body
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response({'message': 'Logged out successfully'}, status=200)
+        except Exception as e:
+            return Response({'error': str(e)}, status=400)   
+
+
+
+class StudentRegistrationView(APIView):
+    def post(self, request):
+        serializer = StudentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+class FacultyRegistrationView(APIView):
+    def post(self, request):
+        serializer = FacultySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+class StudentLoginView(APIView):
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email') 
+        user = User.objects.filter(email=email, role='student').first()
+
+        if user is not None:
+            refresh = RefreshToken.for_user(user)
+
+            response_data = {
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'email': user.email,
+                'role': user.role,
+            }
+
+            if user.role == 'student':
+                student = user.student  # Assuming the related name is "student"
+                if student is not None:
+                    # Add student data to the response data
+                    student_data = StudentSerializer(student).data
+                    response_data['data'] = student_data
+
+            return Response(response_data, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'Invalid email or authentication failed'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+
+
+
+class FacultyLoginView(APIView):
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email') 
+        user = User.objects.filter(email=email, role='teacher').first()
+
+        if user is not None:
+            refresh = RefreshToken.for_user(user)
+
+            response_data = {
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'email': user.email,
+                'role': user.role,
+            }
+
+            if user.role == 'teacher':
+                faculty = user.faculty 
+                if faculty is not None:
+                    faculty_data = FacultySerializer(faculty).data
+                    response_data['data'] = faculty_data
+
+            return Response(response_data, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'Invalid email or authentication failed'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+
+
+
+    
 
 # from django.contrib.auth import authenticate
 
@@ -63,14 +192,14 @@
 
 
 
-# class TestView(APIView):
-#     authentication_classes = [JWTAuthentication]
-#     permission_classes = [IsAuthenticated]
+class TestView(APIView):
+    # authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
-#     def get(self, request):
-#         users = User.objects.all()
-#         serialized_user = TestSerializer(users, many=True)
-#         return Response(serialized_user.data)
+    def get(self, request):
+        users = User.objects.all()
+        serialized_user = TestSerializer(users, many=True)
+        return Response(serialized_user.data)
     
 
 

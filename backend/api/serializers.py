@@ -3,25 +3,54 @@ from .models import *
 
 
 
-# class TestSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = '__all__'
+class TestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
 
 
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = '__all__'
-#         extra_kwargs = {'password': {'write_only': True}}  # Password should only be written, not displayed
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'name', 'email', 'role', 'gender']
 
-#     def create(self, validated_data):
-#         password = validated_data.pop('password', None)
-#         instance = self.Meta.model(**validated_data)
-#         if password is not None:
-#             instance.set_password(password)
-#         instance.save()
-#         return instance
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        # print(user)
+        return user
+
+
+class StudentSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Student
+        fields = ['id', 'user', 'register_no', 'branch', 'dept', 'year_of_joining', 'year_of_studys', 'passout_year', 'student_status']
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        user = User.objects.create_user(**user_data)
+        student = Student.objects.create(user=user, **validated_data)
+        return student
+
+
+
+
+
+class FacultySerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Faculty
+        fields = '__all__'
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        user = User.objects.create_user(**user_data)
+        student = Faculty.objects.create(user=user, **validated_data)
+        return student
+
+
 
 
 # class Attendanance_typeSerializer(serializers.ModelSerializer):
@@ -47,70 +76,70 @@ from .models import *
 
 
 
-class AttendananceTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Attendanance_type
-        fields = '__all__'
+# class AttendananceTypeSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Attendanance_type
+#         fields = '__all__'
 
-class EventSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Event
-        fields = '__all__'
+# class EventSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Event
+#         fields = '__all__'
 
-class EventAttendananceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Event_Attendanance
-        fields = '__all__'
+# class EventAttendananceSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Event_Attendanance
+#         fields = '__all__'
 
-class KHClubMembersSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = KH_Club_Members
-        fields = '__all__'
+# class KHClubMembersSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = KH_Club_Members
+#         fields = '__all__'
 
-class KHProjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = KH_Project
-        fields = '__all__'
+# class KHProjectSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = KH_Project
+#         fields = '__all__'
 
-class KHClubMembersAttendananceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = KH_Club_Members_Attendanance
-        fields = '__all__'
+# class KHClubMembersAttendananceSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = KH_Club_Members_Attendanance
+#         fields = '__all__'
 
-class KHPermissionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = KH_Permission
-        fields = '__all__'
-
-
+# class KHPermissionSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = KH_Permission
+#         fields = '__all__'
 
 
 
 
 
 
-class EventListSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-    type_of_attendance = AttendananceTypeSerializer()  
-    paticipants = UserSerializer()
-    attendanance_markers = UserSerializer()
 
-    class Meta:
-        model = Event
-        fields = '__all__'
 
-class KHClubMembersAttendananceListSerializer(serializers.ModelSerializer):
-    project = KHProjectSerializer()   
-    user = KHClubMembersSerializer()  
+# class EventListSerializer(serializers.ModelSerializer):
+#     user = UserSerializer()
+#     type_of_attendance = AttendananceTypeSerializer()  
+#     paticipants = UserSerializer()
+#     attendanance_markers = UserSerializer()
 
-    class Meta:
-        model = KH_Club_Members_Attendanance
-        fields = '__all__'
+#     class Meta:
+#         model = Event
+#         fields = '__all__'
 
-class KHProjectListSerializer(serializers.ModelSerializer):
-    project_lead = KHClubMembersSerializer()  
-    kh_members = KHClubMembersSerializer()  
+# class KHClubMembersAttendananceListSerializer(serializers.ModelSerializer):
+#     project = KHProjectSerializer()   
+#     user = KHClubMembersSerializer()  
 
-    class Meta:
-        model = KH_Project
-        fields = '__all__'
+#     class Meta:
+#         model = KH_Club_Members_Attendanance
+#         fields = '__all__'
+
+# class KHProjectListSerializer(serializers.ModelSerializer):
+#     project_lead = KHClubMembersSerializer()  
+#     kh_members = KHClubMembersSerializer()  
+
+#     class Meta:
+#         model = KH_Project
+#         fields = '__all__'
