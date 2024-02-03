@@ -8,8 +8,6 @@ urlpatterns = [
 
     path('register/', UserRegistrationView.as_view(), name='guest-registration'),
     path('login/', UserLoginView.as_view(), name='guest-login'),
-    path('logout/', UserLogoutView.as_view(), name='logout'),
-
 
     path('register/student/', StudentRegistrationView.as_view(), name='student-registration'),
     path('login/student/', StudentLoginView.as_view(), name='student-registration'),
@@ -17,7 +15,8 @@ urlpatterns = [
     path('register/faculty/', FacultyRegistrationView.as_view(), name='faculty-registration'),
     path('login/faculty/', FacultyLoginView.as_view(), name='faculty-registration'),
 
-
+    path('logout/', UserLogoutView.as_view(), name='logout'),
+    ################  Registation Login Logout #######################
 
 
     # # path('ttt',register_by_access_token),

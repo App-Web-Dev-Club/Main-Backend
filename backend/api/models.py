@@ -33,10 +33,10 @@ class User(AbstractBaseUser):
         ('female', 'Female'),
     ]
     gender = models.CharField(max_length=100, choices=CHOICES)
+    dob = models.DateField()
+    contact_number = models.CharField(max_length=15)
 
     objects = UserManager()
-
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['role'] 
 
@@ -57,15 +57,16 @@ class Student(models.Model):
         ('ECE', 'Electronic And Communication Engineering')
     ]
 
-    dept = models.CharField(max_length=100 ,choice = DEPARTMENT_CHOICES)
+    dept = models.CharField(max_length=100 ,choices = DEPARTMENT_CHOICES)
     SCHOOL_CHOICE = [
-        
+        ('CSE', 'SChool of Computer science and engineering')
     ]
-    school = models.CharField(max_length=100,choice= SCHOOL_CHOICE)
+    school = models.CharField(max_length=100,choices= SCHOOL_CHOICE)
     year_of_joining = models.DateField()
     year_of_studys = models.IntegerField()
     passout_year = models.DateField()
-    student_status = models.BooleanField()
+    hostel = models.CharField(max_length=255)
+    student_status = models.BooleanField(default = True)
 
     
 
@@ -80,11 +81,11 @@ class Faculty(models.Model):
         ('ECE', 'Electronic And Communication Engineering')
     ]
 
-    dept = models.CharField(max_length=100 ,choice = DEPARTMENT_CHOICES)
+    dept = models.CharField(max_length=100 ,choices = DEPARTMENT_CHOICES)
     SCHOOL_CHOICE = [
         
     ]
-    school = models.CharField(max_length=100,choice= SCHOOL_CHOICE)
+    school = models.CharField(max_length=100,choices= SCHOOL_CHOICE)
 
 
 
@@ -111,6 +112,7 @@ class Event(models.Model):
     venue = models.TextField()
     type_of_attendance = models.OneToOneField(Attendanance_type, on_delete = models.CASCADE)
     accept_new_entry = models.BooleanField()
+    report = models.FileField()#complete
     paticipants = models.ForeignKey(User, on_delete = models.CASCADE,related_name='events_participats')
     attendanance_markers = models.ForeignKey(User, on_delete = models.CASCADE,related_name='events_attendance_marked')
 
@@ -118,6 +120,7 @@ class Event(models.Model):
         ('accepted', 'Accepted'),
         ('rejected', 'Rejected'),
         ('onprocess', 'On Process'),
+        ('completed', 'Completed'),
         ('hold', 'Hold'),
     ]
     status = models.CharField(max_length=255,choices=STATUS_CHOICES)
@@ -131,13 +134,29 @@ class Event_Attendanance(models.Model):
     longitude = models.FloatField()
 
 
-
 class KH_Club_Members(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='club_member')
-    club = models.CharField(max_length=100)#add choices
-    permission = models.CharField(max_length=100)
+    club_choices =[
+        ('3D','3d'),
+        ('AI','Ai'),
+        ('WEB_AND_APP','Web_And_App'),
+        ('IOT_AND_ROBOTICS','Iot_And_Robotics'),
+        ('XOR','Xor'),
+        ('CYBERSECURITY','Cybersecurity'),
+        ('COMPETITIVE_PROGRAMMING','Competitive_Programming'),
+    ]
+    
+    club = models.CharField(max_length=100,choices = club_choices)
+    permission_choices = [
+        ('ADMIN', 'Admin'),
+        ('CLUB_LEADER', 'ClubLeader'),
+        ('MEMBER','Member'),
+    ]
+    permission = models.CharField(max_length=100,choices = permission_choices)
     join_date = models.DateTimeField(auto_now_add= True)
     edited_date = models.DateTimeField(auto_now=True)
+    left_date = models.DateField(null=True, blank=True)
+
 
 class KH_Project(models.Model):
     title = models.CharField(max_length=255)
@@ -149,6 +168,7 @@ class KH_Project(models.Model):
         ('accepted', 'Accepted'),
         ('rejected', 'Rejected'),
         ('onprocess', 'On Process'),
+        ('completed', 'Completed'),
         ('hold', 'Hold'),
     ]
     status = models.CharField(max_length=255,choices=STATUS_CHOICES)
@@ -159,17 +179,25 @@ class KH_Club_Members_Attendanance(models.Model):
     project = models.ForeignKey(KH_Project, on_delete = models.CASCADE)
     user = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='club_attendances')
 
+
 class KH_Permission(models.Model):
     user = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='permissions')
     date_time = models.DateTimeField()
     CHOICES = [
         ('late_night', 'Late_Night'),
         ('1st_year', '1st_Year'),
+        ('holiday ', 'Holiday '),
     ]
     type = models.CharField(max_length=100, choices=CHOICES)
 
 
+class KIDS_PunchTime(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    time = models.DateTimeField(auto_now_add= True)
 
+class Birthday(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    dob = models.DateField()
 
 
 

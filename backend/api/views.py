@@ -21,8 +21,6 @@ class UserRegistrationView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
 class UserLoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')
@@ -63,8 +61,6 @@ class StudentRegistrationView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
 class FacultyRegistrationView(APIView):
     def post(self, request):
         serializer = FacultySerializer(data=request.data)
@@ -84,24 +80,38 @@ class StudentLoginView(APIView):
 
         if user is not None:
             refresh = RefreshToken.for_user(user)
+            student = user.student
+            student_data = StudentSerializer(student).data
+
+            custom_data = {
+                'register_no': student.register_no,
+                'email':user.email,
+                'role': user.role,
+            }
+            refresh['custom_data'] = custom_data
+            refresh.access_token.payload['custom_data'] = custom_data
 
             response_data = {
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
                 'email': user.email,
                 'role': user.role,
+                'student':student.register_no
             }
 
-            if user.role == 'student':
-                student = user.student  # Assuming the related name is "student"
-                if student is not None:
-                    # Add student data to the response data
-                    student_data = StudentSerializer(student).data
-                    response_data['data'] = student_data
+            # if user.role == 'student':
+            #     student = user.student
+            #     if student is not None:
+            #         # Add student data to the response data
+            #         student_data = StudentSerializer(student).data
+            #         response_data['data'] = student_data
 
             return Response(response_data, status=status.HTTP_200_OK)
+        elif User.objects.filter(email=email):
+            return Response({'message': 'You are not a student'}, status=status.HTTP_401_UNAUTHORIZED)
+        
         else:
-            return Response({'message': 'Invalid email or authentication failed'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'message': 'Invalid User'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 
@@ -110,16 +120,26 @@ class StudentLoginView(APIView):
 class FacultyLoginView(APIView):
     def post(self, request, *args, **kwargs):
         email = request.data.get('email') 
-        user = User.objects.filter(email=email, role='teacher').first()
-
+        user = User.objects.filter(email=email, role='faculty').first()
+        
         if user is not None:
             refresh = RefreshToken.for_user(user)
+            faculty = user.faculty
+            
+            custom_data = {
+                'faculty_id': faculty.faculty_id,
+                'email':user.email,
+                'role': user.role,
+            }
+            refresh['custom_data'] = custom_data
+            refresh.access_token.payload['custom_data'] = custom_data
 
             response_data = {
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
                 'email': user.email,
                 'role': user.role,
+                'faculty_id': faculty.faculty_id,
             }
 
             if user.role == 'teacher':

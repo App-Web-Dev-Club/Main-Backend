@@ -12,7 +12,7 @@ class TestSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'name', 'email', 'role', 'gender']
+        fields = ['id', 'name', 'email', 'role', 'gender','dob','contact_number']
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
@@ -25,7 +25,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ['id', 'user', 'register_no', 'branch', 'dept', 'year_of_joining', 'year_of_studys', 'passout_year', 'student_status']
+        fields = ['id', 'user', 'register_no', 'branch', 'dept', 'year_of_joining', 'year_of_studys', 'passout_year','hostel', 'student_status']
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
@@ -143,3 +143,29 @@ class FacultySerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = KH_Project
 #         fields = '__all__'
+
+
+
+class PunchTimeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KIDS_PunchTime
+        fields = '__all__'
+
+class ListPunchTimeSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = KIDS_PunchTime
+        fields = '__all__'
+
+
+
+class BirthdaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Birthday
+        fields = '__all__'
+
+class ListBirthdaySerializer(serializers.ModelSerializer):
+    user = UserSerializer(many=True)
+    class Meta:
+        model = Birthday
+        fields = '__all__'
