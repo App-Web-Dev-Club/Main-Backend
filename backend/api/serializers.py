@@ -157,15 +157,3 @@ class ListPunchTimeSerializer(serializers.ModelSerializer):
         model = KIDS_PunchTime
         fields = '__all__'
 
-
-
-class BirthdaySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Birthday
-        fields = '__all__'
-
-class ListBirthdaySerializer(serializers.ModelSerializer):
-    user = UserSerializer(many=True)
-    class Meta:
-        model = Birthday
-        fields = '__all__'

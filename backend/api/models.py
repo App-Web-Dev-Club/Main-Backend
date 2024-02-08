@@ -41,9 +41,6 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ['role'] 
 
 
-
-
-
 class Student(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     register_no = models.CharField(max_length=100, unique=True)  # Ensure register_no is unique
@@ -68,8 +65,6 @@ class Student(models.Model):
     hostel = models.CharField(max_length=255)
     student_status = models.BooleanField(default = True)
 
-    
-
 
 class Faculty(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
@@ -83,20 +78,16 @@ class Faculty(models.Model):
 
     dept = models.CharField(max_length=100 ,choices = DEPARTMENT_CHOICES)
     SCHOOL_CHOICE = [
-        
+        ('CSE', 'SChool of Computer science and engineering')
     ]
     school = models.CharField(max_length=100,choices= SCHOOL_CHOICE)
-
-
-
-
-
 
 
 class Attendanance_type(models.Model):
     biometric = models.BooleanField()
     face_recognition = models.BooleanField()
     barcode = models.BooleanField()
+
 
 class Event(models.Model):
     event_creator = models.ForeignKey(Faculty, on_delete = models.CASCADE,related_name='events_creator')
@@ -124,6 +115,7 @@ class Event(models.Model):
         ('hold', 'Hold'),
     ]
     status = models.CharField(max_length=255,choices=STATUS_CHOICES)
+
 
 class Event_Attendanance(models.Model):
     person_marked_attendanance =  models.ForeignKey(User, on_delete = models.CASCADE, related_name='attendances_marked_by')
@@ -180,8 +172,8 @@ class KH_Club_Members_Attendanance(models.Model):
     user = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='club_attendances')
 
 
-class KH_Permission(models.Model):
-    user = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='permissions')
+class KIDS_Permission(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='permissions')
     date_time = models.DateTimeField()
     CHOICES = [
         ('late_night', 'Late_Night'),
@@ -194,16 +186,5 @@ class KH_Permission(models.Model):
 class KIDS_PunchTime(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add= True)
-
-class Birthday(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    dob = models.DateField()
-
-
-
-
-
-
-
 
 

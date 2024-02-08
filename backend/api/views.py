@@ -6,13 +6,28 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import StudentSerializer
+from .permissions import *
+from django.core.mail import send_mail
+class TestView(APIView):
+    # authentication_classes = [JWTAuthentication]
+    permission_classes = [AllowAny]
 
+    def get(self, request):
+            subject = 'Happy Birthday!'
+            message = f"Dear,\n\nHappy Birthday!\n\nBest wishes from us!"
+            from_email = 'biwinfelix@gmail.com'  # Update with your email
+            to_email = ['bewinfelix25@gmail.com']
+
+            send_mail(subject, message, from_email, to_email)
+            return Response('sucess')
+    
+    
 class UserRegistrationView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -36,8 +51,6 @@ class UserLoginView(ObtainAuthToken):
         else:
             return Response({'message': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
 
-
-
 class UserLogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -50,8 +63,6 @@ class UserLogoutView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=400)   
 
-
-
 class StudentRegistrationView(APIView):
     def post(self, request):
         serializer = StudentSerializer(data=request.data)
@@ -60,7 +71,6 @@ class StudentRegistrationView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 class FacultyRegistrationView(APIView):
     def post(self, request):
         serializer = FacultySerializer(data=request.data)
@@ -68,10 +78,6 @@ class FacultyRegistrationView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
 
 class StudentLoginView(APIView):
     def post(self, request, *args, **kwargs):
@@ -99,23 +105,12 @@ class StudentLoginView(APIView):
                 'student':student.register_no
             }
 
-            # if user.role == 'student':
-            #     student = user.student
-            #     if student is not None:
-            #         # Add student data to the response data
-            #         student_data = StudentSerializer(student).data
-            #         response_data['data'] = student_data
-
             return Response(response_data, status=status.HTTP_200_OK)
         elif User.objects.filter(email=email):
             return Response({'message': 'You are not a student'}, status=status.HTTP_401_UNAUTHORIZED)
         
         else:
             return Response({'message': 'Invalid User'}, status=status.HTTP_401_UNAUTHORIZED)
-
-
-
-
 
 class FacultyLoginView(APIView):
     def post(self, request, *args, **kwargs):
@@ -212,23 +207,8 @@ class FacultyLoginView(APIView):
 
 
 
-class TestView(APIView):
-    # authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        users = User.objects.all()
-        serialized_user = TestSerializer(users, many=True)
-        return Response(serialized_user.data)
     
-
-
-
-
-
-
-
-
 
 
 
