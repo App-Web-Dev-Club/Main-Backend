@@ -3,9 +3,11 @@ from django.contrib.auth.models import AbstractUser,AbstractBaseUser,BaseUserMan
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, name, role, gender, password=None, **extra_fields):
+    def create_user(self, email, name, role, gender, password, **extra_fields):
         if not email:
             raise ValueError('The Email field must be set')
+        if not password:
+            raise ValueError('Password need to be set')
         email = self.normalize_email(email)
         user = self.model(email=email, name=name, role=role, gender=gender, **extra_fields)
         user.set_password(password)
@@ -20,7 +22,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     name = models.CharField(max_length=255)
-    email = models.CharField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
     ROLE_CHOICES = (
         ('administrator', 'Administrator'),
         ('faculty', 'Faculty'),
@@ -35,6 +37,7 @@ class User(AbstractBaseUser):
     gender = models.CharField(max_length=100, choices=CHOICES)
     dob = models.DateField()
     contact_number = models.CharField(max_length=15)
+    password =models.CharField(max_length = 100)
 
     objects = UserManager()
     USERNAME_FIELD = 'email'

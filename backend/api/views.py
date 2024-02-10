@@ -1,6 +1,6 @@
 from .models import User
 from .serializers import *
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -14,6 +14,8 @@ from rest_framework import status
 from .serializers import StudentSerializer
 from .permissions import *
 from django.core.mail import send_mail
+
+
 class TestView(APIView):
     # authentication_classes = [JWTAuthentication]
     permission_classes = [AllowAny]
@@ -37,19 +39,33 @@ class UserRegistrationView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserLoginView(ObtainAuthToken):
+    permission_classes=[AllowAny]
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')
+        password = request.data.get('password')
 
-        user = authenticate(request, email=email)
-        if user is not None:
-            login(request, user)
-            token, created = Token.objects.get_or_create(user=user)
-            if created:
-                token.delete()  # Delete the token if it was already created
-                token = Token.objects.create(user=user)
-            return Response({'token': token.key, 'username': user.username, 'role': user.role})
+        user = authenticate(request, email=email, password = password)
+        data = User.objects.filter(email=email, role='guest').first()
+        if user is not None  and data is not None:
+            refresh = RefreshToken.for_user(user)
+            custom_data = {
+                'email':data.email,
+                'role': 'guest',
+            }
+            refresh['custom_data'] = custom_data
+            refresh.access_token.payload['custom_data'] = custom_data
+
+            response_data = {
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'email': data.email,
+                'role': 'guest',
+            }
+
+            return Response(response_data, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 class UserLogoutView(APIView):
     permission_classes = [IsAuthenticated]
@@ -79,12 +95,16 @@ class FacultyRegistrationView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+
 class StudentLoginView(APIView):
     def post(self, request, *args, **kwargs):
         email = request.data.get('email') 
+        password = request.data.get('password')
         user = User.objects.filter(email=email, role='student').first()
-
-        if user is not None:
+        
+        if user is not None and authenticate(email=email, password = password):
             refresh = RefreshToken.for_user(user)
             student = user.student
             student_data = StudentSerializer(student).data
@@ -115,9 +135,10 @@ class StudentLoginView(APIView):
 class FacultyLoginView(APIView):
     def post(self, request, *args, **kwargs):
         email = request.data.get('email') 
+        password = request.data.get('password')
+
         user = User.objects.filter(email=email, role='faculty').first()
-        
-        if user is not None:
+        if user is not None and authenticate(email=email, password = password):
             refresh = RefreshToken.for_user(user)
             faculty = user.faculty
             
