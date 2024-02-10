@@ -1,9 +1,15 @@
-from django.db import models
 from api.models import *
+from django.db import models
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
-class KH_Club_Members(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='club_member')
+class KH_Club_Members(AbstractUser):
+    regno = models.CharField(max_length=120, unique=True)
+    permission_choices = [
+        ('ADMIN', 'Admin'),
+        ('CLUB_LEADER', 'ClubLeader'),
+        ('MEMBER','Member'),
+    ]
     club_choices =[
         ('3D','3d'),
         ('AI','Ai'),
@@ -13,48 +19,58 @@ class KH_Club_Members(models.Model):
         ('CYBERSECURITY','Cybersecurity'),
         ('COMPETITIVE_PROGRAMMING','Competitive_Programming'),
     ]
-    
+    kmail = models.EmailField(default=None)
     club = models.CharField(max_length=100,choices = club_choices)
-    permission_choices = [
-        ('ADMIN', 'Admin'),
-        ('CLUB_LEADER', 'ClubLeader'),
-        ('MEMBER','Member'),
-    ]
     permission = models.CharField(max_length=100,choices = permission_choices)
-    join_date = models.DateTimeField(auto_now_add= True)
-    edited_date = models.DateTimeField(auto_now=True)
+    contact_number = models.CharField(max_length=15,default=None)
+    joined_date = models.DateField(default=None)
     left_date = models.DateField(null=True, blank=True)
+    hostel = models.CharField(max_length=255, default=None)
+    name = models.CharField(max_length= 200,null=True,default = True)
+    
+    username = ""
+    USERNAME_FIELD='regno'
+
+    REQUIRED_FIELDS =['kmail']
+
+
 
 
 class KH_Project(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    project_lead = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='project_led')
-    kh_members = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='project_team')
+    project_title = models.CharField(max_length=255)
+    project_description = models.TextField()
+    team_leader = models.ForeignKey(User, on_delete=models.CASCADE, related_name='team_leader_projects')
+    members = models.ManyToManyField(User, related_name='member_projects')
+    started_date = models.DateField(auto_now_add = True)
+    completion_date = models.DateField(null=True, blank=True)
 
-    STATUS_CHOICES = [
-        ('accepted', 'Accepted'),
-        ('rejected', 'Rejected'),
-        ('onprocess', 'On Process'),
+    status_choices = [
+        ('progress', 'Progress'),
         ('completed', 'Completed'),
-        ('hold', 'Hold'),
+        ('onhold', 'Onhold'),
     ]
-    status = models.CharField(max_length=255,choices=STATUS_CHOICES)
+    status = models.CharField(max_length=20, choices=status_choices, default='IN_PROGRESS')
 
+
+    def __str__(self):
+        return self.project_title
 class KH_Club_Members_Attendanance(models.Model):
-    date_time = models.DateTimeField(auto_now_add=True)
-    word_done = models.TextField()
-    project = models.ForeignKey(KH_Project, on_delete = models.CASCADE)
-    user = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='club_attendances')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    project = models.ForeignKey(KH_Project, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add = True)
+    work_done = models.TextField()
 
+
+    def __str__(self):
+        return f"{self.User.User.Username} - {self.project.project_title} - {self.date}"
+    
 
 class KIDS_Permission(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='permissions')
-    date_time = models.DateTimeField()
+    user = models.ManyToManyField(User)
+    date_time = models.DateTimeField(auto_now_add=True)
     CHOICES = [
-        ('late_night', 'Late_Night'),
-        ('1st_year', '1st_Year'),
-        ('holiday ', 'Holiday '),
+        ('Late Permission', 'Late_Permission'),
+        ('Night Stay Permission', 'Night_Stay_Permission'),
     ]
     type = models.CharField(max_length=100, choices=CHOICES)
 

@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -193,8 +193,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Load environment variables from .env file
-dotenv_path = os.path.join(BASE_DIR, '.env')
-load_dotenv(dotenv_path)
+# dotenv_path = os.path.join(BASE_DIR, '.env')
+# load_dotenv(dotenv_path)
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
