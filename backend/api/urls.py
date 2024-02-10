@@ -5,24 +5,16 @@ from kids.views import *
 urlpatterns = [
 
     # migrated from prototype -------------------------
-    path('projects', ProjectListCreateAPIView.as_view(), name='project-list-create'),
     
-
-
+    path('projects', ProjectListCreateAPIView.as_view(), name='project-list-create'),
     path('userid',Userid.as_view(),name='get userid using regno used for both project and attendance'),
     path('userid/projects',project_under_user.as_view(),name='get project from userid used for attendance'),
     path('attendance', AttendanceListCreateAPIView.as_view(), name='attendance-list-create'),
-
     path('process',PermissionView.as_view()),
     path('face',FaceAttendanceListCreateAPIView.as_view()),
     path('punch', PunchTimeView.as_view()),
     path('punchtime/sort',PunchTimeGETView.as_view()),
     path('send-email/', SendEmailView.as_view(), name='send-email'),
-
-    path('register',UserRegistrationAPIView.as_view()),
-    path('login', UserLoginAPIView.as_view(), name='login'),
-
-
 
     #--------------------------------
 

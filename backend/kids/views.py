@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import *
+from api.serializers import *
 from .models import *
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from django.contrib.auth import authenticate
@@ -10,102 +10,6 @@ from django.contrib.auth import get_user_model
 from datetime import datetime, timedelta
 
 User = get_user_model()
-
-
-# class UserRegistrationAPIView(APIView):
-#     permission_classes = [AllowAny]
-#     def post(self, request):
-#         serializer = UserSerializer(data=request.data)
-#         if serializer.is_valid():
-#             user = serializer.save()
-#             refresh = RefreshToken.for_user(user)
-#             response_data = {
-#                 'refresh': str(refresh),
-#                 'access': str(refresh.access_token),
-#             }
-#             return Response(response_data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-# class UserLoginAPIView(APIView):
-#     permission_classes = [AllowAny]
-#     def post(self, request):
-#         username = request.data.get('regno')
-#         password = request.data.get('password')
-
-#         user = authenticate(username=username, password=password)
-#         print(user)
-#         if user:
-#             refresh = RefreshToken.for_user(user)
-#             response_data = {
-#                 'refresh': str(refresh),
-#                 'access': str(refresh.access_token),
-#             }
-#             return Response(response_data, status=status.HTTP_200_OK)
-#         else:
-#             return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-        
-
-class UserRegistrationAPIView(APIView):
-    permission_classes = [AllowAny]
-
-    def post(self, request):
-        serializer = UserSerializer(data=request.data)
-        print(request)
-        if serializer.is_valid():
-            
-            user = serializer.save()
-
-            # Custom data to include in the token payload
-            custom_data = {
-                'regno': user.regno,
-                'club': user.club,
-                'permission': user.permission,
-            }
-
-            refresh = RefreshToken.for_user(user)
-            refresh['custom_data'] = custom_data  # Add custom data to the token payload
-            refresh.access_token.payload['custom_data'] = custom_data  # Also add to the access token payload
-
-            response_data = {
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-            }
-            return Response(response_data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-class UserLoginAPIView(APIView):
-    permission_classes = [AllowAny]
-
-    def post(self, request):
-        username = request.data.get('regno')
-        password = request.data.get('password')
-
-        user = authenticate(username=username, password=password)
-        print(user)
-        if user:
-            refresh = RefreshToken.for_user(user)
-
-            # Custom data to include in the token payload
-            custom_data = {
-                'regno': user.regno,
-                'club': user.club,
-                'permission': user.permission,
-            }
-
-            refresh['custom_data'] = custom_data  # Add custom data to the token payload
-            refresh.access_token.payload['custom_data'] = custom_data  # Also add to the access token payload
-
-            response_data = {
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-            }
-            return Response(response_data, status=status.HTTP_200_OK)
-        else:
-            return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class Test(APIView):
@@ -120,7 +24,7 @@ class ProjectListCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, *args, **kwargs):
         projects = KH_Project.objects.all()
-        serializer = ListProjectSerializer(projects, many=True)
+        serializer = KHProjectListSerializer(projects, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
@@ -158,7 +62,7 @@ class AttendanceListCreateAPIView(APIView):
                 'project':request.data.get('project'),
                 'work_done':request.data.get('work_done')
             }
-            serializer = AttendanceSerializer(data=data)
+            serializer = KHClubMembersAttendananceSerializer(data=data)
             if serializer.is_valid():
                 # Assign the user object to the Attendance instance before saving
                 serializer.save(user=paticipant)
@@ -214,7 +118,7 @@ class PermissionView(APIView):
 
     def get(self, request, *args, **kwargs):
         data = KIDS_Permission.objects.all()
-        serializer = KH_PermissionSerializer(data, many=True)
+        serializer = KHPermissionSerializer(data, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
@@ -223,7 +127,7 @@ class PermissionView(APIView):
             instance = serializer.save()
 
             data = KIDS_Permission.objects.filter(id = instance.id)
-            serializer = KH_PermissionSerializer(data, many=True)
+            serializer = KHPermissionSerializer(data, many=True)
             return Response(serializer.data)
             # return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -256,7 +160,7 @@ class FaceAttendanceListCreateAPIView(APIView):
                 'project':request.data.get('project'),
                 'work_done':request.data.get('work_done')
             }
-            serializer = AttendanceSerializer(data=data)
+            serializer = KHClubMembersAttendananceSerializer(data=data)
             if serializer.is_valid():
                 # Assign the user object to the Attendance instance before saving
                 serializer.save(user=paticipant)
