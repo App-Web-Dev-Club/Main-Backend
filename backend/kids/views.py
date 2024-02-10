@@ -5,7 +5,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from api.serializers import *
 from .models import *
 from rest_framework.permissions import AllowAny,IsAuthenticated
-from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 from datetime import datetime, timedelta
 

@@ -17,7 +17,6 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
-        # print(user)
         return user
 
 
@@ -167,3 +166,4 @@ class ListAttendanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = KH_Club_Members_Attendanance
         fields = '__all__'
+
