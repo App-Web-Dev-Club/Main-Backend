@@ -21,7 +21,7 @@ class Test(APIView):
         
 
 class ProjectListCreateAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     def get(self, request, *args, **kwargs):
         projects = KH_Project.objects.all()
         serializer = KHProjectListSerializer(projects, many=True)

@@ -11,10 +11,10 @@ urlpatterns = [
     path('userid/projects',project_under_user.as_view(),name='get project from userid used for attendance'),
     path('attendance', AttendanceListCreateAPIView.as_view(), name='attendance-list-create'),
     path('process',PermissionView.as_view()),
-    path('face',FaceAttendanceListCreateAPIView.as_view()),
+    # path('face',FaceAttendanceListCreateAPIView.as_view()),
     path('punch', PunchTimeView.as_view()),
-    path('punchtime/sort',PunchTimeGETView.as_view()),
-    path('send-email/', SendEmailView.as_view(), name='send-email'),
+    # path('punchtime/sort',PunchTimeGETView.as_view()),
+    # path('send-email/', SendEmailView.as_view(), name='send-email'),
 
     #--------------------------------
 
