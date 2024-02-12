@@ -1,24 +1,33 @@
-# yourapp/management/commands/send_birthday_wishes.py
+# <your_app>/management/commands/createadmin.py
 
 from django.core.management.base import BaseCommand
-from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
-from datetime import datetime
 
 User = get_user_model()
 
 class Command(BaseCommand):
-    help = 'Send birthday wishes to users with today\'s date of birth'
+    help = 'Creates an admin user'
 
-    def handle(self, *args, **options):
-        # today = datetime.today().date()
-        # birthdays_today = User.objects.filter(dob__month=today.month, dob__day=today.day)
+    def handle(self, *args, **kwargs):
+        email = 'admin@gmail.com'
+        name = 'admin'
+        role = 'administrator'  # Assuming the role for an admin user
+        gender = 'male'
+        
+        # dob = input("Enter date of birth (YYYY-MM-DD): ")
+        contact_number = '1234567890'
+        password = 'admin'
 
-        # for birthday_person in birthdays_today:
-            subject = 'Happy Birthday!'
-            message = f"Dear\n\nHappy Birthday!\n\nBest wishes from us!"
-            from_email = 'biwinfelix@gmail.com'  # Update with your email
-            to_email = ['bewinfelix25@gmail.com']
-
-            send_mail(subject, message, from_email, to_email)
-            self.stdout.write(self.style.SUCCESS(f"Sent birthday wishes to"))
+        try:
+            user = User.objects.create_superuser(
+                email=email,
+                name=name,
+                role=role,
+                gender=gender,
+                # dob=dob,
+                contact_number=contact_number,
+                password=password
+            )
+            self.stdout.write(self.style.SUCCESS('Admin user created successfully!'))
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f'Failed to create admin user: {str(e)}'))

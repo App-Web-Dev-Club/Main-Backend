@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser,AbstractBaseUser,BaseUserManager
+from django.contrib.auth.models import AbstractUser,AbstractBaseUser,BaseUserManager, PermissionsMixin
 
 
 class UserManager(BaseUserManager):
@@ -14,13 +14,16 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
     def create_superuser(self, email, name, role, gender, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         return self.create_user(email, name, role, gender, password, **extra_fields)
 
 
-class User(AbstractBaseUser):
+
+
+class User(AbstractBaseUser,PermissionsMixin):
     name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255, unique=True)
     ROLE_CHOICES = (
@@ -34,10 +37,17 @@ class User(AbstractBaseUser):
         ('male', 'Male'),
         ('female', 'Female'),
     ]
+    # gender = models.CharField(max_length=100, choices=CHOICES)
+
     gender = models.CharField(max_length=100, choices=CHOICES)
-    dob = models.DateField()
-    contact_number = models.CharField(max_length=15)
+    dob = models.DateField(null=True)
+    contact_number = models.CharField(max_length=15,null=True)
     password =models.CharField(max_length = 100)
+    is_staff = models.BooleanField(null=True)
+    is_superuser = models.BooleanField(null=True)
+    # dob = models.DateField()
+    # contact_number = models.CharField(max_length=15)
+    # password =models.CharField(max_length = 100)
 
     objects = UserManager()
     USERNAME_FIELD = 'email'

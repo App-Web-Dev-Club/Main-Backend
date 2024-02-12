@@ -3,7 +3,7 @@ from api.models import *
 # Create your models here.
 
 class KH_Club_Members(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='club_member')
+    user = models.ForeignKey(Student, on_delete = models.CASCADE, related_name='club_member')
     club_choices =[
         ('3D','3d'),
         ('AI','Ai'),
