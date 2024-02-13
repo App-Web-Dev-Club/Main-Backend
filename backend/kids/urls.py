@@ -5,7 +5,7 @@ from kids.views import *
 urlpatterns = [
 
     path('projects', ProjectListCreateAPIView.as_view(), name='project-list-create'),
-    path('userid',Userid.as_view(),name='get userid using regno used for both project and attendance'),
+    path('userid',Studentid.as_view(),name='get userid using regno used for both project and attendance'),
     path('userid/projects',project_under_user.as_view(),name='get project from userid used for attendance'),
     path('attendance', AttendanceListCreateAPIView.as_view(), name='attendance-list-create'),
     path('process',PermissionView.as_view()),

@@ -70,13 +70,13 @@ class AttendanceListCreateAPIView(APIView):
         return Response('User permission required contact administator')
 
 
-class Userid(APIView):
+class Studentid(APIView):
     permission_classes = [AllowAny]
     def post(self,request):
-        reg = request.data.get('regno')
-        user = User.objects.filter(regno = reg).first()
-        if user:
-            serializer = UserSerializer(user)
+        reg = request.data.get('register_no')
+        student = Student.objects.filter(register_no = reg).first()
+        if student:
+            serializer = StudentSerializer(student)
             print(serializer.data)
             return Response(serializer.data)
         return Response('User not found or invalid')

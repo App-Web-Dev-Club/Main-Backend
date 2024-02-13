@@ -7,7 +7,7 @@ from .models import User
 # Register your models here.
 admin.site.register(KH_Club_Members)
 
-
+admin.site.register(Student)
 # <your_app>/admin.py
 
 
