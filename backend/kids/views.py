@@ -35,13 +35,13 @@ class ProjectListCreateAPIView(APIView):
 
 
 class AttendanceListCreateAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_user_object(self, reg):
         try:
-            test =  User.objects.get(regno=reg)
+            test =  Student.objects.get(register_no=reg)
             return test
-        except User.DoesNotExist:
+        except Student.DoesNotExist:
             return None
         
     def get(self, request, *args, **kwargs):
@@ -51,7 +51,7 @@ class AttendanceListCreateAPIView(APIView):
 
     def post(self, request, *args, **kwargs):
         if request.user.permission == 'CLUB_LEADER':
-            regno = request.data.get('regno')
+            regno = request.data.get('register_no')
             paticipant = self.get_user_object(regno)
 
             if paticipant is None:
@@ -83,22 +83,22 @@ class Studentid(APIView):
 
 
 class project_under_user(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_user_object(self, reg):
         try:
-            test =  User.objects.get(regno=reg)
-            serializer = UserSerializer(test)
+            test =  Student.objects.filter(register_no=reg).first()
+            serializer = StudentSerializer(test)
             return serializer.data['id']
-        except User.DoesNotExist:
+        except Student.DoesNotExist:
             return None
 
     def post(self,request, *args, **kwargs):
-        reg = request.data.get('regno')
+        reg = request.data.get('register_no')
         userid = self.get_user_object(reg)
 
-        projects_member = KH_Project.objects.filter(members =userid )
-        projects_lead = KH_Project.objects.filter(team_leader =userid )
+        projects_member = KH_Project.objects.filter(kh_members =userid )
+        projects_lead = KH_Project.objects.filter(project_lead =userid )
 
         serializer_member = ProjectSerializer(projects_member,many = True)
         serializer_lead = ProjectSerializer(projects_lead,many = True)
