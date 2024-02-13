@@ -39,7 +39,7 @@ class ProjectListCreateAPIView(APIView):
 
 
 class AttendanceListCreateAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_user_object(self, reg):
         try:
