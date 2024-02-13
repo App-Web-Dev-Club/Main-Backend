@@ -7,6 +7,10 @@ from .models import *
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from django.contrib.auth import get_user_model
 from datetime import datetime, timedelta
+from rest_framework.authtoken.views import ObtainAuthToken
+from django.contrib.auth import authenticate
+
+
 
 User = get_user_model()
 
@@ -35,7 +39,7 @@ class ProjectListCreateAPIView(APIView):
 
 
 class AttendanceListCreateAPIView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_user_object(self, reg):
         try:
@@ -109,6 +113,44 @@ class project_under_user(APIView):
             'lead':serializer_lead.data
         }
         return Response(res)
+
+
+
+class KH_Club_MembersLoginView(ObtainAuthToken):
+    permission_classes=[AllowAny]
+
+    def get_user_object(self, reg):
+        try:
+            test =  Student.objects.filter(register_no=reg).first()
+            serializer = StudentSerializer(test)
+            return serializer.data['id']
+        except Student.DoesNotExist:
+            return None
+    def post(self, request, *args, **kwargs):
+        register_no = request.data.get('register_no')
+        password = request.data.get('password')
+        userid = self.get_user_object(register_no)
+        user = authenticate(request, register_no=register_no, password = password)
+        data = KH_Club_Members.objects.filter(regno=userid, permission='MEMBER').first()
+        if user is not None  and data is not None:
+            refresh = RefreshToken.for_user(user)
+            custom_data = {
+                'register_no':data.register_no,
+                'permission': 'MEMBER',
+            }
+            refresh['custom_data'] = custom_data
+            refresh.access_token.payload['custom_data'] = custom_data
+
+            response_data = {
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'register_no': data.register_no,
+                'permission': 'MEMBER',
+            }
+
+            return Response(response_data, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 
