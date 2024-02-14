@@ -12,6 +12,6 @@ urlpatterns = [
     # path('face',FaceAttendanceListCreateAPIView.as_view()),
     path('punch', PunchTimeView.as_view()),
     # path('punchtime/sort',PunchTimeGETView.as_view()),
-    # path('send-email/', SendEmailView.as_view(), name='send-email'),
+    path('login/', KH_Login.as_view(), name='send-email'),
 ]
 

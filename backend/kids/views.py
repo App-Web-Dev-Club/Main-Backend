@@ -15,6 +15,44 @@ from django.contrib.auth import authenticate
 User = get_user_model()
 
 
+class KH_Login(APIView):
+    permission_classes = [AllowAny]
+    def post(self,request):
+        email = request.data.get('email') 
+        password = request.data.get('password')
+
+        user = User.objects.filter(email=email, role='student').first()
+        stu = Student.objects.filter(user= user).first()
+        mem = KH_Club_Members.objects.filter(regno= stu).first()
+
+        if user is not None and authenticate(email=email, password = password):
+            if mem:
+                refresh = RefreshToken.for_user(user)
+                custom_data = {
+                'register_no': stu.register_no,
+                'email':user.email,
+                'role': user.role,
+                'club': mem.club
+                }
+                refresh['custom_data'] = custom_data
+                refresh.access_token.payload['custom_data'] = custom_data
+
+                response_data = {
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                    'email': user.email,
+                    'role': user.role,
+                    'club': mem.club
+                }
+                return Response(response_data)
+            else:
+                return Response('You are Not a Member')
+            
+        else:
+            return Response('u')
+
+
+
 class Test(APIView):
     permission_classes = [AllowAny]
     def get(self,request):
@@ -114,6 +152,7 @@ class project_under_user(APIView):
         }
         return Response(res)
 
+
 class PermissionView(APIView):
     permission_classes = [AllowAny]
 
@@ -133,6 +172,7 @@ class PermissionView(APIView):
             # return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+
 
 class FaceAttendanceListCreateAPIView(APIView):
     permission_classes = [AllowAny]
