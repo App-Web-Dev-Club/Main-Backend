@@ -82,8 +82,8 @@ class AttendanceListCreateAPIView(APIView):
     def get_user_object(self, reg):
         try:
             test =  Student.objects.filter(register_no=reg).first()
-            print('test')
-            return test
+            mem = KH_Club_Members.objects.filter(regno = test).first()
+            return mem
         except Student.DoesNotExist:
             print('tt')
             return None
@@ -101,6 +101,7 @@ class AttendanceListCreateAPIView(APIView):
         if True:
             regno = request.data.get('register_no')
             paticipant = self.get_user_object(regno)
+            # print(paticipant.id)
 
             if paticipant is None:
                 return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
@@ -112,7 +113,7 @@ class AttendanceListCreateAPIView(APIView):
             serializer = KHClubMembersAttendananceSerializer(data=data)
             if serializer.is_valid():
                 # Assign the user object to the Attendance instance before saving
-                serializer.save(user=paticipant)
+                serializer.save(regno=paticipant)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)   
         return Response('User permission required contact administator')
