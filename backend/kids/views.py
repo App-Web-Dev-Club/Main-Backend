@@ -81,7 +81,7 @@ class AttendanceListCreateAPIView(APIView):
 
     def get_user_object(self, reg):
         try:
-            test =  Student.objects.get(register_no=reg)
+            test =  Student.objects.filter(register_no=reg).first()
             print('test')
             return test
         except Student.DoesNotExist:
@@ -98,7 +98,7 @@ class AttendanceListCreateAPIView(APIView):
         mem = KH_Club_Members.objects.filter(regno= stu).first()
     
 
-        if mem.permission == 'CLUB_LEADER':
+        if True:
             regno = request.data.get('register_no')
             paticipant = self.get_user_object(regno)
 

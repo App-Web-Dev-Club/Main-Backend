@@ -30,7 +30,7 @@ class KH_Project(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     project_lead = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='project_led')
-    kh_members = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='project_team')
+    kh_members = models.ManyToManyField(KH_Club_Members)
 
     STATUS_CHOICES = [
         ('accepted', 'Accepted'),

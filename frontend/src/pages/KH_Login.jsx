@@ -10,9 +10,10 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-// import Navbar from '../component/Navbar';
+import Navbar from '../components/Navbar';
 
-function Login() {
+
+function KH_Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -29,7 +30,7 @@ function Login() {
   const handleLogin = async () => {
     try {
       
-      const response = await axios.post('http://127.0.0.1:8000/api/login', {
+      const response = await axios.post('http://127.0.0.1:8000/kids/login/', {
         regno: username,
         password,
       });
@@ -53,7 +54,7 @@ function Login() {
 
   return (
     <>
-    {/* <Navbar /> */}
+    <Navbar />
     <Box
       maxW="400px"
       margin="auto"
@@ -91,4 +92,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default KH_Login;

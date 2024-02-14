@@ -1,26 +1,26 @@
-import './App.css';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { GoogleLogin } from '@react-oauth/google';
-import jwt_decode from "jwt-decode";
 import React from 'react';
+import KH_Login from './pages/KH_Login';
+import KH_Register from './pages/KH_Register';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Projects from './pages/Projects';
+import Attendance from './pages/Attendance';
+import Permission from './pages/Permission';
+import Punchtime from './pages/Punchtime';
+
+
 function App() {
   return (
 
-    
-    <GoogleOAuthProvider clientId="530274355584-5j5lu2q3e9fpns1tec41fb8i7c15pjgl.apps.googleusercontent.com">
-<GoogleLogin
-  onSuccess={credentialResponse => {
-    var decoded = jwt_decode(credentialResponse.credential);
-    console.log(decoded);
-  }}
-  
-  onError={() => {
-    console.log('Login Failed');
-  }}
-/>;
-    </GoogleOAuthProvider>
+    <Routes>
+          <Route index element={<KH_Login/>} />
+          <Route path='login' element={<KH_Login/>} />
+          {/* <Route path='register' element={<KH_Register/>} /> */}
+          <Route path='projects' element={<Projects/>} />
+          <Route path='attendance' element={<Attendance/>} />
+          <Route path='permission' element={<Permission/>} />
+          <Route path='punch' element={<Punchtime/>} />
 
-
+        </Routes>
   );
 }
 
