@@ -49,7 +49,7 @@ class KH_Club_Members_Attendanance(models.Model):
 
 
 class KIDS_Permission(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='permissions')
+    user = models.ManyToManyField(User)
     date_time = models.DateTimeField()
     CHOICES = [
         ('late_night', 'Late_Night'),

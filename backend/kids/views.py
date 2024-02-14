@@ -27,22 +27,22 @@ class KH_Login(APIView):
 
         if user is not None and authenticate(email=email, password = password):
             if mem:
-                refresh = RefreshToken.for_user(user)
                 custom_data = {
                 'register_no': stu.register_no,
                 'email':user.email,
                 'role': user.role,
-                'club': mem.club
+                'club': mem.club,
+                'permission': mem.permission,
                 }
-                refresh['custom_data'] = custom_data
-                refresh.access_token.payload['custom_data'] = custom_data
-
+                refresh = RefreshToken.for_user(user)
+                refresh.access_token.payload.update(custom_data)
                 response_data = {
                     'refresh': str(refresh),
                     'access': str(refresh.access_token),
                     'email': user.email,
                     'role': user.role,
-                    'club': mem.club
+                    'club': mem.club,
+                    'permission': mem.permission, 
                 }
                 return Response(response_data)
             else:
@@ -82,8 +82,10 @@ class AttendanceListCreateAPIView(APIView):
     def get_user_object(self, reg):
         try:
             test =  Student.objects.get(register_no=reg)
+            print('test')
             return test
         except Student.DoesNotExist:
+            print('tt')
             return None
         
     def get(self, request, *args, **kwargs):
@@ -92,7 +94,11 @@ class AttendanceListCreateAPIView(APIView):
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        if request.user.permission == 'CLUB_LEADER':
+        stu = Student.objects.filter(user= request.user.id).first()
+        mem = KH_Club_Members.objects.filter(regno= stu).first()
+    
+
+        if mem.permission == 'CLUB_LEADER':
             regno = request.data.get('register_no')
             paticipant = self.get_user_object(regno)
 
@@ -279,7 +285,9 @@ class PunchTimeGETView(APIView):
         
         elif type == 'User':
             user_regno = request.data.get('regno')
-            punch_times = KIDS_PunchTime.objects.filter(user__regno=user_regno)
+            user = Student.objects.filter(register_no=user_regno).first()
+            usrid = user.id
+            punch_times = KIDS_PunchTime.objects.filter(user=usrid)
             serializer = ListPunchTimeSerializer(punch_times, many=True)
             # sorted_data = sorted(serializer.data, key=lambda x: x['user']['regno'])
             return Response(serializer.data, status=status.HTTP_200_OK)

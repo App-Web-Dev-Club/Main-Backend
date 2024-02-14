@@ -6,9 +6,6 @@ inventory - contain hardwares in kids
 APIs that needs fixing: (these are under KIDS)
             --> 'attendance'
             --> 'process'
-            --> 'face'
-            --> 'punch'
-            --> "memberlogin"
             --> 'punchtime/sort'
 
 
