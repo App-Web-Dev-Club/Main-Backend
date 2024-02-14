@@ -43,7 +43,7 @@ class KH_Project(models.Model):
 
 class KH_Club_Members_Attendanance(models.Model):
     date_time = models.DateTimeField(auto_now_add=True)
-    word_done = models.TextField()
+    work_done = models.TextField()
     project = models.ForeignKey(KH_Project, on_delete = models.CASCADE)
     user = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='club_attendances')
 

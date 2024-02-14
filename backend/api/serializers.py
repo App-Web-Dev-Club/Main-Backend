@@ -159,9 +159,9 @@ class ListProjectSerializer(serializers.ModelSerializer):
         model = KH_Project
         fields = '__all__'
 
-class ListAttendanceSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-    project = ProjectSerializer()
+class CreateAttendanceSerializer(serializers.ModelSerializer):
+    # user = UserSerializer()
+    # project = ProjectSerializer()
 
     class Meta:
         model = KH_Club_Members_Attendanance

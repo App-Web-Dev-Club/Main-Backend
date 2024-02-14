@@ -77,12 +77,14 @@ class ProjectListCreateAPIView(APIView):
 
 
 class AttendanceListCreateAPIView(APIView):
+    # permission_classes = [AllowAny]
     permission_classes = [AllowAny]
 
     def get_user_object(self, reg):
         try:
             test =  Student.objects.filter(register_no=reg).first()
             mem = KH_Club_Members.objects.filter(regno = test).first()
+            # print(mem)
             return mem
         except Student.DoesNotExist:
             print('tt')
@@ -90,30 +92,31 @@ class AttendanceListCreateAPIView(APIView):
         
     def get(self, request, *args, **kwargs):
         attendance_entries = KH_Club_Members_Attendanance.objects.all()
-        serializer = ListAttendanceSerializer(attendance_entries, many=True)
+        serializer = KHClubMembersAttendananceSerializer(attendance_entries, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        stu = Student.objects.filter(user= request.user.id).first()
-        mem = KH_Club_Members.objects.filter(regno= stu).first()
+        # stu = Student.objects.filter(user= request.user.id).first()
+        # mem = KH_Club_Members.objects.filter(regno= stu).first()
     
 
         if True:
             regno = request.data.get('register_no')
             paticipant = self.get_user_object(regno)
-            # print(paticipant.id)
+            # print(paticipant)
 
             if paticipant is None:
                 return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
             data = {
                 'user':paticipant.id,
                 'project':request.data.get('project'),
-                'work_done':request.data.get('work_done')
+                'work_done':request.data.get('work_done') or "dwadwadaw"
             }
-            serializer = KHClubMembersAttendananceSerializer(data=data)
+            print(data)
+            serializer = CreateAttendanceSerializer(data=data)
             if serializer.is_valid():
                 # Assign the user object to the Attendance instance before saving
-                serializer.save(regno=paticipant)
+                serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)   
         return Response('User permission required contact administator')
@@ -133,6 +136,7 @@ class Studentid(APIView):
 
 class project_under_user(APIView):
     permission_classes = [AllowAny]
+    # permission_classes = [AllowAny, IsAuthenticated]
 
     def get_user_object(self, reg):
         try:
