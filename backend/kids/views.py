@@ -175,10 +175,10 @@ class PunchTimeView(APIView):
 
     def get_user_object(self, reg):
         try:
-            test =  User.objects.get(regno=reg)
+            test =  Student.objects.filter(register_no=reg).first()
             # print(test)
             return test
-        except User.DoesNotExist:
+        except Student.DoesNotExist:
             return None
         
     def get(self, request, *args, **kwargs):
