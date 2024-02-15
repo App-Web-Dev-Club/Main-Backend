@@ -197,7 +197,7 @@ class FaceAttendanceListCreateAPIView(APIView):
         
     def get(self, request, *args, **kwargs):
         attendance_entries = KH_Club_Members_Attendanance.objects.all()
-        serializer = ListAttendanceSerializer(attendance_entries, many=True)
+        serializer = KHClubMembersAttendananceSerializer(attendance_entries, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
