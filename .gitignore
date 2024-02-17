@@ -7,8 +7,9 @@
 
 
 /backend/*.log
-/backend/*.pot
-/backend/*.pyc
+*.pot
+*.pyc
 /backend/__pycache__
-/backend/db.sqlite3
 /backend/media
+backend/api/__pycache__/*
+
