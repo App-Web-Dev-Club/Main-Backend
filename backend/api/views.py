@@ -13,6 +13,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import StudentSerializer
 from .permissions import *
+from kids.serializers import *
 from django.core.mail import send_mail
 
 

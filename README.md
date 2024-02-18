@@ -9,6 +9,8 @@ API's currently under construct are (These are under Inventory)
             --> product/management (done)
             --> admin/login (done)
             --> student/login (done)
+
+[Migrating all kids serializers from api app]
             
 
 
