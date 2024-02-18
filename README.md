@@ -3,11 +3,11 @@ kids - contain details about the clubs attendanance
 inventory - contain hardwares in kids 
 
 
-APIs that needs fixing: (these are under KIDS)
-            --> 'attendance'
-            --> 'process'
-            --> 'punchtime/sort'
-
+API's currently under construct are (These are under Inventory)
+            --> product (done)
+            --> product/request (done)
+            --> product/management
+            
 
 
 

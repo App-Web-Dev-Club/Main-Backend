@@ -17,7 +17,7 @@ class Product(models.Model):
 
 
 class ProductRequest(models.Model):
-    product = models.ForeignKey(Product, on_delete= models.CASCADE)
+    product = models.ManyToManyField(Product)
     user = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE)
     expected_return_date = models.DateField()
     project_description = models.TextField()
