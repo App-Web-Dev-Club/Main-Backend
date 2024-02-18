@@ -14,3 +14,10 @@ class ProductRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductRequest
         fields = "__all__"
+
+
+class ProductMangementSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProductManagment
+        fields = "__all__"

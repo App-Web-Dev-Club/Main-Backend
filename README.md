@@ -6,7 +6,9 @@ inventory - contain hardwares in kids
 API's currently under construct are (These are under Inventory)
             --> product (done)
             --> product/request (done)
-            --> product/management
+            --> product/management (done)
+            --> admin/login (done)
+            --> student/login (done)
             
 
 
