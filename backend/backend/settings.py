@@ -220,5 +220,5 @@ EMAIL_HOST_PASSWORD =  os.getenv('EMAIL_HOST_PASSWORD', 'default_value_if_not_pr
 
 
 
-MEDIA_URL = '/banner/'
+MEDIA_URL = ''
 MEDIA_ROOT = os.path.join(BASE_DIR, '')

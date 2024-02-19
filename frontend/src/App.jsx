@@ -6,6 +6,7 @@ import Projects from './pages/Projects';
 import Attendance from './pages/Attendance';
 import Permission from './pages/Permission';
 import Punchtime from './pages/Punchtime';
+import Hackathon from './pages/Hackathon';
 
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
           <Route path='attendance' element={<Attendance/>} />
           <Route path='permission' element={<Permission/>} />
           <Route path='punch' element={<Punchtime/>} />
-
+          <Route path='hackathon' element={<Hackathon/>} />
+          
         </Routes>
   );
 }

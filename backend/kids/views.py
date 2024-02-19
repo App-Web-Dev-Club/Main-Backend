@@ -312,9 +312,39 @@ class SendEmailView(APIView):
         from_email = 'biwinfelix@example.com'
         recipient_list = [request.data.get('to_email', '')]
 
-
         try:
             send_mail(subject, message, from_email, recipient_list, fail_silently=False)
             return Response({'detail': 'Email sent successfully'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'detail': f'Failed to send email. Error: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class HackathonAPIView(APIView):
+
+    def get(self, request,  *args, **kwargs):
+        data = Hackathon.objects.all()
+        serializer = HackathonSerializer(data, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request,  *args, **kwargs):
+        data = request.data
+        serializer = HackathonSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class HackathonParticipantsAPIView(APIView):
+
+    def get(self, request,  *args, **kwargs):
+        data = HackathonParticipants.objects.all()
+        serializer = HackathonParticipantsSerializer(data, many=True)
+        return Response(serializer.data)
+    
+    def post(self, reqest,*args, **kwargs):
+        data = reqest.data 
+        serializer = HackathonParticipantsSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

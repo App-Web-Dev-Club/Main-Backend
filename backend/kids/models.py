@@ -64,11 +64,6 @@ class KIDS_PunchTime(models.Model):
     time = models.DateTimeField(auto_now_add= True)
 
 
-
-
-
-
-
 class Hackathon(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
@@ -81,4 +76,11 @@ class Hackathon(models.Model):
     banner = models.ImageField(upload_to='hacakthon/banner/')
     create_date = models.DateTimeField(auto_now_add= True)
     active = models.BooleanField(null=True,default = True,blank=True)
+
+
+class HackathonParticipants(models.Model):
+    hackathon = models.ForeignKey(Hackathon, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    status = models.CharField(max_length=255, null = True, blank=True, default=True)
     
+

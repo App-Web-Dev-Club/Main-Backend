@@ -32,6 +32,10 @@ const Navbar = () => {
           <Link as={ReactRouterLink} to="/punch" color="white" mx="2">
             Punch
           </Link>
+
+          <Link as={ReactRouterLink} to="/hackathon" color="white" mx="2">
+            Hackathon
+          </Link>
         </Box>
         {/* <Button colorScheme="teal" ml="2">
           Login

@@ -32,8 +32,6 @@ class KHPermissionSerializer(serializers.ModelSerializer):
 
 
 
-
-
 class Create_KH_PermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = KIDS_Permission
@@ -73,4 +71,17 @@ class CreateAttendanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = KH_Club_Members_Attendanance
         fields = '__all__'
+
+class HackathonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Hackathon
+        fields = '__all__'
+
+class HackathonParticipantsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = HackathonParticipants
+        fields = '__all__'
+
+
 

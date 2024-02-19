@@ -15,5 +15,6 @@ urlpatterns = [
     path('punch', PunchTimeView.as_view()),
     path('punchtime/sort',PunchTimeGETView.as_view()),
     path('login/', KH_Login.as_view(), name='send-email'),
+    path('hackathon', HackathonAPIView.as_view(), name="This is hackathon register site")
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
