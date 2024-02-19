@@ -1,6 +1,8 @@
 from django.urls import path
 # from .views import *
 from kids.views import *
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
 
@@ -13,5 +15,5 @@ urlpatterns = [
     path('punch', PunchTimeView.as_view()),
     path('punchtime/sort',PunchTimeGETView.as_view()),
     path('login/', KH_Login.as_view(), name='send-email'),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

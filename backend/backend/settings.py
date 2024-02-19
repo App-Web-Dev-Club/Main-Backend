@@ -99,6 +99,18 @@ DATABASES = {
 }
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'kids',
+#         'USER': 'admin',
+#         'PASSWORD': 'admin',
+#         'HOST': 'localhost', 
+#         'PORT': '5432', 
+#     }
+# }
+
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -208,3 +220,5 @@ EMAIL_HOST_PASSWORD =  os.getenv('EMAIL_HOST_PASSWORD', 'default_value_if_not_pr
 
 
 
+MEDIA_URL = '/banner/'
+MEDIA_ROOT = os.path.join(BASE_DIR, '')
