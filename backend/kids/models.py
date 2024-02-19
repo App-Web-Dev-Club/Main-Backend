@@ -62,3 +62,23 @@ class KIDS_Permission(models.Model):
 class KIDS_PunchTime(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add= True)
+
+
+
+
+
+
+
+class Hackathon(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    conducting_team = models.CharField(max_length=255)
+    registation_date = models.DateTimeField(auto_now_add= True)
+    registation_link = models.URLField()
+    whatsapplink = models.URLField()
+    gcr_code = models.CharField(max_length=255)
+
+    # banner = models.ImageField(upload_to='photos')
+    create_date = models.DateTimeField(auto_now_add= True)
+
+    
