@@ -19,8 +19,7 @@ export default function Permission() {
   const [leaderData, setLeaderData] = useState(null);
   const [memberNo, setMemberNo] = useState("");
   const [memberData, setMemberData] = useState(null);
-  const [memberVerificationStatus, setMemberVerificationStatus] =
-    useState(null);
+  const [memberVerificationStatus, setMemberVerificationStatus] = useState(null);
   const [members, setMembers] = useState([]);
   const [alertMessage, setAlertMessage] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
@@ -33,8 +32,9 @@ export default function Permission() {
       const response = await axios.post(apiUrl, { regno: regno });
 
       if (response.status === 200) {
+        console.log(response)
         const data = response.data;
-        if (data && data.regno) {
+        if (data && data.register_no) {
           setMemberData(data);
           setMemberVerificationStatus("verified");
           setAlertMessage("");
@@ -47,6 +47,7 @@ export default function Permission() {
         setMemberVerificationStatus("notfound");
         setAlertMessage("Failed to check member data. Please try again.");
       }
+      console.log(memberVerificationStatus)
     } catch (error) {
       setMemberVerificationStatus("notfound");
       setAlertMessage("Error checking member data. Please try again.");

@@ -18,14 +18,15 @@ User = get_user_model()
 
 class KH_Login(APIView):
     permission_classes = [AllowAny]
+
     def post(self,request):
         email = request.data.get('email') 
         password = request.data.get('password')
-
+        
         user = User.objects.filter(email=email, role='student').first()
         stu = Student.objects.filter(user= user).first()
         mem = KH_Club_Members.objects.filter(regno= stu).first()
-
+        # return Response('You are Not a user')
         if user is not None and authenticate(email=email, password = password):
             if mem:
                 custom_data = {
@@ -50,7 +51,7 @@ class KH_Login(APIView):
                 return Response('You are Not a Member')
             
         else:
-            return Response('u')
+            return Response('You are Not a user')
 
 
 
@@ -126,7 +127,7 @@ class AttendanceListCreateAPIView(APIView):
 class Studentid(APIView):
     permission_classes = [AllowAny]
     def post(self,request):
-        reg = request.data.get('register_no')
+        reg = request.data.get('regno')
         student = Student.objects.filter(register_no = reg).first()
         if student:
             serializer = StudentSerializer(student)
@@ -176,7 +177,7 @@ class PermissionView(APIView):
         serializer = Create_KH_PermissionSerializer(data=request.data)
         if serializer.is_valid():
             instance = serializer.save()
-
+            
             data = KIDS_Permission.objects.filter(id = instance.id)
             serializer = KHPermissionSerializer(data, many=True)
             return Response(serializer.data)
@@ -295,6 +296,7 @@ class PunchTimeGETView(APIView):
             punch_times = KIDS_PunchTime.objects.filter(user=usrid)
             serializer = ListPunchTimeSerializer(punch_times, many=True)
             # sorted_data = sorted(serializer.data, key=lambda x: x['user']['regno'])
+            print(serializer.data)
             return Response(serializer.data, status=status.HTTP_200_OK)
  
         else:
@@ -319,7 +321,7 @@ class SendEmailView(APIView):
 
 
 class HackathonAPIView(APIView):
-
+    permission_classes = [AllowAny]
     def get(self, request,  *args, **kwargs):
         data = Hackathon.objects.all()
         serializer = HackathonSerializer(data, many=True)
@@ -334,7 +336,7 @@ class HackathonAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class HackathonParticipantsAPIView(APIView):
-
+    permission_classes = [AllowAny]
     def get(self, request,  *args, **kwargs):
         data = HackathonParticipants.objects.all()
         serializer = HackathonParticipantsSerializer(data, many=True)

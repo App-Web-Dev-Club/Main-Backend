@@ -1,138 +1,64 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  InputGroup,
-  InputRightElement,
-  Textarea,
-  Box,
-  Stack,
-  Checkbox,
-  FormErrorMessage,
-} from "@chakra-ui/react";
+import { Card, Text, Stack, Heading, Button, CardHeader, CardBody } from '@chakra-ui/react';
+import { useNavigate } from "react-router-dom";
+import Navbar from '../components/Navbar';
 
-const Hackathon = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    conducting_team: '',
-    registration_date: '',
-    registration_link: '',
-    whatsapp_link: '',
-    gcr_code: '',
-    end_date: '',
-    banner: null,
-    active: true
-  });
+function Hackathon() {
+  const [data, setData] = useState([]);
+  const [selectedHackathon, setSelectedHackathon] = useState(null);
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/kids/hackathon')
+      .then((res) => {
+        setData(res.data);
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching hackathon data:', error);
+      });
+  }, []);
+
+  const handleCardClick = (hackathon) => {
+    setSelectedHackathon(hackathon);
   };
-
-  const handleFileChange = (e) => {
-    // console.log(e.target.files[0]['name']);
-    setFormData({
-      ...formData,
-      banner: e.target.files[0]['name']
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formDataToSend = new FormData();
-    Object.keys(formData).forEach((key) => {
-      if (key === "banner") {
-        // Check if banner exists and is not null
-        if (formData[key]) {
-          // Append the banner file with the directory path
-          formDataToSend.append(key, `hacakthon/banner/${formData[key]}`);
-        }
-      } else {
-        formDataToSend.append(key, formData[key]);
-      }
-    });
-  
-    try {
-        console.log(formDataToSend)
-      const response = await axios.post(
-        "http://127.0.0.1:8000/kids/hackathon",
-        formDataToSend
-      );
-      console.log("Upload successful:", response);
-      // Handle success, maybe show a success message or redirect the user
-    } catch (error) {
-      console.error("Error uploading data:", error);
-      // Handle error, maybe show an error message to the user
-    }
-  };
-  
 
   return (
-    <Box p={4}>
-      <form onSubmit={handleSubmit}>
-        <Stack spacing={4}>
-          <FormControl id="name">
-            <FormLabel>Name</FormLabel>
-            <Input type="text" name="name" value={formData.name} onChange={handleChange} />
-          </FormControl>
-
-          <FormControl id="description">
-            <FormLabel>Description</FormLabel>
-            <Textarea name="description" value={formData.description} onChange={handleChange} />
-          </FormControl>
-
-          <FormControl id="conducting_team">
-            <FormLabel>Conducting Team</FormLabel>
-            <Input type="text" name="conducting_team" value={formData.conducting_team} onChange={handleChange} />
-          </FormControl>
-
-          <FormControl id="registration_date">
-            <FormLabel>Registration Date and Time</FormLabel>
-            <Input type="datetime-local" name="registration_date" value={formData.registration_date} onChange={handleChange} />
-          </FormControl>
-
-          <FormControl id="registration_link">
-            <FormLabel>Registration Link</FormLabel>
-            <Input type="url" name="registration_link" value={formData.registration_link} onChange={handleChange} />
-          </FormControl>
-
-          <FormControl id="whatsapp_link">
-            <FormLabel>WhatsApp Link</FormLabel>
-            <Input type="url" name="whatsapp_link" value={formData.whatsapp_link} onChange={handleChange} />
-          </FormControl>
-
-          <FormControl id="gcr_code">
-            <FormLabel>GCR Code</FormLabel>
-            <Input type="text" name="gcr_code" value={formData.gcr_code} onChange={handleChange} />
-          </FormControl>
-
-          <FormControl id="end_date">
-            <FormLabel>End Date and Time</FormLabel>
-            <Input type="datetime-local" name="end_date" value={formData.end_date} onChange={handleChange} />
-          </FormControl>
-
-          <FormControl id="banner">
-            <FormLabel>Banner</FormLabel>
-            <Input type="file" name="banner" onChange={handleFileChange} />
-          </FormControl>
-
-          <FormControl id="active">
-            <FormLabel>Active</FormLabel>
-            <Checkbox name="active" defaultChecked={formData.active} onChange={(e) => setFormData({...formData, active: e.target.checked})}>Active</Checkbox>
-          </FormControl>
-
-          <Button type="submit" colorScheme="blue">Upload</Button>
-        </Stack>
-      </form>
-    </Box>
+    <>
+    <Navbar/>
+    <Stack spacing={4} >
+      {data.map((hackathon) => (
+        <Card key={hackathon.id} m={10} onClick={() => handleCardClick(navigate('details',{hackathon}))}>
+          <CardHeader>
+            <Heading fontSize="xl">{hackathon.name}</Heading>
+          </CardHeader>
+          <CardBody>
+            <Text fontSize="md" color="gray.500">{hackathon.shot_description}</Text>
+          </CardBody>
+        </Card>
+      ))}
+      {selectedHackathon && (
+        <Card m={10}>
+          <CardHeader>
+            <Heading fontSize="xl">{selectedHackathon.name}</Heading>
+          </CardHeader>
+          <CardBody>
+            <Text fontSize="md" color="gray.500">{selectedHackathon.description}</Text>
+            <Text>Conducted by: {selectedHackathon.conducting_organization}</Text>
+            <Text>Registration Link: <a href={selectedHackathon.registation_link} target="_blank" rel="noopener noreferrer">{selectedHackathon.registation_link}</a></Text>
+            <Text>WhatsApp Link: <a href={selectedHackathon.whatsapplink} target="_blank" rel="noopener noreferrer">{selectedHackathon.whatsapplink}</a></Text>
+            <Text>GCR Code: {selectedHackathon.gcr_code}</Text>
+            <Text>End Date: {new Date(selectedHackathon.end_Date).toLocaleString()}</Text>
+            <Button onClick={() => setSelectedHackathon(null)}>Close</Button>
+          </CardBody>
+        </Card>
+      )}
+    </Stack>
+    </>
   );
-};
+}
 
 export default Hackathon;

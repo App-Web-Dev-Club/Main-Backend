@@ -28,28 +28,23 @@ function KH_Login() {
   };
 
   const handleLogin = async () => {
-    try {
-      
-      const response = await axios.post('http://127.0.0.1:8000/kids/login/', {
-        regno: username,
-        password,
-      }).then( () =>{
-        settoken = response.data
 
-        console.log('Token:', token.access)
+      
+      axios.post('http://127.0.0.1:8000/kids/login/', {
+        email: username,
+        password,
+      }).then( (response) =>{
+        setoken(response.data)
+
+        console.log('Token:', response.data.access)
         
         axios.defaults.headers.common['Authorization'] = `Bearer ${token.access}`
         navigate("/attendance");
 
-      }
+      })
 
-      )
-
-    } catch (error) {
-      console.error('Login failed:', error);
-      console.error('Server Response:', error.response.data); // Log the response data
-      setError('Invalid username or password');
-    }
+     .catch( (error) =>{console.error('Login failed:', error.data)})
+    
   };
   
 

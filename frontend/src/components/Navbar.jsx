@@ -9,9 +9,9 @@ const Navbar = () => {
         <Heading color="white">KH</Heading>
         <Spacer />
         <Box>
-          <Link as={ReactRouterLink} to="/login" color="white" mx="2">
+          {/* <Link as={ReactRouterLink} to="/login" color="white" mx="2">
             Login
-          </Link>
+          </Link> */}
 
           {/* <Link as={ReactRouterLink} to="/register" color="white" mx="2">
             Registation

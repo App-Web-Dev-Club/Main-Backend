@@ -1,5 +1,8 @@
 from django.db import models
 from api.models import *
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.utils import timezone
 # Create your models here.
 
 class KH_Club_Members(models.Model):
@@ -66,7 +69,7 @@ class KH_Club_Members_Attendanance(models.Model):
 
 
 class KIDS_Permission(models.Model):
-    user = models.ManyToManyField(User)
+    user = models.ManyToManyField(Student)
     date_time = models.DateTimeField()
     CHOICES = [
         ('late_night', 'Late_Night'),
@@ -83,6 +86,7 @@ class KIDS_PunchTime(models.Model):
 
 class Hackathon(models.Model):
     name = models.CharField(max_length=255)
+    shot_description = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     conducting_organization = models.CharField(max_length=255)
     registation_date = models.DateTimeField()
@@ -94,6 +98,12 @@ class Hackathon(models.Model):
     create_date = models.DateTimeField(auto_now_add= True)
     active = models.BooleanField(null=True,default = True,blank=True)
 
+@receiver(post_save, sender=Hackathon)
+def deactivate_hackathon(sender, instance, **kwargs):
+    if instance.end_Date <= timezone.now() and instance.active:
+        instance.active = False
+        instance.save(update_fields=['active'])
+    
 
 class HackathonParticipants(models.Model):
     hackathon = models.ForeignKey(Hackathon, on_delete=models.CASCADE)
