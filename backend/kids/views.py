@@ -80,7 +80,7 @@ class ProjectListCreateAPIView(APIView):
 
 class AttendanceListCreateAPIView(APIView):
     # permission_classes = [AllowAny]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_user_object(self, reg):
         try:
@@ -137,7 +137,7 @@ class Studentid(APIView):
 
 
 class project_under_user(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_user_object(self, reg):
         try:

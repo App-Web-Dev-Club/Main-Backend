@@ -7,8 +7,8 @@ import Attendance from './pages/Attendance';
 import Permission from './pages/Permission';
 import Punchtime from './pages/Punchtime';
 import Hackathon from './pages/Hackathon';
-import { HackathonDetails } from './components/HackathonDetails';
-import Hackathonreg from './pages/Hackathon_add';
+// import { HackathonDetails } from './components/HackathonDetails';
+// import Hackathonreg from './pages/Hackathon_add';
 function App() {
   return (
 
@@ -22,8 +22,8 @@ function App() {
           <Route path='punch' element={<Punchtime/>} />
           {/* <Route path='test' element={<Hackathonreg/>} /> */}
           <Route path='hackathon' element={<Hackathon/>} />
-          <Route path='hackathon/details' element={<HackathonDetails/>} />
-          <Route path='details' element={<HackathonDetails/>} />
+          {/* <Route path='hackathon/details' element={<HackathonDetails/>} /> */}
+          {/* <Route path='details' element={<HackathonDetails/>} /> */}
           
         </Routes>
   );

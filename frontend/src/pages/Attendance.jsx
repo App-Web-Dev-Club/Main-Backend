@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   FormControl,
   FormLabel,
@@ -18,7 +18,7 @@ const Attendance = () => {
   const [workDone, setWorkDone] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleVerify = async () => {
+  const handleVerify = useCallback(async () => {
     setIsLoading(true);
     const apiUrl = "http://127.0.0.1:8000/kids/userid/projects";
 
@@ -36,7 +36,7 @@ const Attendance = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [registerNo]);
 
   const handleSubmitAttendance = async () => {
     const attendanceApiUrl = 'http://127.0.0.1:8000/kids/attendance';
@@ -66,7 +66,7 @@ const Attendance = () => {
 
   useEffect(() => {
     handleVerify();
-  }, []); // Run the verification on component mount
+  }, [handleVerify]); // Run the verification on component mount and when registerNo changes
 
   return (
     <>
@@ -128,6 +128,7 @@ const Attendance = () => {
               mt={4}
               colorScheme="blue"
               onClick={handleSubmitAttendance}
+              isLoading={isLoading} // Disable the button while submitting
             >
               Submit Attendance
             </Button>

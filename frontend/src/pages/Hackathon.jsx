@@ -15,6 +15,8 @@ import {
   Button,
   Flex,
 } from "@chakra-ui/react";
+import Navbar from '../components/Navbar';
+
 
 const Hackathon = () => {
   const [hackathons, setHackathons] = useState([]);
@@ -55,7 +57,9 @@ const Hackathon = () => {
   
 
   return (
-    <Flex justifyContent="flex-start" p={4}>
+    <>
+      <Navbar />
+      <Flex justifyContent="flex-start" p={4}>
       
       {hackathons.map((hackathon) => (
         <Box
@@ -105,7 +109,9 @@ const Hackathon = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Flex>
+      </Flex>
+    </>
+    
   );
 };
 
