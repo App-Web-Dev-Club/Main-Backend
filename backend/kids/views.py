@@ -64,7 +64,7 @@ class Test(APIView):
         
 
 class ProjectListCreateAPIView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def get(self, request, *args, **kwargs):
         projects = KH_Project.objects.all()
         serializer = KHProjectListSerializer(projects, many=True)
@@ -80,7 +80,7 @@ class ProjectListCreateAPIView(APIView):
 
 class AttendanceListCreateAPIView(APIView):
     # permission_classes = [AllowAny]
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_user_object(self, reg):
         try:
@@ -125,7 +125,7 @@ class AttendanceListCreateAPIView(APIView):
 
 
 class Studentid(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def post(self,request):
         reg = request.data.get('regno')
         student = Student.objects.filter(register_no = reg).first()
@@ -137,7 +137,7 @@ class Studentid(APIView):
 
 
 class project_under_user(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_user_object(self, reg):
         try:
@@ -166,7 +166,7 @@ class project_under_user(APIView):
 
 
 class PermissionView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         data = KIDS_Permission.objects.all()
@@ -187,7 +187,7 @@ class PermissionView(APIView):
 
 
 class FaceAttendanceListCreateAPIView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_user_object(self, reg):
         try:
@@ -223,7 +223,7 @@ class FaceAttendanceListCreateAPIView(APIView):
     
 
 class PunchTimeView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_user_object(self, reg):
         try:
@@ -257,7 +257,7 @@ class PunchTimeView(APIView):
     
 
 class PunchTimeGETView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def post(self,request):
         type = request.data.get('type')
 
@@ -335,17 +335,17 @@ class HackathonAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class HackathonParticipantsAPIView(APIView):
-    permission_classes = [AllowAny]
-    def get(self, request,  *args, **kwargs):
-        data = HackathonParticipants.objects.all()
-        serializer = HackathonParticipantsSerializer(data, many=True)
-        return Response(serializer.data)
+# class HackathonParticipantsAPIView(APIView):
+#     permission_classes = [AllowAny]
+#     def get(self, request,  *args, **kwargs):
+#         data = HackathonParticipants.objects.all()
+#         serializer = HackathonParticipantsSerializer(data, many=True)
+#         return Response(serializer.data)
     
-    def post(self, reqest,*args, **kwargs):
-        data = reqest.data 
-        serializer = HackathonParticipantsSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def post(self, reqest,*args, **kwargs):
+#         data = reqest.data 
+#         serializer = HackathonParticipantsSerializer(data=data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -77,11 +77,11 @@ class HackathonSerializer(serializers.ModelSerializer):
         model = Hackathon
         fields = '__all__'
 
-class HackathonParticipantsSerializer(serializers.ModelSerializer):
+# class HackathonParticipantsSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = HackathonParticipants
-        fields = '__all__'
+#     class Meta:
+#         model = HackathonParticipants
+#         fields = '__all__'
 
 
 

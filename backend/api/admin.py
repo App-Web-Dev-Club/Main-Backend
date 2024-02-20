@@ -8,7 +8,7 @@ from .models import User
 admin.site.register(KH_Club_Members)
 admin.site.register(Faculty)
 admin.site.register(Hackathon)
-admin.site.register(HackathonParticipants)
+# admin.site.register(HackathonParticipants)
 admin.site.register(Student)
 # <your_app>/admin.py
 

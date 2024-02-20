@@ -90,6 +90,7 @@ class Hackathon(models.Model):
     description = models.CharField(max_length=255)
     conducting_organization = models.CharField(max_length=255)
     registation_date = models.DateTimeField()
+    website_link = models.URLField()
     registation_link = models.URLField()
     whatsapplink = models.URLField()
     gcr_code = models.CharField(max_length=255)
@@ -103,11 +104,5 @@ def deactivate_hackathon(sender, instance, **kwargs):
     if instance.end_Date <= timezone.now() and instance.active:
         instance.active = False
         instance.save(update_fields=['active'])
-    
-
-class HackathonParticipants(models.Model):
-    hackathon = models.ForeignKey(Hackathon, on_delete=models.CASCADE)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    status = models.CharField(max_length=255, null = True, blank=True, default=True)
     
 
