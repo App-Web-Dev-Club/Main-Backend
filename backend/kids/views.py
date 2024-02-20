@@ -137,7 +137,6 @@ class Studentid(APIView):
 
 class project_under_user(APIView):
     permission_classes = [AllowAny]
-    # permission_classes = [AllowAny, IsAuthenticated]
 
     def get_user_object(self, reg):
         try:

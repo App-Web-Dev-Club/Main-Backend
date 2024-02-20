@@ -7,11 +7,28 @@ class KH_Club_Members(models.Model):
     club_choices =[
         ('3D','3d'),
         ('AI','Ai'),
-        ('WEB_AND_APP','Web_And_App'),
-        ('IOT_AND_ROBOTICS','Iot_And_Robotics'),
+        ('WEB AND APP','Web_And_App'),
+        ('IOT AND ROBOTICS','Iot_And_Robotics'),
         ('XOR','Xor'),
-        ('CYBERSECURITY','Cybersecurity'),
-        ('COMPETITIVE_PROGRAMMING','Competitive_Programming'),
+        ('CYBER SECURITY','Cyber security'),
+        ('COMPETITIVE PROGRAMMING','Competitive Programming'),
+        ('BUILD CLUB','Build club'),
+        ('GDSC','Google Developers Student Club'),
+        ('Neural network','Neural network '),
+        ('KH Core','Khacks Core Team'),
+
+        ('Ecell core','Ecell Core'),
+        ('Accelerator club','Accelerator club'),
+        ('Women Entrepreneur Club','Women Entrepreneur Club'),
+        ('Resource hub','resource hub'),
+        ('Start up','start up'),
+
+        ('Kreatives core','kreatives core'),
+        ('TEDX','TEDX'),
+        ('Design club','Design club'),
+        ('Writters club','Writters club'),
+
+        ('KIDS','KIDS')
     ]
 
     club = models.CharField(max_length=100,choices = club_choices)
@@ -67,7 +84,7 @@ class KIDS_PunchTime(models.Model):
 class Hackathon(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
-    conducting_team = models.CharField(max_length=255)
+    conducting_organization = models.CharField(max_length=255)
     registation_date = models.DateTimeField()
     registation_link = models.URLField()
     whatsapplink = models.URLField()

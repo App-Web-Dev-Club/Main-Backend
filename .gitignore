@@ -13,3 +13,6 @@
 /backend/media
 backend/api/__pycache__/*
 
+/backend/api/__pycache__
+/backend/inventory/__pycache__
+/backend/kids/__pycache__

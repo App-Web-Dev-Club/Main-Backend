@@ -18,7 +18,7 @@ function KH_Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
+  const [token, setoken] = useState(); 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
@@ -33,16 +33,18 @@ function KH_Login() {
       const response = await axios.post('http://127.0.0.1:8000/kids/login/', {
         regno: username,
         password,
-      });
-  
-      // Assuming the server returns a token upon successful login
-      const token = response.data;
-  
-      console.log('Token:', token.access);
-      
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token.access}`;
-      // sessionStorage.setItem('Authorization', `Bearer ${token.access}`);
-      navigate("/attendance");
+      }).then( () =>{
+        settoken = response.data
+
+        console.log('Token:', token.access)
+        
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token.access}`
+        navigate("/attendance");
+
+      }
+
+      )
+
     } catch (error) {
       console.error('Login failed:', error);
       console.error('Server Response:', error.response.data); // Log the response data

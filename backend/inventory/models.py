@@ -12,6 +12,7 @@ class Product(models.Model):
     )
     status = models.CharField(max_length=100,choices=STATUS_CHOICES)
     name = models.CharField(max_length=100)
+    photo = models.ImageField(upload_to='hacakthon/banner/')
     description = models.TextField()
     date_of_return = models.DateField()
 
@@ -29,8 +30,6 @@ class ProductRequest(models.Model):
     )
     permission_status = models.CharField(max_length=100,choices=STATUS_CHOICES)
     
-
-
 
 class ProductManagment(models.Model):
     request = models.ForeignKey(ProductRequest,on_delete = models.CASCADE)

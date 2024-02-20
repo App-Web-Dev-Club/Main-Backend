@@ -96,10 +96,30 @@ class Faculty(models.Model):
     school = models.CharField(max_length=100,choices= SCHOOL_CHOICE)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Attendanance_type(models.Model):
     biometric = models.BooleanField()
     face_recognition = models.BooleanField()
     barcode = models.BooleanField()
+
+
+
+
+
 
 
 class Event(models.Model):
