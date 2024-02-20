@@ -39,6 +39,7 @@ function Punchtime() {
 
       // Assuming the API response contains the punch data
       setPunchData(response.data);
+      console.log(response.data)
     } catch (error) {
       console.error("Error fetching data:", error);
 
@@ -115,7 +116,7 @@ function Punchtime() {
                 <Tr key={index}>
                   <Td>{index + 1}</Td>
                   <Td>{punch.user.name}</Td>
-                  <Td>{punch.user.regno}</Td>
+                  <Td>{punch.regno.register_no}</Td>
                   <Td>{punch.time.split("T")[0]}</Td>
                   <Td>{punch.time.split("T")[1].split(".")[0]}</Td>
                 </Tr>

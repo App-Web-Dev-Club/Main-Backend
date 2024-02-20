@@ -81,6 +81,7 @@ class KIDS_Permission(models.Model):
 
 class KIDS_PunchTime(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    regno = models.ForeignKey(Student, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add= True)
 
 

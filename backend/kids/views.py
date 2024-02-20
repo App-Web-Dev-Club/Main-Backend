@@ -64,7 +64,7 @@ class Test(APIView):
         
 
 class ProjectListCreateAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     def get(self, request, *args, **kwargs):
         projects = KH_Project.objects.all()
         serializer = KHProjectListSerializer(projects, many=True)
@@ -125,14 +125,14 @@ class AttendanceListCreateAPIView(APIView):
 
 
 class Studentid(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     def post(self,request):
-        reg = request.data.get('regno')
+        reg = request.data.get('register_no')
         student = Student.objects.filter(register_no = reg).first()
         if student:
             serializer = StudentSerializer(student)
             print(serializer.data)
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response('User not found or invalid')
 
 
@@ -162,11 +162,11 @@ class project_under_user(APIView):
             'member' : serializer_member.data,
             'lead':serializer_lead.data
         }
-        return Response(res)
+        return Response(res, status=status.HTTP_201_CREATED)
 
 
 class PermissionView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
         data = KIDS_Permission.objects.all()
@@ -180,8 +180,8 @@ class PermissionView(APIView):
             
             data = KIDS_Permission.objects.filter(id = instance.id)
             serializer = KHPermissionSerializer(data, many=True)
-            return Response(serializer.data)
-            # return Response(serializer.data, status=status.HTTP_201_CREATED)
+            # return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
@@ -257,7 +257,7 @@ class PunchTimeView(APIView):
     
 
 class PunchTimeGETView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     def post(self,request):
         type = request.data.get('type')
 

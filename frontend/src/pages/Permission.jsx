@@ -29,10 +29,9 @@ export default function Permission() {
     const apiUrl = "http://127.0.0.1:8000/kids/userid";
 
     try {
-      const response = await axios.post(apiUrl, { regno: regno });
+      const response = await axios.post(apiUrl, { register_no: regno });
 
-      if (response.status === 200) {
-        console.log(response)
+      if (response.status === 201) {
         const data = response.data;
         if (data && data.register_no) {
           setMemberData(data);
@@ -47,7 +46,6 @@ export default function Permission() {
         setMemberVerificationStatus("notfound");
         setAlertMessage("Failed to check member data. Please try again.");
       }
-      console.log(memberVerificationStatus)
     } catch (error) {
       setMemberVerificationStatus("notfound");
       setAlertMessage("Error checking member data. Please try again.");
@@ -58,22 +56,25 @@ export default function Permission() {
 
   const handleAddMember = async () => {
     const isMemberVerified = await handleMemberVerification(memberNo);
-
+  
     if (isMemberVerified) {
-      if (memberData && memberData.regno && memberData.id) {
+      if (memberData && memberData.register_no && memberData.id) {
         setMembers([...members, { ...memberData }]);
         setMemberNo("");
-        setMemberData(null);
+        setMemberData(null); // Reset member data
+        setMemberVerificationStatus(null); // Reset member verification status
       } else {
         console.error("Invalid member data after verification:", memberData);
       }
     }
   };
+  
 
   const handleDeleteMember = (index) => {
     const updatedMembers = [...members];
     updatedMembers.splice(index, 1);
     setMembers(updatedMembers);
+    setMemberVerificationStatus(null); // Reset member verification status
   };
 
   const handleSubmit = async () => {
@@ -90,12 +91,11 @@ export default function Permission() {
         type: selectedForm,
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log("Project submitted successfully!");
 
         // Generate and download the PDF
         if (selectedForm == "Late Permission") {
-          console.log(selectedForm);
           generateLatePDF(response.data);
         } else {
           generateNightPDF(response.data);
@@ -133,7 +133,6 @@ export default function Permission() {
         20
       );
       pdf.text("From", 10, 20);
-      
 
       pdf.text(
         `   Head CTC/KIDS,
@@ -275,11 +274,11 @@ export default function Permission() {
         <>
           {members.map((member, index) => (
             <Flex key={index} align="center" mt={2}>
-              {member && member.regno ? (
+              {member && member.register_no ? (
                 <>
                   <Input
                     type="text"
-                    value={member.regno}
+                    value={member.register_no}
                     isReadOnly
                     placeholder="Member name"
                   />

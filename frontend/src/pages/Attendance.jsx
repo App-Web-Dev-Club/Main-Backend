@@ -25,7 +25,7 @@ const Attendance = () => {
     try {
       const response = await axios.post(apiUrl, { register_no: registerNo });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         const data = response.data;
         setProjects(data.member.concat(data.lead));
       } else {
@@ -36,6 +36,13 @@ const Attendance = () => {
     } finally {
       setIsLoading(false);
     }
+  }, [registerNo]);
+
+  useEffect(() => {
+    // Clear other fields when registerNo changes
+    setSelectedProject("");
+    setWorkDone("");
+    setProjects([]);
   }, [registerNo]);
 
   const handleSubmitAttendance = async () => {
@@ -64,10 +71,6 @@ const Attendance = () => {
     }
   };
 
-  useEffect(() => {
-    handleVerify();
-  }, [handleVerify]); // Run the verification on component mount and when registerNo changes
-
   return (
     <>
       <Navbar />
@@ -93,6 +96,7 @@ const Attendance = () => {
             <FormLabel mt={4}>Select Project</FormLabel>
             <Select
               placeholder="Select project"
+              value={selectedProject}
               onChange={(e) => setSelectedProject(e.target.value)}
             >
               {projects.map((project) => (

@@ -40,6 +40,9 @@ class Create_KH_PermissionSerializer(serializers.ModelSerializer):
 
 class ListPunchTimeSerializer(serializers.ModelSerializer):
     user = UserSerializer()
+    regno = StudentSerializer()
+    # regno_ = StudentSerializer()
+
     class Meta:
         model = KIDS_PunchTime
         fields = '__all__'

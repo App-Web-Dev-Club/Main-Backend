@@ -35,7 +35,7 @@ function Projects() {
     try {
       const response = await axios.post(apiUrl, { register_no: leaderNo });
       
-      if (response.status === 200) {
+      if (response.status === 201) {
         const data = response.data;
         if (data && data.register_no) {
           setLeaderData(data);
@@ -59,7 +59,7 @@ function Projects() {
     try {
       const response = await axios.post(apiUrl, { register_no: register_no });
       
-      if (response.status === 200) {
+      if (response.status === 201) {
         const data = response.data;
         if (data && data.register_no) {
           setMemberData(data);
@@ -87,23 +87,25 @@ function Projects() {
       setAlertMessage("Please verify the leader first.");
       return;
     }
-
+  
     await handleLeaderVerification();
-
+  
     if (leaderVerificationStatus === "verified") {
+      // Store the current value of memberNo in a local variable
       const isMemberVerified = await handleMemberVerification(memberNo);
-
+  
       if (isMemberVerified) {
         if (memberData && memberData.register_no && memberData.id) {
+          setMemberNo(""); // Clear memberNo after successfully adding a member
           setMembers([...members, { ...memberData }]);
-          setMemberNo("");
         } else {
           console.error("Invalid member data after verification:", memberData);
         }
       }
     }
   };
-
+  
+  
   const handleDeleteMember = (index) => {
     const updatedMembers = [...members];
     updatedMembers.splice(index, 1);
