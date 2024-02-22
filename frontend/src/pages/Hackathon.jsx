@@ -74,7 +74,7 @@ const Hackathon = () => {
           mb={4} // Add margin below cards
         >
           <Image
-            src={`http://10.100.2.2::8000/${hackathon.banner}`}
+            src={`http://10.100.2.2:8000/${hackathon.banner}`}
             
             alt="Hackathon Banner"
           />
