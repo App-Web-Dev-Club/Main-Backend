@@ -25,7 +25,7 @@ class KHClubMembersAttendananceSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class KHPermissionSerializer(serializers.ModelSerializer):
-    user = UserSerializer(many=True)
+    user = StudentSerializer(many=True)
     class Meta:
         model = KIDS_Permission
         fields = '__all__'

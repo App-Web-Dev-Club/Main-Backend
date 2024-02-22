@@ -84,7 +84,7 @@ export default function Permission() {
     }
     console.log(members.map((member) => member.id));
     console.log(selectedForm);
-    const projectsApiUrl = "http://127.0.0.1:8000/kids/process";
+    const projectsApiUrl = "http://127.0.0.1:8000/kids/permission";
     try {
       const response = await axios.post(projectsApiUrl, {
         user: members.map((member) => member.id),
@@ -92,13 +92,13 @@ export default function Permission() {
       });
 
       if (response.status === 201) {
-        console.log("Project submitted successfully!");
+        console.log("Form updated  successfully!");
 
         // Generate and download the PDF
         if (selectedForm == "Late Permission") {
-          generateLatePDF(response.data);
+          // generateLatePDF(response.data);
         } else {
-          generateNightPDF(response.data);
+          // generateNightPDF(response.data);
         }
 
         // Reset form fields after successful submission if needed
@@ -164,7 +164,8 @@ export default function Permission() {
       });
 
       const columns = ["Sl No", "Name", "Reg No"];
-      const rows = item.user.map((user,i) => [i + 1, user.name, user.regno]);
+    
+      const rows = item.user.map((user,i) => [i + 1, user.name, user.register_no]);
 
       pdf.autoTable({
         startY: 160,
@@ -315,7 +316,7 @@ export default function Permission() {
         onClick={handleSubmit}
         colorScheme="blue"
       >
-        Submit Project
+        Submit form
       </Button>
     </>
   );

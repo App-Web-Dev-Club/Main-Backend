@@ -70,10 +70,10 @@ class KH_Club_Members_Attendanance(models.Model):
 
 class KIDS_Permission(models.Model):
     user = models.ManyToManyField(Student)
-    date_time = models.DateTimeField()
+    date_time = models.DateTimeField(auto_now_add=True)
     CHOICES = [
-        ('late_night', 'Late_Night'),
-        ('1st_year', '1st_Year'),
+        ('Late Permission', 'Late_Night'),
+        ('Night Stay Permission', 'Night_Stay'),
         ('holiday ', 'Holiday '),
     ]
     type = models.CharField(max_length=100, choices=CHOICES)

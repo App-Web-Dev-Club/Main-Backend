@@ -5,5 +5,7 @@ from .models import *
 admin.site.register(KIDS_PunchTime)
 admin.site.register(Hackathon)
 admin.site.register(KH_Club_Members)
+admin.site.register(KIDS_Permission)
+
 admin.site.register(KH_Project)
 

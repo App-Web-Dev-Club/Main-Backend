@@ -29,7 +29,7 @@ function Punchtime() {
       let payload = { type: selectedFilter };
 
       if (selectedFilter === "User") {
-        payload.regno = regNo;
+        payload.register_no = regNo;
       }
 
       const response = await axios.post(

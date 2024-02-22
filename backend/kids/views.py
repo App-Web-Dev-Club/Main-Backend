@@ -290,13 +290,14 @@ class PunchTimeGETView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         
         elif type == 'User':
-            user_regno = request.data.get('regno')
+            user_regno = request.data.get('register_no')
             user = Student.objects.filter(register_no=user_regno).first()
-            usrid = user.id
+            usrid = user.id+1
             punch_times = KIDS_PunchTime.objects.filter(user=usrid)
+            print(punch_times)
             serializer = ListPunchTimeSerializer(punch_times, many=True)
             # sorted_data = sorted(serializer.data, key=lambda x: x['user']['regno'])
-            print(serializer.data)
+            # print(serializer.data)
             return Response(serializer.data, status=status.HTTP_200_OK)
  
         else:
