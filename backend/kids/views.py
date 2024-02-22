@@ -223,7 +223,7 @@ class FaceAttendanceListCreateAPIView(APIView):
     
 
 class PunchTimeView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_user_object(self, reg):
         try:
@@ -274,7 +274,7 @@ class PunchTimeView(APIView):
     
 
 class PunchTimeGETView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def post(self,request):
         type = request.data.get('type')
 
