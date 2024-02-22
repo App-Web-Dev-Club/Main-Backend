@@ -20,7 +20,7 @@ const Attendance = () => {
 
   const handleVerify = useCallback(async () => {
     setIsLoading(true);
-    const apiUrl = "http://127.0.0.1:8000/kids/userid/projects";
+    const apiUrl = "http://10.100.2.2:8000/kids/userid/projects";
 
     try {
       const response = await axios.post(apiUrl, { register_no: registerNo });
@@ -47,7 +47,7 @@ const Attendance = () => {
   }, [registerNo]);
 
   const handleSubmitAttendance = async () => {
-    const attendanceApiUrl = 'http://127.0.0.1:8000/kids/attendance';
+    const attendanceApiUrl = 'http://10.100.2.2:8000/kids/attendance';
   
     try {
       console.log({

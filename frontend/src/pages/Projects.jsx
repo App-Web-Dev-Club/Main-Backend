@@ -37,7 +37,7 @@ function Projects() {
   }, [memberData, memberVerificationStatus]);
 
   const handleLeaderVerification = async () => {
-    const apiUrl = "http://127.0.0.1:8000/kids/userid";
+    const apiUrl = "http://10.100.2.2:8000/kids/userid";
 
     try {
       const response = await axios.post(apiUrl, { register_no: leaderNo });
@@ -61,7 +61,7 @@ function Projects() {
   };
 
   const handleMemberVerification = async (register_no) => {
-    const apiUrl = "http://127.0.0.1:8000/kids/userid";
+    const apiUrl = "http://10.100.2.2:8000/kids/userid";
     
     try {
       const response = await axios.post(apiUrl, { register_no: register_no });
@@ -118,7 +118,7 @@ function Projects() {
       return;
     }
 
-    const projectsApiUrl = "http://127.0.0.1:8000/kids/projects";
+    const projectsApiUrl = "http://10.100.2.2:8000/kids/projects";
     console.log(members.map((member) => member.id))
     try {
       const response = await axios.post(projectsApiUrl, {

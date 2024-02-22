@@ -32,7 +32,7 @@ function KH_Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://127.0.0.1:8000/kids/login/', {
+      const response = await axios.post('http://10.100.2.2:8000/kids/login/', {
         email: username,
         password,
       });

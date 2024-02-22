@@ -33,7 +33,7 @@ function Punchtime() {
       }
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/kids/punchtime/sort",
+        "http://10.100.2.2:8000/kids/punchtime/sort",
         payload
       );
 

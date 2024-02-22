@@ -26,7 +26,7 @@ export default function Permission() {
   const [projectDescription, setProjectDescription] = useState("");
 
   const handleMemberVerification = async (regno) => {
-    const apiUrl = "http://127.0.0.1:8000/kids/userid";
+    const apiUrl = "http://10.100.2.2:8000/kids/userid";
 
     try {
       const response = await axios.post(apiUrl, { register_no: regno });
@@ -84,7 +84,7 @@ export default function Permission() {
     }
     console.log(members.map((member) => member.id));
     console.log(selectedForm);
-    const projectsApiUrl = "http://127.0.0.1:8000/kids/permission";
+    const projectsApiUrl = "http://10.100.2.2:8000/kids/permission";
     try {
       const response = await axios.post(projectsApiUrl, {
         user: members.map((member) => member.id),

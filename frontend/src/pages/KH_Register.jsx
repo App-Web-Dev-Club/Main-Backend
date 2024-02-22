@@ -73,7 +73,7 @@ function KH_Register() {
     console.log(formData)
     
     try {
-      const response = await axios.post('http://127.0.0.1:8000/kids/register', formData);
+      const response = await axios.post('http://10.100.2.2:8000/kids/register', formData);
 
       if (response.status === 201) {
         console.log('Form data successfully submitted!');
