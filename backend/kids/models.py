@@ -7,29 +7,30 @@ from django.utils import timezone
 
 class KH_Club_Members(models.Model):
     regno = models.OneToOneField(Student, on_delete = models.CASCADE, related_name='club_member')
-    club_choices =[
-        ('3D','3d'),
-        ('AI','Ai'),
-        ('WEB AND APP','Web_And_App'),
-        ('IOT AND ROBOTICS','Iot_And_Robotics'),
-        ('XOR','Xor'),
-        ('CYBER SECURITY','Cyber security'),
-        ('COMPETITIVE PROGRAMMING','Competitive Programming'),
-        ('BUILD CLUB','Build club'),
-        ('GDSC','Google Developers Student Club'),
-        ('Neural network','Neural network '),
+club_choices =[
         ('KH Core','Khacks Core Team'),
+        ('3D','3D Printing Club'),
+        ('AI','AI Club'),
+        ('WEB AND APP','Web And App Club'),
+        ('IOT AND ROBOTICS','Iot And Robotics Club'),
+        ('XR','XR Club'),
+        ('CYBER SECURITY','Cyber Security Club'),
+        ('COMPETITIVE PROGRAMMING','Competitive Programming Club'),
+        ('BUILD CLUB','Build Club'),
+        ('GDSC','Google Developers Student Club'),
+        # ('Neural network','Neural network '),
+        ('NSN','Nvidia Student Network'),
 
-        ('Ecell core','Ecell Core'),
-        ('Accelerator club','Accelerator club'),
-        ('Women Entrepreneur Club','Women Entrepreneur Club'),
-        ('Resource hub','resource hub'),
-        ('Start up','start up'),
+        ('Ecell core','E-Cell Core'),
+        ('Accelerator club','Accelerator Club'),
+        ('Women Entrepreneur Club','Women Entrepreneurs Club'),
+        ('Resource hub','Resource Hub'),
+        ('Start up','Start Up Club'),
 
-        ('Kreatives core','kreatives core'),
-        ('TEDX','TEDX'),
-        ('Design club','Design club'),
-        ('Writters club','Writters club'),
+        ('Kreatives core','Kreatives Core'),
+        ('TEDX','TED-X'),
+        ('Design club','Design Club'),
+        ('Writters club','Writers Club'),
 
         ('KIDS','KIDS')
     ]
@@ -80,7 +81,7 @@ class KIDS_Permission(models.Model):
 
 
 class KIDS_PunchTime(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
     regno = models.ForeignKey(Student, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add= True)
 

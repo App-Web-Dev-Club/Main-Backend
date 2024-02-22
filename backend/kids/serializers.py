@@ -39,7 +39,7 @@ class Create_KH_PermissionSerializer(serializers.ModelSerializer):
 
 
 class ListPunchTimeSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    # user = UserSerializer()
     regno = StudentSerializer()
     # regno_ = StudentSerializer()
 

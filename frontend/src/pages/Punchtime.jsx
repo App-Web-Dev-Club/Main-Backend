@@ -115,7 +115,7 @@ function Punchtime() {
               {punchData.map((punch, index) => (
                 <Tr key={index}>
                   <Td>{index + 1}</Td>
-                  <Td>{punch.user.name}</Td>
+                  <Td>{punch.regno.user.name}</Td>
                   <Td>{punch.regno.register_no}</Td>
                   <Td>{punch.time.split("T")[0]}</Td>
                   <Td>{punch.time.split("T")[1].split(".")[0]}</Td>

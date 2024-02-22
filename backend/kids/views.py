@@ -223,31 +223,48 @@ class FaceAttendanceListCreateAPIView(APIView):
     
 
 class PunchTimeView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_user_object(self, reg):
         try:
             test =  Student.objects.filter(register_no=reg).first()
-            # print(test)
-            return test
+            serializer = StudentSerializer(test)
+            name = serializer.data.get('user').get('name')
+            # print(name)
+            return test,name
         except Student.DoesNotExist:
             return None
+        
+    # def get_regno_objects(self,email):
+    #     try:
+    #         test = User.objects.filter(email=email)
+    #         return test
+    #     except User.DoesNotExist:
+    #         return None
         
     def get(self, request, *args, **kwargs):
         attendance_entries = KIDS_PunchTime.objects.all()
         serializer = ListPunchTimeSerializer(attendance_entries, many=True)
         return Response(serializer.data)
 
+
+
+
     def post(self, request, *args, **kwargs):
             regno = request.data.get('regno')
-            paticipant = self.get_user_object(regno)
-
+            paticipant,name = self.get_user_object(regno)
+            print(name)
             if paticipant is None:
                 return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
-            data = {
-                'user':paticipant.id,
-            }
+            
+            # data = {
+            #     'user':paticipant.id,
+            # }
 
+            data = {
+                'name':name,
+                'regno':paticipant.id,
+            }
             serializer = PunchTimeSerializer(data=data)
             if serializer.is_valid():
                 # Assign the user object to the Attendance instance before saving
@@ -257,7 +274,7 @@ class PunchTimeView(APIView):
     
 
 class PunchTimeGETView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     def post(self,request):
         type = request.data.get('type')
 
@@ -291,10 +308,12 @@ class PunchTimeGETView(APIView):
         
         elif type == 'User':
             user_regno = request.data.get('register_no')
+            
             user = Student.objects.filter(register_no=user_regno).first()
-            usrid = user.id+1
-            punch_times = KIDS_PunchTime.objects.filter(user=usrid)
-            print(punch_times)
+
+            # usrid = user.id+1
+            punch_times = KIDS_PunchTime.objects.filter(regno=user)
+            # print(punch_times)
             serializer = ListPunchTimeSerializer(punch_times, many=True)
             # sorted_data = sorted(serializer.data, key=lambda x: x['user']['regno'])
             # print(serializer.data)
