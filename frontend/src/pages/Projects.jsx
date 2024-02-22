@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormControl,
   FormLabel,
@@ -29,13 +29,20 @@ function Projects() {
   const [projectTitle, setProjectTitle] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
 
+  useEffect(() => {
+    if (memberData && memberData.register_no && memberVerificationStatus === "verified") {
+      setMembers([...members, { ...memberData }]);
+      setMemberNo(""); // Clear memberNo after successfully adding a member
+    }
+  }, [memberData, memberVerificationStatus]);
+
   const handleLeaderVerification = async () => {
     const apiUrl = "http://127.0.0.1:8000/kids/userid";
 
     try {
       const response = await axios.post(apiUrl, { register_no: leaderNo });
       
-      if (response.status === 201) {
+      if (response.status === 201 || response.status === 200) {
         const data = response.data;
         if (data && data.register_no) {
           setLeaderData(data);
@@ -59,7 +66,7 @@ function Projects() {
     try {
       const response = await axios.post(apiUrl, { register_no: register_no });
       
-      if (response.status === 201) {
+      if (response.status === 201 || response.status === 200) {
         const data = response.data;
         if (data && data.register_no) {
           setMemberData(data);
@@ -72,7 +79,7 @@ function Projects() {
         }
       } else {
         setMemberVerificationStatus("notfound");
-        setAlertMessage("Failed to check member data. Please try again.");
+        setAlertMessage("Member not found.");
       }
     } catch (error) {
       setMemberVerificationStatus("notfound");
@@ -91,21 +98,14 @@ function Projects() {
     await handleLeaderVerification();
   
     if (leaderVerificationStatus === "verified") {
-      // Store the current value of memberNo in a local variable
       const isMemberVerified = await handleMemberVerification(memberNo);
-  
-      if (isMemberVerified) {
-        if (memberData && memberData.register_no && memberData.id) {
-          setMemberNo(""); // Clear memberNo after successfully adding a member
-          setMembers([...members, { ...memberData }]);
-        } else {
-          console.error("Invalid member data after verification:", memberData);
-        }
+      
+      if (!isMemberVerified) {
+        console.error("Member verification failed.");
       }
     }
   };
-  
-  
+
   const handleDeleteMember = (index) => {
     const updatedMembers = [...members];
     updatedMembers.splice(index, 1);
@@ -119,16 +119,8 @@ function Projects() {
     }
 
     const projectsApiUrl = "http://127.0.0.1:8000/kids/projects";
-      console.log(members.map((member) => member.id))
-
+    console.log(members.map((member) => member.id))
     try {
-        console.log({
-            title: projectTitle,
-            description: projectDescription,
-            project_lead: leaderData.id,
-            kh_members: members.map((member) => member.id),
-            status: "hold",
-          })
       const response = await axios.post(projectsApiUrl, {
         title: projectTitle,
         description: projectDescription,
@@ -136,8 +128,6 @@ function Projects() {
         kh_members: members.map((member) => member.id),
         status: "hold",
       });
-
-
 
       if (response.status === 201) {
         console.log("Project submitted successfully!");
@@ -151,7 +141,7 @@ function Projects() {
 
   return (
     <>
-    <Navbar />
+      <Navbar />
       <FormControl>
         <FormLabel>Title</FormLabel>
         <Input

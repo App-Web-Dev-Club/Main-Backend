@@ -27,6 +27,7 @@ const Attendance = () => {
 
       if (response.status === 201) {
         const data = response.data;
+        console.log(data)
         setProjects(data.member.concat(data.lead));
       } else {
         console.error("Failed to fetch projects. Status:", response.status);
@@ -60,7 +61,7 @@ const Attendance = () => {
         work_done: workDone,
       });
   
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log('Attendance submitted successfully!');
         // Optionally, you can reset the form or perform other actions upon successful submission
       } else {

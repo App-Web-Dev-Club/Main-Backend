@@ -14,7 +14,7 @@ function App() {
 
     <Routes>
           <Route index element={<KH_Login/>} />
-          {/* <Route path='login' element={<KH_Login/>} /> */}
+          <Route path='login' element={<KH_Login/>} />
           {/* <Route path='register' element={<KH_Register/>} /> */}
           <Route path='projects' element={<Projects/>} />
           <Route path='attendance' element={<Attendance/>} />
