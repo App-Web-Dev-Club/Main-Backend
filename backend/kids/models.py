@@ -7,7 +7,7 @@ from django.utils import timezone
 
 class KH_Club_Members(models.Model):
     regno = models.OneToOneField(Student, on_delete = models.CASCADE, related_name='club_member')
-club_choices =[
+    club_choices =[
         ('KH Core','Khacks Core Team'),
         ('3D','3D Printing Club'),
         ('AI','AI Club'),
