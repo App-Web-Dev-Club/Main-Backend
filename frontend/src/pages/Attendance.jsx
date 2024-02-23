@@ -34,6 +34,7 @@ const Attendance = () => {
       }
     } catch (error) {
       console.error("Error fetching projects:", error);
+     
     } finally {
       setIsLoading(false);
     }
@@ -64,11 +65,16 @@ const Attendance = () => {
       if (response.status === 201) {
         console.log('Attendance submitted successfully!');
         // Optionally, you can reset the form or perform other actions upon successful submission
-      } else {
+      } 
+      else {
         console.error('Failed to submit attendance. Status:', response.status);
       }
     } catch (error) {
       console.error('Error submitting attendance:', error);
+    if (error.response && error.response.status === 401) {
+      // If 401 error occurs, display an alert message
+      window.alert('Please login to submit attendance.');
+    }
     }
   };
 

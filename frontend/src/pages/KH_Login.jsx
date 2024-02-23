@@ -12,7 +12,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
-function KH_Login() {
+function KH_Login({ setIsAuthenticated }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -39,6 +39,7 @@ function KH_Login() {
 
       if (response.data && response.data.access) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
+        setIsAuthenticated(true);
         navigate('/attendance');
       } else {
         setError('Invalid username or password');
@@ -51,7 +52,7 @@ function KH_Login() {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Box
         maxW="400px"
         margin="auto"
