@@ -26,6 +26,7 @@ function Punchtime() {
 
   const handleFilterClick = async () => {
     try {
+
       let payload = { type: selectedFilter };
 
       if (selectedFilter === "User") {
@@ -33,7 +34,7 @@ function Punchtime() {
       }
 
       const response = await axios.post(
-        "http://10.100.2.2:8000/kids/punchtime/sort",
+        "http://localhost:8000/kids/punchtime/sort",
         payload
       );
 

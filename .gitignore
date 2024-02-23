@@ -16,3 +16,4 @@ backend/api/__pycache__/*
 /backend/api/__pycache__
 /backend/inventory/__pycache__
 /backend/kids/__pycache__
+frontend/src/pages/Punchtime.jsx

@@ -26,7 +26,7 @@ const Hackathon = () => {
   useEffect(() => {
     const fetchHackathons = async () => {
       try {
-        const response = await axios.get('http://10.100.2.2::8000/kids/hackathon');
+        const response = await axios.get('http://localhost:8000/kids/hackathon');
         setHackathons(response.data);
         console.log(response.data)
       } catch (error) {
@@ -74,7 +74,7 @@ const Hackathon = () => {
           mb={4} // Add margin below cards
         >
           <Image
-            src={`http://10.100.2.2:8000/${hackathon.banner}`}
+            src={`http://localhost:8000/${hackathon.banner}`}
             
             alt="Hackathon Banner"
           />
