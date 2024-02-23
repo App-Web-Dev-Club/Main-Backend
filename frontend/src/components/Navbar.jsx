@@ -4,36 +4,40 @@ import { Link as ReactRouterLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <Box boxShadow="md" p="4" bg="blue.500">
+    <Box boxShadow="md" p="4" bg="white" marginBottom={"20px"}>
       <Flex alignItems="center">
-        <Heading color="white">KH</Heading>
+        <Heading color="black" >
+          <Box>
+            <img className="nav-bar-logo" src="../src/assets/KH_Logo.png" alt="Your Image" />
+          </Box>
+        </Heading>
         <Spacer />
         <Box>
-          {/* <Link as={ReactRouterLink} to="/login" color="white" mx="2">
+          {/* <Link as={ReactRouterLink} to="/login" color="black" mx="2">
             Login
           </Link> */}
 
-          {/* <Link as={ReactRouterLink} to="/register" color="white" mx="2">
+          {/* <Link as={ReactRouterLink} to="/register" color="black" mx="2">
             Registation
           </Link> */}
 
-          <Link as={ReactRouterLink} to="/projects" color="white" mx="2">
+          <Link as={ReactRouterLink} to="/projects" color="black" mx="2">
             Project
           </Link>
 
-          <Link as={ReactRouterLink} to="/attendance" color="white" mx="2">
+          <Link as={ReactRouterLink} to="/attendance" color="black" mx="2">
             Attendance
           </Link>
 
-          <Link as={ReactRouterLink} to="/permission" color="white" mx="2">
+          <Link as={ReactRouterLink} to="/permission" color="black" mx="2">
             Permission
           </Link>
 
-          <Link as={ReactRouterLink} to="/punch" color="white" mx="2">
+          <Link as={ReactRouterLink} to="/punch" color="black" mx="2">
             Punch
           </Link>
 
-          <Link as={ReactRouterLink} to="/hackathon" color="white" mx="2">
+          <Link as={ReactRouterLink} to="/hackathon" color="black" mx="2">
             Hackathon
           </Link>
         </Box>
