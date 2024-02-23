@@ -8,25 +8,24 @@ import Attendance from './pages/Attendance';
 import Permission from './pages/Permission';
 import Punchtime from './pages/Punchtime';
 import Hackathon from './pages/Hackathon';
-const [isAuthenticated, setIsAuthenticated] = useState(false);
 // import { HackathonDetails } from './components/HackathonDetails';
 // import Hackathonreg from './pages/Hackathon_add';
 function App() {
   return (
 
     <Routes>
-      <Route index element={<LoginPage setIsAuthenticated={setIsAuthenticated} />)
+      <Route index element={<KH_Login />} />
       <Route path='login' element={<KH_Login />} />
       {/* <Route path='register' element={<KH_Register/>} /> */}
       <Route path='projects' element={
-        <ProtectedRoute>
+       
           <Projects />
-        </ProtectedRoute>
+      
       } />
       <Route path='attendance' element={
-        <ProtectedRoute>
+
           <Attendance />
-        </ProtectedRoute>
+  
       } />
       <Route path='permission' element={<Permission />} />
       <Route path='punch' element={<Punchtime />} />
