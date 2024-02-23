@@ -1,10 +1,11 @@
-import React from "react";
-import { Box, Flex, Spacer, Heading, Button, Link } from "@chakra-ui/react";
+// import React from "react";
+import { Box, Flex, Spacer, Heading, Link } from "@chakra-ui/react";
 import { Link as ReactRouterLink } from "react-router-dom";
-
+import "./Nav.css"
 const Navbar = () => {
   return (
-    <Box boxShadow="md" p="4" bg="white" marginBottom={"20px"}>
+    <div>
+    <Box boxShadow="md" p="4" bg="black" marginBottom={"20px"}>
       <Flex alignItems="center">
         <Heading color="black" >
           <Box>
@@ -12,7 +13,7 @@ const Navbar = () => {
           </Box>
         </Heading>
         <Spacer />
-        <Box>
+        <Box >
           {/* <Link as={ReactRouterLink} to="/login" color="black" mx="2">
             Login
           </Link> */}
@@ -21,23 +22,23 @@ const Navbar = () => {
             Registation
           </Link> */}
 
-          <Link as={ReactRouterLink} to="/projects" color="black" mx="2">
+          <Link className="link" as={ReactRouterLink} to="/projects" color="white" mx="2">
             Project
           </Link>
 
-          <Link as={ReactRouterLink} to="/attendance" color="black" mx="2">
+          <Link className="link" as={ReactRouterLink} to="/attendance" color="white" mx="2">
             Attendance
           </Link>
 
-          <Link as={ReactRouterLink} to="/permission" color="black" mx="2">
+          <Link  className="link" as={ReactRouterLink} to="/permission" color="white" mx="2">
             Permission
           </Link>
 
-          <Link as={ReactRouterLink} to="/punch" color="black" mx="2">
+          <Link className="link" as={ReactRouterLink} to="/punch" color="white" mx="2">
             Punch
           </Link>
 
-          <Link as={ReactRouterLink} to="/hackathon" color="black" mx="2">
+          <Link className="link" as={ReactRouterLink} to="/hackathon" color="white " mx="2">
             Hackathon
           </Link>
         </Box>
@@ -46,6 +47,7 @@ const Navbar = () => {
         </Button> */}
       </Flex>
     </Box>
+    </div>
   );
 };
 

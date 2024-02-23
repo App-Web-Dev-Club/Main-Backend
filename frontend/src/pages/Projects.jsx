@@ -13,6 +13,7 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import "./pages.css"
 
 function Projects() {
   const [leaderNo, setLeaderNo] = useState("");
@@ -142,10 +143,12 @@ function Projects() {
   return (
     <>
       <Navbar />
+      <div className="final">
       <FormControl>
         <FormLabel>Title</FormLabel>
-        <Input
+        <Input 
           type="text"
+          // style={{maxWidth:'500px'}}
           value={projectTitle}
           onChange={(e) => setProjectTitle(e.target.value)}
         />
@@ -244,6 +247,7 @@ function Projects() {
           Submit Project
         </Button>
       </FormControl>
+      </div>
     </>
   );
 }
