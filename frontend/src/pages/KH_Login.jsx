@@ -113,7 +113,7 @@ function KH_Login() {
             border="1px solid black"
             _hover={{ bg: "rgba(0,0,0,0.2)" }}
             onClick={handleLogin}
-            marginX={30}
+            width={100}
           >
             Login
           </Button>
