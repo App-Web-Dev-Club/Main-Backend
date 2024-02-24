@@ -7,7 +7,7 @@ import {
   Select,
   Box,
 } from "@chakra-ui/react";
-
+import "./pages.css"
 import Navbar from "../components/Navbar";
 import axios from "axios";
 
@@ -81,14 +81,16 @@ const Attendance = () => {
   return (
     <>
       <Navbar />
+      <h1 className="heading">Attendance Page</h1>
       <FormControl>
-        <FormLabel>Register No</FormLabel>
-        <Input
+        <FormLabel marginLeft={700} marginTop={10}>Register No</FormLabel>
+        <Input className="attendance-input"
           type="text"
           value={registerNo}
           onChange={(e) => setRegisterNo(e.target.value)}
         />
         <Button
+          className="btn"
           colorScheme="green"
           style={{ marginTop: "1rem" }}
           onClick={handleVerify}

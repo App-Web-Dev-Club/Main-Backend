@@ -264,7 +264,7 @@ export default function Permission() {
         <option value="Night Stay Permission">Night Stay Permission</option>
       </Select>
 
-      <FormLabel mt={4}>Add members</FormLabel>
+      <Button colorScheme="green" mt={4}>Add members</Button>
       {alertMessage && (
         <Alert status="error" mb={4}>
           <AlertIcon />

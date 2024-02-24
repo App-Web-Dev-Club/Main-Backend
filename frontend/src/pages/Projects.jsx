@@ -143,11 +143,12 @@ function Projects() {
   return (
     <>
       <Navbar />
+      <h1 className="heading">Projects Page 💡</h1>
       <div className="final">
       <FormControl>
         <FormLabel>Title</FormLabel>
         <Input 
-          type="text"
+          type="text" 
           // style={{maxWidth:'500px'}}
           value={projectTitle}
           onChange={(e) => setProjectTitle(e.target.value)}
@@ -171,12 +172,13 @@ function Projects() {
         />
 
         <Button
-          style={{ marginTop: "1rem" }}
+          style={{ marginTop: "2rem" }}
           onClick={handleLeaderVerification}
           colorScheme="green"
         >
           Verify Leader
         </Button>
+        
 
         {leaderVerificationStatus === "verified" && leaderData && (
           <Text color="green" mt={2}>
@@ -190,9 +192,9 @@ function Projects() {
           </Text>
         )}
 
-        <FormLabel mt={4}>Add members</FormLabel>
+        <Button className="Button" >Add members</Button>
         {alertMessage && (
-          <Alert status="error" mb={4}>
+          <Alert status="error" mb={4} >
             <AlertIcon />
             {alertMessage}
           </Alert>
@@ -228,11 +230,11 @@ function Projects() {
                   onChange={(e) => setMemberNo(e.target.value)}
                   placeholder="Member No."
                 />
+                
                 <Button
                   style={{ marginLeft: "1rem" }}
                   colorScheme="green"
-                  onClick={handleAddMember}
-                >
+                  onClick={handleAddMember}>
                   Add Member
                 </Button>
               </Flex>
