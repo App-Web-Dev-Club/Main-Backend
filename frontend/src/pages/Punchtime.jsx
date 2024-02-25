@@ -69,11 +69,15 @@ function Punchtime() {
   return (
     <>
       <Navbar />
+      <h1 className="heading">Punchtime</h1>
       <FormControl>
-        <FormLabel>Filter</FormLabel>
+        <FormLabel fontSize={25} mx={650} mt={10}>Filter</FormLabel>
         <Select
           placeholder="Choose option"
           value={selectedFilter}
+          width={400}
+          mt={5}
+          mx={650}
           onChange={handleFilterChange}
         >
           <option value="Day">Day</option>
@@ -94,10 +98,10 @@ function Punchtime() {
         )}
         <Button
           style={{ marginTop: "1rem" }}
-          colorScheme="blue"
           onClick={handleFilterClick}
+          className="below1"
         >
-          Filter
+          Check
         </Button>
 
         {/* Display table with punch data */}

@@ -253,9 +253,8 @@ export default function Permission() {
   return (
     <>
       <Navbar />
-
-      <FormLabel>Form Type</FormLabel>
-      <Select
+      <FormLabel className="heading">Form Type 📝</FormLabel>
+      <Select mt={10} className="attendance-input"
         placeholder="Select club"
         value={selectedForm}
         onChange={handleFormChange}
@@ -264,9 +263,9 @@ export default function Permission() {
         <option value="Night Stay Permission">Night Stay Permission</option>
       </Select>
 
-      <Button colorScheme="green" mt={4}>Add members</Button>
+     
       {alertMessage && (
-        <Alert status="error" mb={4}>
+        <Alert status="error" mb={4} width={350} mx={700} mt={5}>
           <AlertIcon />
           {alertMessage}
         </Alert>
@@ -278,6 +277,7 @@ export default function Permission() {
               {member && member.register_no ? (
                 <>
                   <Input
+                    
                     type="text"
                     value={member.register_no}
                     isReadOnly
@@ -296,21 +296,18 @@ export default function Permission() {
           ))}
           <Flex align="center" mt={2}>
             <Input
+            className="attendance-input"
               type="text"
               value={memberNo}
               onChange={(e) => setMemberNo(e.target.value)}
               placeholder="Member No."
             />
-            <Button
-              style={{ marginLeft: "1rem" }}
-              colorScheme="green"
-              onClick={handleAddMember}
-            >
-              Add Member
-            </Button>
+           
           </Flex>
         </>
       </Flex>
+      <div className="below">
+       <Button colorScheme="green" mt={4}>Add members</Button>
       <Button
         style={{ marginTop: "1rem" }}
         onClick={handleSubmit}
@@ -318,6 +315,14 @@ export default function Permission() {
       >
         Submit form
       </Button>
+      <Button
+              style={{ marginLeft: "1rem" }}
+              colorScheme="green"
+              onClick={handleAddMember}
+            >
+              Add Member
+            </Button>
+            </div>
     </>
   );
 }

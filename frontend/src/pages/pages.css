@@ -42,3 +42,13 @@ Button{
     width: 100px;
     margin-bottom: 10px;
 }
+.below{
+    margin-left: 650px !important;
+    margin-top: 50px !important;
+}
+.below1{
+    margin-left: 760px !important;
+    width: 150px;
+    margin-top: 50px !important;
+    color: #C0C0C0;
+}
