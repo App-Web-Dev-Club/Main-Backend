@@ -6,6 +6,7 @@
     font-size: larger;
     font-weight:200;
 }
+/* Path issues */
 body{
    background-image: url("./image2.jpeg") !important;
    background-repeat: no-repeat !important; 
