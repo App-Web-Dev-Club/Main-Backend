@@ -34,9 +34,9 @@ const Navbar = () => {
             Permission
           </Link>
 
-          <Link className="link" as={ReactRouterLink} to="/punch" color="white" mx="2">
+          {/* <Link className="link" as={ReactRouterLink} to="/admin/punch" color="white" mx="2">
             Punch
-          </Link>
+          </Link> */}
 
           <Link className="link" as={ReactRouterLink} to="/hackathon" color="white " mx="2">
             Hackathon

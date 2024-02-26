@@ -28,7 +28,7 @@ function App() {
   
       } />
       <Route path='permission' element={<Permission />} />
-      <Route path='punch' element={<Punchtime />} />
+      <Route path='admin/punch' element={<Punchtime />} />
       {/* <Route path='test' element={<Hackathonreg/>} /> */}
       <Route path='hackathon' element={<Hackathon />} />
       {/* <Route path='hackathon/details' element={<HackathonDetails/>} /> */}
