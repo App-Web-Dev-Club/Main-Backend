@@ -268,7 +268,6 @@ class LoginWithGoogle(APIView):
             id_token = utils.get_id_token_with_code_method_2(code)
             user_email = id_token['email']
             user = authenticate_or_create_user(user_email)
-            print(user)
             token = get_jwt_token(user)
             print(token)
             return Response({'access_token': token, 'username': user_email})
