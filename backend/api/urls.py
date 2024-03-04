@@ -30,6 +30,6 @@ urlpatterns = [
 
     # # path('ttt',register_by_access_token),
     path('test', TestView.as_view()),
-
+    path('login-with-google/',LoginWithGoogle.as_view(), name='google'),  
 
 ]
