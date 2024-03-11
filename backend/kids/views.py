@@ -46,9 +46,9 @@ class KH_Login(APIView):
                     'club': mem.club,
                     'permission': mem.permission, 
                 }
-                return Response(response_data)
+                return Response(response_data, status=status.HTTP_200_OK)
             else:
-                return Response('You are Not a Member')
+                return Response('You are Not a Member', status=status.HTTP_401_UNAUTHORIZED)
             
         else:
             return Response('You are Not a user')

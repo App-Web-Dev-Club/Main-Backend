@@ -56,7 +56,7 @@ export default function Permission() {
 
   const handleAddMember = async () => {
     const isMemberVerified = await handleMemberVerification(memberNo);
-  
+
     if (isMemberVerified) {
       if (memberData && memberData.register_no && memberData.id) {
         setMembers([...members, { ...memberData }]);
@@ -68,7 +68,7 @@ export default function Permission() {
       }
     }
   };
-  
+
 
   const handleDeleteMember = (index) => {
     const updatedMembers = [...members];
@@ -164,8 +164,8 @@ export default function Permission() {
       });
 
       const columns = ["Sl No", "Name", "Reg No"];
-    
-      const rows = item.user.map((user,i) => [i + 1, user.name, user.register_no]);
+
+      const rows = item.user.map((user, i) => [i + 1, user.name, user.register_no]);
 
       pdf.autoTable({
         startY: 160,
@@ -229,7 +229,7 @@ export default function Permission() {
       });
 
       const columns = ["Sl No", "Name", "Reg No"];
-      const rows = item.user.map((user,i) => [i + 1, user.name, user.regno]);
+      const rows = item.user.map((user, i) => [i + 1, user.name, user.regno]);
 
       pdf.autoTable({
         startY: 160,
@@ -263,7 +263,7 @@ export default function Permission() {
         <option value="Night Stay Permission">Night Stay Permission</option>
       </Select>
 
-     
+
       {alertMessage && (
         <Alert status="error" mb={4} width={350} mx={700} mt={5}>
           <AlertIcon />
@@ -277,7 +277,7 @@ export default function Permission() {
               {member && member.register_no ? (
                 <>
                   <Input
-                    
+
                     type="text"
                     value={member.register_no}
                     isReadOnly
@@ -296,33 +296,33 @@ export default function Permission() {
           ))}
           <Flex align="center" mt={2}>
             <Input
-            className="attendance-input"
+              className="attendance-input"
               type="text"
               value={memberNo}
               onChange={(e) => setMemberNo(e.target.value)}
               placeholder="Member No."
             />
-           
+
           </Flex>
         </>
       </Flex>
-      <div className="below">
-       <Button colorScheme="green" mt={4}>Add members</Button>
-      <Button
-        style={{ marginTop: "1rem" }}
-        onClick={handleSubmit}
-        colorScheme="blue"
-      >
-        Submit form
-      </Button>
-      <Button
-              style={{ marginLeft: "1rem" }}
-              colorScheme="green"
-              onClick={handleAddMember}
-            >
-              Add Member
-            </Button>
-            </div>
+      <div className="below" style={{paddingLeft:"80px"}}>
+        
+        <Button
+          style={{ marginTop: "1rem" }}
+          onClick={handleSubmit}
+          colorScheme="blue"
+        >
+          Submit form
+        </Button>
+        <Button
+          style={{ marginLeft: "1rem" }}
+          colorScheme="green"
+          onClick={handleAddMember}
+        >
+          Add Member
+        </Button>
+      </div>
     </>
   );
 }
