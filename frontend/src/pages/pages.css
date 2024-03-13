@@ -8,7 +8,7 @@
 }
 /* Path issues */
 body{
-   background-image: url("../assets//image2.jpeg") !important;
+   /* background-image: url("../assets//image2.jpeg") !important; */
    background-repeat: no-repeat !important; 
     background-size: cover !important; 
     height: 100vh !important;
@@ -53,3 +53,22 @@ Button{
     margin-top: 50px !important;
     color: #C0C0C0;
 }
+
+/* .LoginCard{
+    width :300px;
+    height:300px;
+    color:white
+} */
+
+.form_ {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .form_ > * {
+    margin-bottom: 1rem; /* Adjust spacing between form elements */
+    width: 100%; /* Make form elements fill the container width */
+    max-width: 500px; /* Limit maximum width of form elements */
+  }
+  

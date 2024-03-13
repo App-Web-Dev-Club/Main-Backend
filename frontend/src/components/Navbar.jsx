@@ -1,52 +1,69 @@
-// import React from "react";
+import React, { useState } from "react";
 import { Box, Flex, Spacer, Heading, Link } from "@chakra-ui/react";
-import { Link as ReactRouterLink } from "react-router-dom";
-import "./Nav.css"
+import { Link as ReactRouterLink, useLocation } from "react-router-dom";
+import "./Nav.css";
+
 const Navbar = () => {
+  const location = useLocation();
+  const [activeLink, setActiveLink] = useState(location.pathname);
+
   return (
     <div>
-    <Box boxShadow="md" p="4" bg="black" marginBottom={"20px"}>
-      <Flex alignItems="center">
-        <Heading color="black" >
+      <Box boxShadow="md" p="4" bg="white" marginBottom={"20px"}>
+        <Flex alignItems="center">
+          <Heading color="black">
+            <Box>
+              <img
+                className="nav-bar-logo"
+                src="../src/assets/KH_Logo.png"
+                alt="Logo"
+              />
+            </Box>
+          </Heading>
+          <Spacer />
           <Box>
-            <img className="nav-bar-logo" src="../src/assets/KH_Logo.png" alt="Your Image" />
+            <Link
+              as={ReactRouterLink}
+              to="/projects"
+              className={activeLink === "/projects" ? "link active" : "link"}
+              mx="2"
+              onClick={() => setActiveLink("/projects")}
+            >
+              Project
+            </Link>
+
+            <Link
+              as={ReactRouterLink}
+              to="/attendance"
+              className={activeLink === "/attendance" ? "link active" : "link"}
+              mx="2"
+              onClick={() => setActiveLink("/attendance")}
+            >
+              Attendance
+            </Link>
+
+            <Link
+              as={ReactRouterLink}
+              to="/permission"
+              className={activeLink === "/permission" ? "link active" : "link"}
+              mx="2"
+              onClick={() => setActiveLink("/permission")}
+            >
+              Permission
+            </Link>
+
+            <Link
+              as={ReactRouterLink}
+              to="/hackathon"
+              className={activeLink === "/hackathon" ? "link active" : "link"}
+              mx="2"
+              onClick={() => setActiveLink("/hackathon")}
+            >
+              Hackathon
+            </Link>
           </Box>
-        </Heading>
-        <Spacer />
-        <Box >
-          {/* <Link as={ReactRouterLink} to="/login" color="black" mx="2">
-            Login
-          </Link> */}
-
-          {/* <Link as={ReactRouterLink} to="/register" color="black" mx="2">
-            Registation
-          </Link> */}
-
-          <Link className="link" as={ReactRouterLink} to="/projects" color="white" mx="2">
-            Project
-          </Link>
-
-          <Link className="link" as={ReactRouterLink} to="/attendance" color="white" mx="2">
-            Attendance
-          </Link>
-
-          <Link  className="link" as={ReactRouterLink} to="/permission" color="white" mx="2">
-            Permission
-          </Link>
-
-          {/* <Link className="link" as={ReactRouterLink} to="/admin/punch" color="white" mx="2">
-            Punch
-          </Link> */}
-
-          <Link className="link" as={ReactRouterLink} to="/hackathon" color="white " mx="2">
-            Hackathon
-          </Link>
-        </Box>
-        {/* <Button colorScheme="teal" ml="2">
-          Login
-        </Button> */}
-      </Flex>
-    </Box>
+        </Flex>
+      </Box>
     </div>
   );
 };

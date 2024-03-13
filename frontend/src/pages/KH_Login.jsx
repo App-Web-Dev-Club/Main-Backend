@@ -76,49 +76,48 @@ function KH_Login() {
 
   return (
     <>
-      <Navbar />
-      <Box maxW="400px" margin="auto" mt="20vh" p="6">
-        <Heading style={{ textAlign: "center", marginBottom: "20px" }}>
-          Login
-        </Heading>
-        <FormControl>
-          <FormLabel>Username</FormLabel>
-          <Input
-            color={"white"}
-            type="text"
-            placeholder={showUsernameEmoji ? "👤" : ""}
-            onFocus={handleUsernameFocus}
-            onBlur={handleUsernameBlur}
-            value={username}
-            onChange={handleUsernameChange}
-            mb="2"
-          />
-
-          <FormLabel>Password</FormLabel>
-          <Input
-            type="password"
-            value={password}
-            placeholder={showPasswordEmoji ? "🔑" : ""}
-            onFocus={handlePasswordFocus}
-            onBlur={handlePasswordBlur}
-            onChange={handlePasswordChange}
-            mb="4"
-          />
-
-          {error && <Text color="red.500">{error}</Text>}
-
-          <Button
-            bg="rgba(0,0,0,0.1)"
-            color="black"
-            border="1px solid black"
-            _hover={{ bg: "rgba(0,0,0,0.2)" }}
-            onClick={handleLogin}
-            width={100}
-          >
+      
+      <div className="LoginCard">
+        <Box maxW="400px" margin="auto" mt="20vh" p="6">
+          <Heading style={{ textAlign: "center", marginBottom: "20px" }}>
             Login
-          </Button>
-        </FormControl>
-      </Box>
+          </Heading>
+          <FormControl>
+            <FormLabel>Username</FormLabel>
+            <Input
+              color={"black"}
+              type="text"
+              placeholder={showUsernameEmoji ? "👤" : ""}
+              onFocus={handleUsernameFocus}
+              onBlur={handleUsernameBlur}
+              value={username}
+              onChange={handleUsernameChange}
+              mb="2"
+            />
+            <FormLabel>Password</FormLabel>
+            <Input
+              type="password"
+              value={password}
+              placeholder={showPasswordEmoji ? "🔑" : ""}
+              onFocus={handlePasswordFocus}
+              onBlur={handlePasswordBlur}
+              onChange={handlePasswordChange}
+              mb="4"
+            />
+            {error && <Text color="red.500">{error}</Text>}
+            <Button
+              bg="rgba(0,0,0,0.1)"
+              color="black"
+              border="1px solid black"
+              _hover={{ bg: "rgba(0,0,0,0.2)" }}
+              onClick={handleLogin}
+              width={100}
+            >
+              Login
+            </Button>
+          </FormControl>
+        </Box>
+      </div>
     </>
   );
 }
