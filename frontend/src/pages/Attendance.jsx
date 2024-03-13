@@ -6,6 +6,7 @@ import {
   Button,
   Select,
   Box,
+  Flex
 } from "@chakra-ui/react";
 import "./pages.css"
 import Navbar from "../components/Navbar";
@@ -51,11 +52,6 @@ const Attendance = () => {
     const attendanceApiUrl = 'http://localhost:8000/kids/attendance';
   
     try {
-      console.log({
-        register_no: registerNo,
-        project: selectedProject,
-        work_done: workDone,
-      })
       const response = await axios.post(attendanceApiUrl, {
         register_no: registerNo,
         project: selectedProject,
@@ -64,90 +60,116 @@ const Attendance = () => {
   
       if (response.status === 201) {
         console.log('Attendance submitted successfully!');
-        // Optionally, you can reset the form or perform other actions upon successful submission
-      } 
-      else {
+        // Reset form fields after successful submission
+        setRegisterNo("");
+        setSelectedProject("");
+        setWorkDone("");
+      } else {
         console.error('Failed to submit attendance. Status:', response.status);
       }
     } catch (error) {
       console.error('Error submitting attendance:', error);
-    if (error.response && error.response.status === 401) {
-      // If 401 error occurs, display an alert message
-      window.alert('Please login to submit attendance.');
-    }
+      if (error.response && error.response.status === 401) {
+        // If 401 error occurs, display an alert message
+        window.alert('Please login to submit attendance.');
+      }
     }
   };
+  
 
   return (
     <>
       <Navbar />
-      <h1 className="heading">Attendance Page</h1>
-      <FormControl>
-        <FormLabel marginLeft={700} marginTop={10}>Register No</FormLabel>
-        <Input className="attendance-input"
-          type="text"
-          value={registerNo}
-          onChange={(e) => setRegisterNo(e.target.value)}
-        />
-        <Button
-          className="btn"
-          colorScheme="green"
-          style={{ marginTop: "1rem" }}
-          onClick={handleVerify}
-          isLoading={isLoading}
-        >
-          Verify
-        </Button>
-
-        {/* Display projects once verified */}
-        {projects.length > 0 && (
-          <>
-            <FormLabel mt={4}>Select Project</FormLabel>
-            <Select
-              placeholder="Select project"
-              value={selectedProject}
-              onChange={(e) => setSelectedProject(e.target.value)}
-            >
-              {projects.map((project) => (
-                <option key={project.id} value={project.id}>
-                  {project.title}
-                  {project.lead &&
-                    project.lead.length > 0 &&
-                    project.lead[0].id === parseInt(registerNo) && (
-                      <Box
-                        as="span"
-                        ml={2}
-                        color="white"
-                        bg="blue"
-                        px={2}
-                        py={1}
-                        borderRadius="md"
-                      >
-                        Lead
-                      </Box>
-                    )}
-                </option>
-              ))}
-            </Select>
-
-            <FormLabel mt={4}>Work Done</FormLabel>
-            <Input
-              type="text"
-              value={workDone}
-              onChange={(e) => setWorkDone(e.target.value)}
-            />
-
-            <Button
-              mt={4}
-              colorScheme="blue"
-              onClick={handleSubmitAttendance}
-              isLoading={isLoading} // Disable the button while submitting
-            >
-              Submit Attendance
-            </Button>
-          </>
-        )}
-      </FormControl>
+      <h1
+        style={{
+          textAlign: "center",
+          fontSize: "36px",
+          fontWeight: "bold",
+          marginBottom: "20px",
+        }}
+      >
+        Attendance 
+      </h1>
+      <div className="form_">
+        <FormControl>
+          {/* <FormLabel marginLeft={700} marginTop={10}>Register No</FormLabel> */}
+         
+            <Flex alignItems="center">
+              <Input
+                type="text"
+                placeholder="Register No"
+                value={registerNo}
+              
+                onChange={(e) => setRegisterNo(e.target.value)}
+                style={{ marginRight: "1rem" }}
+              />
+              <div style={{ paddingBottom: "20px" }}>
+                <Button
+                  colorScheme="green"
+                  style={{paddingTop:"4px"}}
+                  onClick={handleVerify}
+                  isLoading={isLoading}
+                >
+                  Verify
+                </Button>
+              </div>
+            </Flex>
+          
+          {/* Display projects once verified */}
+          {projects.length > 0 && (
+            <>
+              {/* <FormLabel mt={4}>Select Project</FormLabel> */}
+              <Select
+                placeholder="Select project"
+                value={selectedProject}
+                onChange={(e) => setSelectedProject(e.target.value)}
+              >
+                {projects.map((project) => (
+                  <option key={project.id} value={project.id}>
+                    {project.title}
+                    {project.lead &&
+                      project.lead.length > 0 &&
+                      project.lead[0].id === parseInt(registerNo) && (
+                        <Box
+                          as="span"
+                          ml={2}
+                          color="white"
+                          bg="blue"
+                          px={2}
+                          py={1}
+                          borderRadius="md"
+                        >
+                          Lead
+                        </Box>
+                      )}
+                  </option>
+                ))}
+              </Select>
+              {/* <FormLabel mt={4}>Work Done</FormLabel> */}
+              <div style={{paddingTop:"20px"}}>
+                <Input
+                  placeholder="Work Done"
+                
+                  type="text"
+                  value={workDone}
+                  onChange={(e) => setWorkDone(e.target.value)}
+                />
+              </div>
+              <div style={{paddingRight:"20px"}}>
+                <Button
+                style={{width:"100%"}}
+                  mt={4}
+                  colorScheme="blue"
+                  onClick={handleSubmitAttendance}
+                  isLoading={isLoading} // Disable the button while submitting
+                >
+                  Submit Attendance
+                </Button>
+              </div>
+            </>
+          )}
+        </FormControl>
+      </div>
     </>
   );
 };

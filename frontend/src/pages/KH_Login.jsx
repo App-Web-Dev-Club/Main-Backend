@@ -78,13 +78,18 @@ function KH_Login() {
     <>
       
       <div className="LoginCard">
-        <Box maxW="400px" margin="auto" mt="20vh" p="6">
+        <Box maxW="400px" margin="auto"  p="6">
           <Heading style={{ textAlign: "center", marginBottom: "20px" }}>
-            Login
+          <img
+                className="logo"
+                src="../src/assets/KH_Logo.png"
+                alt="Logo"
+
+              />
           </Heading>
           <FormControl>
             <FormLabel>Username</FormLabel>
-            <Input
+            <Input id="Usename"
               color={"black"}
               type="text"
               placeholder={showUsernameEmoji ? "👤" : ""}
@@ -95,7 +100,7 @@ function KH_Login() {
               mb="2"
             />
             <FormLabel>Password</FormLabel>
-            <Input
+            <Input id="Pass"
               type="password"
               value={password}
               placeholder={showPasswordEmoji ? "🔑" : ""}
@@ -105,16 +110,19 @@ function KH_Login() {
               mb="4"
             />
             {error && <Text color="red.500">{error}</Text>}
-            <Button
-              bg="rgba(0,0,0,0.1)"
-              color="black"
-              border="1px solid black"
-              _hover={{ bg: "rgba(0,0,0,0.2)" }}
-              onClick={handleLogin}
-              width={100}
-            >
-              Login
-            </Button>
+            <div style={{alignItems:"center", paddingLeft:"80px"}}>
+              <Button
+              className="loginB"
+                bg="rgba(0,0,0,0.1)"
+                color="black"
+                border="1px solid black"
+                _hover={{ bg: "rgba(0,0,0,0.2)" }}
+                onClick={handleLogin}
+                style={{width:"60%"}}
+              >
+                Login
+              </Button>
+            </div>
           </FormControl>
         </Box>
       </div>

@@ -13,16 +13,18 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 import Navbar from "../components/Navbar";
 import axios from "axios";
-import "./pages.css"
+import "./pages.css";
 
 function Projects() {
   const [leaderNo, setLeaderNo] = useState("");
   const [leaderData, setLeaderData] = useState(null);
-  const [leaderVerificationStatus, setLeaderVerificationStatus] = useState(null);
+  const [leaderVerificationStatus, setLeaderVerificationStatus] =
+    useState(null);
 
   const [memberNo, setMemberNo] = useState("");
   const [memberData, setMemberData] = useState(null);
-  const [memberVerificationStatus, setMemberVerificationStatus] = useState(null);
+  const [memberVerificationStatus, setMemberVerificationStatus] =
+    useState(null);
 
   const [members, setMembers] = useState([]);
   const [alertMessage, setAlertMessage] = useState("");
@@ -31,7 +33,11 @@ function Projects() {
   const [projectDescription, setProjectDescription] = useState("");
 
   useEffect(() => {
-    if (memberData && memberData.register_no && memberVerificationStatus === "verified") {
+    if (
+      memberData &&
+      memberData.register_no &&
+      memberVerificationStatus === "verified"
+    ) {
       setMembers([...members, { ...memberData }]);
       setMemberNo(""); // Clear memberNo after successfully adding a member
     }
@@ -42,7 +48,7 @@ function Projects() {
 
     try {
       const response = await axios.post(apiUrl, { register_no: leaderNo });
-      
+
       if (response.status === 201 || response.status === 200) {
         const data = response.data;
         if (data && data.register_no) {
@@ -63,10 +69,10 @@ function Projects() {
 
   const handleMemberVerification = async (register_no) => {
     const apiUrl = "http://localhost:8000/kids/userid";
-    
+
     try {
       const response = await axios.post(apiUrl, { register_no: register_no });
-      
+
       if (response.status === 201 || response.status === 200) {
         const data = response.data;
         if (data && data.register_no) {
@@ -95,12 +101,12 @@ function Projects() {
       setAlertMessage("Please verify the leader first.");
       return;
     }
-  
+
     await handleLeaderVerification();
-  
+
     if (leaderVerificationStatus === "verified") {
       const isMemberVerified = await handleMemberVerification(memberNo);
-      
+
       if (!isMemberVerified) {
         console.error("Member verification failed.");
       }
@@ -118,9 +124,9 @@ function Projects() {
       setAlertMessage("Please verify the leader and add at least one member.");
       return;
     }
-
+  
     const projectsApiUrl = "http://localhost:8000/kids/projects";
-    console.log(members.map((member) => member.id))
+  
     try {
       const response = await axios.post(projectsApiUrl, {
         title: projectTitle,
@@ -129,9 +135,20 @@ function Projects() {
         kh_members: members.map((member) => member.id),
         status: "hold",
       });
-
+  
       if (response.status === 201) {
         console.log("Project submitted successfully!");
+        // Reset form fields after successful submission
+        setLeaderNo("");
+        setLeaderData(null);
+        setLeaderVerificationStatus(null);
+        setMemberNo("");
+        setMemberData(null);
+        setMemberVerificationStatus(null);
+        setMembers([]);
+        setAlertMessage("");
+        setProjectTitle("");
+        setProjectDescription("");
       } else {
         console.error("Failed to submit project. Status:", response.status);
       }
@@ -139,114 +156,141 @@ function Projects() {
       console.error("Error submitting project:", error);
     }
   };
+  
 
   return (
     <>
       <Navbar />
-      <h1 className="heading">Projects Page</h1>
+      <h1
+        style={{
+          textAlign: "center",
+          fontSize: "36px",
+          fontWeight: "bold",
+          marginBottom: "20px",
+        }}
+      >
+        Add Projects 
+      </h1>
       <div className="final">
-      <div className="form_">
-        <FormControl>
-          <FormLabel>Title</FormLabel>
-          <Input
-            type="text"
-            // style={{maxWidth:'500px'}}
-            value={projectTitle}
-            onChange={(e) => setProjectTitle(e.target.value)}
-          />
-          <FormLabel>Description</FormLabel>
-          <Input
-            type="text"
-            value={projectDescription}
-            onChange={(e) => setProjectDescription(e.target.value)}
-          />
-          <div style={{}}>
-            <FormLabel>Team Leader No.</FormLabel>
+        <div className="form_" >
+          <FormControl>
+            {/* <FormLabel>Title</FormLabel> */}
             <Input
+              placeholder="Title"
               type="text"
-              value={leaderNo}
-              onChange={(e) => {
-                setLeaderNo(e.target.value);
-                setLeaderVerificationStatus(null);
-              }}
+              // style={{maxWidth:'500px'}}
+              value={projectTitle}
+              onChange={(e) => setProjectTitle(e.target.value)}
             />
-            <Button
-              style={{ }}
-              onClick={handleLeaderVerification}
-              colorScheme="green"
-            >
-              Verify Leader
-            </Button>
-          </div>
-        
-          {leaderVerificationStatus === "verified" && leaderData && (
-            <Text color="green" mt={2}>
-              &#10004; Leader Verified: {leaderData.register_no}
-            </Text>
-          )}
-          {leaderVerificationStatus === "notfound" && (
-            <Text color="red" mt={2}>
-              &#10008; Leader not found or invalid
-            </Text>
-          )}
-          <Button className="Button" >Add members</Button>
-          {alertMessage && (
-            <Alert status="error" mb={4} >
-              <AlertIcon />
-              {alertMessage}
-            </Alert>
-          )}
-          <Flex direction="column">
-            {leaderVerificationStatus === "verified" && (
-              <>
-                {members.map((member, index) => (
-                  <Flex key={index} align="center" mt={2}>
-                    {member && member.register_no ? (
-                      <>
-                        <Input
-                          type="text"
-                          value={member.register_no}
-                          isReadOnly
-                          placeholder="Member name"
-                        />
-                        <IconButton
-                          icon={<CloseIcon />}
-                          aria-label="Delete member"
-                          onClick={() => handleDeleteMember(index)}
-                          ml={2}
-                          colorScheme="red"
-                        />
-                      </>
-                    ) : null}
-                  </Flex>
-                ))}
-                <Flex align="center" mt={2}>
-                  <Input
-                    type="text"
-                    value={memberNo}
-                    onChange={(e) => setMemberNo(e.target.value)}
-                    placeholder="Member No."
-                  />
-        
+            {/* <FormLabel>Description</FormLabel> */}
+            <div style={{ paddingTop: "20px" }}>
+              <Input
+                placeholder="Description"
+                type="text"
+                value={projectDescription}
+                onChange={(e) => setProjectDescription(e.target.value)}
+              />
+            </div>
+            <div>
+              {/* <FormLabel>Team Leader No.</FormLabel> */}
+              <Flex alignItems="center">
+                <Input
+                  placeholder="Enter Team Leader No."
+                  type="text"
+                  value={leaderNo}
+                  onChange={(e) => {
+                    setLeaderNo(e.target.value);
+                    setLeaderVerificationStatus(null);
+                  }}
+                  style={{ marginRight: "1rem" }}
+                />
+                <div style={{ paddingBottom: "20px" }}>
                   <Button
-                    style={{ marginLeft: "1rem" }}
+                    style={{ paddingTop:"4px" }}
+                    onClick={handleLeaderVerification}
                     colorScheme="green"
-                    onClick={handleAddMember}>
-                    Add Member
+                  >
+                    Verify Leader
                   </Button>
-                </Flex>
-              </>
+                </div>
+              </Flex>
+            </div>
+
+            {leaderVerificationStatus === "verified" && leaderData && (
+              <Text color="green" mt={2}>
+                &#10004; Leader Verified: {leaderData.register_no}
+              </Text>
             )}
-          </Flex>
-          <Button
-            style={{ marginTop: "1rem" }}
-            onClick={handleSubmit}
-            colorScheme="blue"
-          >
-            Submit Project
-          </Button>
-        </FormControl>
-      </div>
+            {leaderVerificationStatus === "notfound" && (
+              <Text color="red" mt={2}>
+                &#10008; Leader not found or invalid
+              </Text>
+            )}
+          
+            {alertMessage && (
+              <Alert status="error" mb={4}>
+                <AlertIcon />
+                {alertMessage}
+              </Alert>
+            )}
+            <Flex direction="column">
+              {leaderVerificationStatus === "verified" && (
+                <>
+                  {members.map((member, index) => (
+                    <Flex key={index} align="center" mt={2}>
+                      {member && member.register_no ? (
+                        <>
+                          <Input
+                            type="text"
+                            value={member.register_no}
+                            isReadOnly
+                            placeholder="Member name"
+                          />
+                          <div style={{ paddingBottom: "20px" }}>
+                            <IconButton
+                              icon={<CloseIcon />}
+                              aria-label="Delete member"
+                              onClick={() => handleDeleteMember(index)}
+                              ml={2}
+                              colorScheme="red"
+                            />
+                          </div>
+                        </>
+                      ) : null}
+                    </Flex>
+                  ))}
+                  <Flex align="center" mt={2}>
+                    <Input
+                      type="text"
+                      value={memberNo}
+                      onChange={(e) => setMemberNo(e.target.value)}
+                      placeholder="Member No."
+                    />
+
+                    <div style={{ paddingBottom: "20px" }}>
+                      <Button
+                        style={{ marginLeft: "1rem" }}
+                        colorScheme="green"
+                        onClick={handleAddMember}
+                      >
+                        Add Member
+                      </Button>
+                    </div>
+                  </Flex>
+                </>
+              )}
+            </Flex>
+            <div style={{paddingRight:"20px"}}>
+              <Button
+                style={{ marginTop: "19rem", paddingTop:"4px" ,width:"100%"}}
+                onClick={handleSubmit}
+                colorScheme="green"
+              >
+                Submit Project
+              </Button>
+            </div>
+          </FormControl>
+        </div>
       </div>
     </>
   );

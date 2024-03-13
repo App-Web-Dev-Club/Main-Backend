@@ -19,7 +19,8 @@ export default function Permission() {
   const [leaderData, setLeaderData] = useState(null);
   const [memberNo, setMemberNo] = useState("");
   const [memberData, setMemberData] = useState(null);
-  const [memberVerificationStatus, setMemberVerificationStatus] = useState(null);
+  const [memberVerificationStatus, setMemberVerificationStatus] =
+    useState(null);
   const [members, setMembers] = useState([]);
   const [alertMessage, setAlertMessage] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
@@ -68,7 +69,6 @@ export default function Permission() {
       }
     }
   };
-
 
   const handleDeleteMember = (index) => {
     const updatedMembers = [...members];
@@ -156,7 +156,9 @@ export default function Permission() {
       pdf.text("Respected Sir,", 20, 110);
       const textLines = [
         "The following students were working late at CTC on",
-        `${new Date(item.date_time).toLocaleDateString()} Till 07:30PM. Kindly permit them to enter the hostel.`,
+        `${new Date(
+          item.date_time
+        ).toLocaleDateString()} Till 07:30PM. Kindly permit them to enter the hostel.`,
       ];
 
       textLines.forEach((line, i) => {
@@ -165,7 +167,11 @@ export default function Permission() {
 
       const columns = ["Sl No", "Name", "Reg No"];
 
-      const rows = item.user.map((user, i) => [i + 1, user.name, user.register_no]);
+      const rows = item.user.map((user, i) => [
+        i + 1,
+        user.name,
+        user.register_no,
+      ]);
 
       pdf.autoTable({
         startY: 160,
@@ -253,75 +259,86 @@ export default function Permission() {
   return (
     <>
       <Navbar />
-      <FormLabel className="heading">Form Type 📝</FormLabel>
-      <Select mt={10} className="attendance-input"
-        placeholder="Select club"
-        value={selectedForm}
-        onChange={handleFormChange}
+      <h1
+        style={{
+          textAlign: "center",
+          fontSize: "36px",
+          fontWeight: "bold",
+          marginBottom: "20px",
+        }}
       >
-        <option value="Late Permission">Late Permission</option>
-        <option value="Night Stay Permission">Night Stay Permission</option>
-      </Select>
-
-
-      {alertMessage && (
-        <Alert status="error" mb={4} width={350} mx={700} mt={5}>
-          <AlertIcon />
-          {alertMessage}
-        </Alert>
-      )}
-      <Flex direction="column">
-        <>
-          {members.map((member, index) => (
-            <Flex key={index} align="center" mt={2}>
-              {member && member.register_no ? (
-                <>
-                  <Input
-
-                    type="text"
-                    value={member.register_no}
-                    isReadOnly
-                    placeholder="Member name"
-                  />
-                  <Button
-                    onClick={() => handleDeleteMember(index)}
-                    ml={2}
-                    colorScheme="red"
-                  >
-                    Delete Member
-                  </Button>
-                </>
-              ) : null}
+        Permission
+      </h1>
+      <div className="form_">
+        <Select
+          mt={10}
+          placeholder="Select club"
+          value={selectedForm}
+          onChange={handleFormChange}
+        >
+          <option value="Late Permission">Late Permission</option>
+          <option value="Night Stay Permission">Night Stay Permission</option>
+        </Select>
+        {alertMessage && (
+          <Alert status="error" mb={4} width={350} mx={700} mt={5}>
+            <AlertIcon />
+            {alertMessage}
+          </Alert>
+        )}
+        <Flex direction="column">
+          <>
+            {members.map((member, index) => (
+              <Flex key={index} align="center" mt={2}>
+                {member && member.register_no ? (
+                  <>
+                    <Input
+                      type="text"
+                      value={member.register_no}
+                      isReadOnly
+                      placeholder="Member name"
+                    />
+                    <div style={{paddingBottom:"20px"}}>
+                      <Button
+                        onClick={() => handleDeleteMember(index)}
+                        ml={2}
+                        colorScheme="red"
+                      >
+                        Delete Member
+                      </Button>
+                    </div>
+                  </>
+                ) : null}
+              </Flex>
+            ))}
+            <Flex align="center" mt={2}>
+              <Input
+                type="text"
+                value={memberNo}
+                onChange={(e) => setMemberNo(e.target.value)}
+                placeholder="Member No."
+              />
+              <div style={{paddingBottom:"20px"}}>
+                <Button
+                style={{ marginLeft: "1rem"}}
+                colorScheme="green"
+                onClick={handleAddMember}
+                            >
+                Add Member
+                            </Button>
+              </div>
             </Flex>
-          ))}
-          <Flex align="center" mt={2}>
-            <Input
-              className="attendance-input"
-              type="text"
-              value={memberNo}
-              onChange={(e) => setMemberNo(e.target.value)}
-              placeholder="Member No."
-            />
-
-          </Flex>
-        </>
-      </Flex>
-      <div className="below" style={{paddingLeft:"80px"}}>
-        
-        <Button
-          style={{ marginTop: "1rem" }}
-          onClick={handleSubmit}
-          colorScheme="blue"
-        >
-          Submit form
-        </Button>
-        <Button
-          style={{ marginLeft: "1rem" }}
-          colorScheme="green"
-          onClick={handleAddMember}
-        >
-          Add Member
-        </Button>
+            
+          </>
+        </Flex>
+        <div style={{ paddingRight:"20px"}}>
+          <Button
+            style={{ marginTop: "1rem" ,width:"100%"}}
+            onClick={handleSubmit}
+            colorScheme="green"
+          >
+            Submit form
+          </Button>
+        </div>
       </div>
     </>
   );
