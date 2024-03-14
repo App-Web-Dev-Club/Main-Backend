@@ -17,6 +17,40 @@ from kids.serializers import *
 from django.core.mail import send_mail
 
 
+
+class Admin_Login(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self,request):
+        email = request.data.get('email') 
+        password = request.data.get('password')
+        
+        user = User.objects.filter(email=email, role='administrator').first()
+       
+        # return Response('You are Not a user')
+        if user is not None and authenticate(email=email, password = password):
+            
+            custom_data = {
+            'email':user.email,
+            'role': user.role,
+            'name': user.name,
+           
+            }
+            refresh = RefreshToken.for_user(user)
+            refresh.access_token.payload.update(custom_data)
+            response_data = {
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'email': user.email,
+                'role': user.role,
+                'name': user.name,
+               
+            }
+            return Response(response_data, status=status.HTTP_200_OK)
+        else:
+            return Response('You are Not a user')
+
+
 class TestView(APIView):
     # authentication_classes = [JWTAuthentication]
     permission_classes = [AllowAny]

@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 from rest_framework.authtoken.views import ObtainAuthToken
 from django.contrib.auth import authenticate
 from .serializers import *
+from rest_framework.viewsets import ModelViewSet
 
 
 
@@ -223,7 +224,7 @@ class FaceAttendanceListCreateAPIView(APIView):
     
 
 class PunchTimeView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_user_object(self, reg):
         try:
@@ -274,7 +275,7 @@ class PunchTimeView(APIView):
     
 
 class PunchTimeGETView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     def post(self,request):
         type = request.data.get('type')
 
@@ -354,6 +355,39 @@ class HackathonAPIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ClubsAPIView(APIView):
+
+    def get(self, request):
+        club_data = KH_Club_Members.objects.all()
+        serializer = ListKHClubMembersSerializer(club_data, many=True)
+        return Response(serializer.data)
+
+class ClubsViewSet(ModelViewSet):
+    permission_classes = [AllowAny]
+
+    serializer_class = ListKHClubMembersSerializer
+    queryset = KH_Club_Members.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        search = request.GET.get("search")
+        print("Search parameter:", search)
+        queryset = self.queryset
+            
+        if search:
+            queryset = queryset.filter(club__icontains=search)
+
+        serializer = ListKHClubMembersSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+
+
+
+
+
+
+
 
 # class HackathonParticipantsAPIView(APIView):
 #     permission_classes = [AllowAny]

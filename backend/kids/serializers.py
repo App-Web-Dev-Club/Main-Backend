@@ -3,10 +3,19 @@ from api.models import *
 from .models import *
 from api.serializers import *
 
+class ListKHClubMembersSerializer(serializers.ModelSerializer):
+  
+
+    class Meta:
+        model = KH_Club_Members
+        fields = '__all__'
+        depth=1
+
 class KHClubMembersSerializer(serializers.ModelSerializer):
     class Meta:
         model = KH_Club_Members
         fields = '__all__'
+
 
 class KHProjectListSerializer(serializers.ModelSerializer):
     project_lead = KHClubMembersSerializer()  

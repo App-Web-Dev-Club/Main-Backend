@@ -74,6 +74,27 @@ function KH_Login() {
     }
   };
 
+  const handleAdminLogin = async () => {
+    try {
+      const response = await axios.post("http://localhost:8000/api/login/admin/", {
+        email: username,
+        password,
+      });
+
+      if (response.data && response.data.access) {
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.access}`;
+        navigate("/admin/punch");
+      } else {
+        setError("The provided credentials are either incorrect, or the user does not have administrative privileges");
+      }
+    } catch (error) {
+      setError("Login failed. Please try again later.");
+      console.error("Login failed:", error);
+    }
+  };
+
   return (
     <>
       
@@ -110,9 +131,9 @@ function KH_Login() {
               mb="4"
             />
             {error && <Text color="red.500">{error}</Text>}
-            <div style={{alignItems:"center", paddingLeft:"80px"}}>
+            <div style={{display:"flex",paddingRight:"15px"}}>
               <Button
-              className="loginB"
+            
                 bg="rgba(0,0,0,0.1)"
                 color="black"
                 border="1px solid black"
@@ -121,6 +142,15 @@ function KH_Login() {
                 style={{width:"60%"}}
               >
                 Login
+              </Button>
+              <Button bg="rgba(0,0,0,0.1)"
+                color="black"
+                border="1px solid black"
+                _hover={{ bg: "rgba(0,0,0,0.2)" }}
+                onClick={handleAdminLogin}
+                style={{width:"60%"}}
+                >
+                Login as Admin
               </Button>
             </div>
           </FormControl>

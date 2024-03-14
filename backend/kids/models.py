@@ -11,7 +11,7 @@ class KH_Club_Members(models.Model):
         ('KH Core','Khacks Core Team'),
         ('3D','3D Printing Club'),
         ('AI','AI Club'),
-        ('WEB AND APP','Web And App Club'),
+        ('WEB_AND_APP','Web And App Club'),
         ('IOT AND ROBOTICS','Iot And Robotics Club'),
         ('XR','XR Club'),
         ('CYBER SECURITY','Cyber Security Club'),

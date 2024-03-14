@@ -13,7 +13,8 @@ import {
   Td,
 } from "@chakra-ui/react";
 import axios from "axios";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
+import AdminNavbar from "../components/AdminNavbar";
 
 function Punchtime() {
   const [selectedFilter, setSelectedFilter] = useState("");
@@ -68,68 +69,86 @@ function Punchtime() {
 
   return (
     <>
-      <Navbar />
-      <h1 className="heading">Punchtime</h1>
-      <FormControl>
-        <FormLabel fontSize={25} mx={650} mt={10}>Filter</FormLabel>
-        <Select
-          placeholder="Choose option"
-          value={selectedFilter}
-          width={400}
-          mt={5}
-          mx={650}
-          onChange={handleFilterChange}
-        >
-          <option value="Day">Day</option>
-          <option value="Week">Week</option>
-          <option value="Month">Month</option>
-          <option value="Year">Year</option>
-          <option value="User">User</option>
-        </Select>
-        {selectedFilter === "User" && (
-          <>
-            <FormLabel>Reg No</FormLabel>
-            <Input
-              type="text"
-              value={regNo}
-              onChange={(e) => setRegNo(e.target.value)}
-            />
-          </>
-        )}
-        <Button
-          style={{ marginTop: "1rem" }}
-          onClick={handleFilterClick}
-          className="below1"
-        >
-          Check
-        </Button>
+      <AdminNavbar />
+      <h1
+        style={{
+          textAlign: "center",
+          fontSize: "36px",
+          fontWeight: "bold",
+          marginBottom: "20px",
+        }}
+      >
+        Punch Time 
+      </h1>
+      
+        <FormControl>
+        <div className="form_">
+          {/* <FormLabel fontSize={25} mx={650} mt={10}>Filter</FormLabel> */}
+          <Select
+            placeholder="Choose option"
+            value={selectedFilter}
+            // width={400}
+            // mt={5}
+            // mx={650}
+            style={{width:"100%"}}
+            onChange={handleFilterChange}
+          >
+            <option value="Day">Day</option>
+            <option value="Week">Week</option>
+            <option value="Month">Month</option>
+            <option value="Year">Year</option>
+            <option value="User">User</option>
+          </Select>
+          {selectedFilter === "User" && (
+            <>
+              {/* <FormLabel>Reg No</FormLabel> */}
+              <div style={{paddingTop:"20px"}}>
+                <Input
+                
+                placeholder="Reg No"
+                  type="text"
+                  value={regNo}
+                  onChange={(e) => setRegNo(e.target.value)}
+                />
+              </div>
+            </>
+          )}
+          <Button
+            style={{ marginTop: "1rem" }}
+            onClick={handleFilterClick}
+     
+          >
+            Check
+          </Button>
 
-        {/* Display table with punch data */}
-        {punchData.length > 0 && (
-          <Table variant="striped" colorScheme="teal" marginTop="1rem">
-            <Thead>
-              <Tr>
-                <Th>Srno</Th>
-                <Th>Name</Th>
-                <Th>Reg No</Th>
-                <Th>Date</Th>
-                <Th>Time</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {punchData.map((punch, index) => (
-                <Tr key={index}>
-                  <Td>{index + 1}</Td>
-                  <Td>{punch.regno.user.name}</Td>
-                  <Td>{punch.regno.register_no}</Td>
-                  <Td>{punch.time.split("T")[0]}</Td>
-                  <Td>{punch.time.split("T")[1].split(".")[0]}</Td>
+          </div>
+          {/* Display table with punch data */}
+          {punchData.length > 0 && (
+            <Table variant="striped" colorScheme="teal" marginTop="1rem">
+              <Thead>
+                <Tr>
+                  <Th>Srno</Th>
+                  <Th>Name</Th>
+                  <Th>Reg No</Th>
+                  <Th>Date</Th>
+                  <Th>Time</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        )}
-      </FormControl>
+              </Thead>
+              <Tbody>
+                {punchData.map((punch, index) => (
+                  <Tr key={index}>
+                    <Td>{index + 1}</Td>
+                    <Td>{punch.regno.user.name}</Td>
+                    <Td>{punch.regno.register_no}</Td>
+                    <Td>{punch.time.split("T")[0]}</Td>
+                    <Td>{punch.time.split("T")[1].split(".")[0]}</Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          )}
+        </FormControl>
+      
     </>
   );
 }
