@@ -40,6 +40,26 @@ const AdminNavbar = () => {
             >
               Club data
             </Link>
+
+            <Link
+              as={ReactRouterLink}
+              to="/admin/attendance"
+              className={activeLink === "/admin/attendance" ? "link active" : "link"}
+              mx="2"
+              onClick={() => setActiveLink("/admin/attendance")}
+            >
+              Attendance data
+            </Link>
+
+            <Link
+              as={ReactRouterLink}
+              to="/admin/projects"
+              className={activeLink === "/admin/projects" ? "link active" : "link"}
+              mx="2"
+              onClick={() => setActiveLink("/admin/projects")}
+            >
+              Projects data
+            </Link>
           </Box>
         </Flex>
       </Box>

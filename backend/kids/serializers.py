@@ -26,6 +26,14 @@ class KHProjectListSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ListKHClubMembersAttendananceSerializer(serializers.ModelSerializer):
+    # user = KHClubMembersSerializer()
+    
+    class Meta:
+        model = KH_Club_Members_Attendanance
+        fields = '__all__'
+        depth = 3
+
 class KHClubMembersAttendananceSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     project = KHProjectListSerializer()

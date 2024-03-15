@@ -7,6 +7,7 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r"clubs",ClubsViewSet,basename="clubs")
+router.register(r"attendance",ListAttendanceViewSet,basename="attendance")
 
 
 
@@ -22,6 +23,6 @@ urlpatterns = [
     path('routers/',include(router.urls)),
     path('punchtime/sort',PunchTimeGETView.as_view()),
     path('login/', KH_Login.as_view(), name='send-email'),
-    path('hackathon', HackathonAPIView.as_view(), name="This is hackathon register site")
+    path('hackathon', HackathonAPIView.as_view(), name="This is hackathon register site"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -9,6 +9,8 @@ import Permission from './pages/Permission';
 import Punchtime from './pages/Punchtime';
 import Hackathon from './pages/Hackathon';
 import Clubs from './pages/Clubs';
+import AdminAttendance from './pages/AdminAttendance';
+import AdminProjects from './pages/AdminProjects';
 // import { HackathonDetails } from './components/HackathonDetails';
 // import Hackathonreg from './pages/Hackathon_add';
 function App() {
@@ -31,6 +33,8 @@ function App() {
       <Route path='permission' element={<Permission />} />
       <Route path='admin/punch' element={<Punchtime />} />
       <Route path='admin/clubs' element={<Clubs />} />
+      <Route path='admin/attendance' element={<AdminAttendance />} />
+      <Route path='admin/projects' element={<AdminProjects />} />
       {/* <Route path='test' element={<Hackathonreg/>} /> */}
       <Route path='hackathon' element={<Hackathon />} />
       {/* <Route path='hackathon/details' element={<HackathonDetails/>} /> */}

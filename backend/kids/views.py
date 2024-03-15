@@ -138,7 +138,7 @@ class Studentid(APIView):
 
 
 class project_under_user(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_user_object(self, reg):
         try:
@@ -359,6 +359,8 @@ class HackathonAPIView(APIView):
 
 
 
+
+
 class ClubsViewSet(ModelViewSet):
     permission_classes = [AllowAny]
 
@@ -376,6 +378,26 @@ class ClubsViewSet(ModelViewSet):
         serializer = ListKHClubMembersSerializer(queryset, many=True)
         return Response(serializer.data)
     
+
+
+class ListAttendanceViewSet(ModelViewSet):
+    permission_classes = [AllowAny]
+
+    serializer_class = ListKHClubMembersAttendananceSerializer
+    queryset = KH_Club_Members_Attendanance.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        search = request.GET.get("search")
+        print("Search parameter:", search)
+        queryset = self.queryset
+            
+        if search:
+            queryset = queryset.filter(user__club__icontains=search)
+
+        serializer = ListKHClubMembersAttendananceSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
 
 
 
