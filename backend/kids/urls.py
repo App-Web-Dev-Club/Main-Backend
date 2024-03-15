@@ -19,7 +19,6 @@ urlpatterns = [
     path('permission',PermissionView.as_view()),
     # path('face',FaceAttendanceListCreateAPIView.as_view()),
     path('punch', PunchTimeView.as_view()),
-    path('getclubs', ClubsAPIView.as_view()),
     path('routers/',include(router.urls)),
     path('punchtime/sort',PunchTimeGETView.as_view()),
     path('login/', KH_Login.as_view(), name='send-email'),

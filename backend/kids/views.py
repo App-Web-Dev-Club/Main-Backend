@@ -357,12 +357,7 @@ class HackathonAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ClubsAPIView(APIView):
 
-    def get(self, request):
-        club_data = KH_Club_Members.objects.all()
-        serializer = ListKHClubMembersSerializer(club_data, many=True)
-        return Response(serializer.data)
 
 class ClubsViewSet(ModelViewSet):
     permission_classes = [AllowAny]

@@ -16,6 +16,11 @@ import axios from "axios";
 // import Navbar from "../components/Navbar";
 import AdminNavbar from "../components/AdminNavbar";
 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-GB");
+}
+
 function Punchtime() {
   const [selectedFilter, setSelectedFilter] = useState("");
   const [regNo, setRegNo] = useState("");
@@ -140,7 +145,7 @@ function Punchtime() {
                     <Td>{index + 1}</Td>
                     <Td>{punch.regno.user.name}</Td>
                     <Td>{punch.regno.register_no}</Td>
-                    <Td>{punch.time.split("T")[0]}</Td>
+                    <Td>{formatDate(punch.time)}</Td>
                     <Td>{punch.time.split("T")[1].split(".")[0]}</Td>
                   </Tr>
                 ))}
