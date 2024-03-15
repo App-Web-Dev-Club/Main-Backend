@@ -8,7 +8,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r"clubs",ClubsViewSet,basename="clubs")
 router.register(r"attendance",ListAttendanceViewSet,basename="attendance")
-
+router.register(r"projects",ListProjectViewSet,basename="projects")
 
 
 urlpatterns = [

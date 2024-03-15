@@ -9,7 +9,7 @@ class ListKHClubMembersSerializer(serializers.ModelSerializer):
     class Meta:
         model = KH_Club_Members
         fields = '__all__'
-        depth=1
+        depth=2
 
 class KHClubMembersSerializer(serializers.ModelSerializer):
     class Meta:
@@ -77,12 +77,13 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ListProjectSerializer(serializers.ModelSerializer):
-    team_leader = UserSerializer()
-    members = UserSerializer(many=True)
+    # project_lead = KHClubMembersSerializer()
+    # kh_members = KHClubMembersSerializer(many=True)
 
     class Meta:
         model = KH_Project
         fields = '__all__'
+        depth = 3
 
 class CreateAttendanceSerializer(serializers.ModelSerializer):
     # user = UserSerializer()

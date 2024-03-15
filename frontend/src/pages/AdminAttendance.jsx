@@ -109,8 +109,8 @@ function AdminAttendance() {
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th>Name</Th>
               <Th>Register No</Th>
+              <Th>Name</Th>
               <Th>Project Title</Th>
               <Th>Description</Th>
               <Th>Work Done</Th>
@@ -121,8 +121,8 @@ function AdminAttendance() {
           <Tbody>
             {attendanceData.map((item) => (
               <Tr key={item.id}>
-                <Td>{item.user.regno.user.name}</Td>
                 <Td>{item.user.regno.register_no}</Td>
+                <Td>{item.user.regno.user.name}</Td>
                 <Td>{item.project.title}</Td>
                 <Td>{item.project.description}</Td>
                 <Td>{item.work_done}</Td>

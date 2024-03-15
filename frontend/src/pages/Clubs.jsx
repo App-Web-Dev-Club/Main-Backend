@@ -104,23 +104,25 @@ function Clubs() {
         <Table variant="simple">
           <Thead>
             <Tr>
+              <Th>Register No</Th>
+              <Th>Name</Th>
               <Th>Club</Th>
               <Th>Permission</Th>
               <Th>Join Date</Th>
               <Th>Edited Date</Th>
               <Th>Left Date</Th>
-              <Th>Register No</Th>
             </Tr>
           </Thead>
           <Tbody>
             {clubsData.map((item) => (
               <Tr key={item.id}>
+                <Td>{item.regno.register_no}</Td>
+                <Td>{item.regno.user.name}</Td>
                 <Td>{item.club}</Td>
                 <Td>{item.permission}</Td>
                 <Td>{formatDate(item.join_date)}</Td>
                 <Td>{formatDate(item.edited_date)}</Td>
                 <Td>{formatDate(item.left_date)}</Td>
-                <Td>{item.regno.register_no}</Td>
               </Tr>
             ))}
           </Tbody>

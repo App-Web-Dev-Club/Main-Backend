@@ -400,8 +400,23 @@ class ListAttendanceViewSet(ModelViewSet):
 
 
 
+class ListProjectViewSet(ModelViewSet):
+    permission_classes = [AllowAny]
+
+    serializer_class = ListProjectSerializer
+    queryset = KH_Project.objects.all()
 
 
+    def list(self, request, *args, **kwargs):
+        search = request.GET.get("search")
+        print("Search parameter:", search)
+        queryset = self.queryset
+            
+        if search:
+            queryset = queryset.filter(project_lead__club__icontains=search)
+
+        serializer = ListProjectSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 
