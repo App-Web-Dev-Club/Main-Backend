@@ -388,11 +388,15 @@ class ListAttendanceViewSet(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         search = request.GET.get("search")
+        filter_data = request.GET.get("filter")
         print("Search parameter:", search)
         queryset = self.queryset
             
         if search:
             queryset = queryset.filter(user__club__icontains=search)
+
+        if filter_data:
+            queryset = queryset.filter(user__regno__register_no__exact=filter_data)
 
         serializer = ListKHClubMembersAttendananceSerializer(queryset, many=True)
         return Response(serializer.data)
