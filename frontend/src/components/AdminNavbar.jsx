@@ -53,6 +53,16 @@ const AdminNavbar = () => {
 
             <Link
               as={ReactRouterLink}
+              to="/admin/attendance/graph"
+              className={activeLink === "/admin/attendance/graph" ? "link active" : "link"}
+              mx="2"
+              onClick={() => setActiveLink("/admin/attendance/graph")}
+            >
+              Attendance Graph
+            </Link>
+
+            <Link
+              as={ReactRouterLink}
               to="/admin/projects"
               className={activeLink === "/admin/projects" ? "link active" : "link"}
               mx="2"

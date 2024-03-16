@@ -11,6 +11,7 @@ import Hackathon from './pages/Hackathon';
 import Clubs from './pages/Clubs';
 import AdminAttendance from './pages/AdminAttendance';
 import AdminProjects from './pages/AdminProjects';
+import GraphAttendance from './pages/GraphAttendance';
 // import { HackathonDetails } from './components/HackathonDetails';
 // import Hackathonreg from './pages/Hackathon_add';
 function App() {
@@ -35,6 +36,8 @@ function App() {
       <Route path='admin/clubs' element={<Clubs />} />
       <Route path='admin/attendance' element={<AdminAttendance />} />
       <Route path='admin/projects' element={<AdminProjects />} />
+      <Route path='admin/attendance/graph' element={<GraphAttendance />} />
+
       {/* <Route path='test' element={<Hackathonreg/>} /> */}
       <Route path='hackathon' element={<Hackathon />} />
       {/* <Route path='hackathon/details' element={<HackathonDetails/>} /> */}
