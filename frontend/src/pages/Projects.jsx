@@ -120,8 +120,8 @@ function Projects() {
   };
 
   const handleSubmit = async () => {
-    if (leaderVerificationStatus !== "verified" || members.length === 0) {
-      setAlertMessage("Please verify the leader and add at least one member.");
+    if (leaderVerificationStatus !== "verified" ) {
+      setAlertMessage("Please verify the leader");
       return;
     }
   

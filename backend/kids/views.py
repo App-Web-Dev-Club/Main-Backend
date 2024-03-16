@@ -65,7 +65,7 @@ class Test(APIView):
         
 
 class ProjectListCreateAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     def get(self, request, *args, **kwargs):
         projects = KH_Project.objects.all()
         serializer = KHProjectListSerializer(projects, many=True)
@@ -81,7 +81,7 @@ class ProjectListCreateAPIView(APIView):
 
 class AttendanceListCreateAPIView(APIView):
     # permission_classes = [AllowAny]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_user_object(self, reg):
         try:
@@ -126,7 +126,7 @@ class AttendanceListCreateAPIView(APIView):
 
 
 class Studentid(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     def post(self,request):
         reg = request.data.get('register_no')
         student = Student.objects.filter(register_no = reg).first()
@@ -167,7 +167,7 @@ class project_under_user(APIView):
 
 
 class PermissionView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
         data = KIDS_Permission.objects.all()

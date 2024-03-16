@@ -11,7 +11,7 @@ class KH_Club_Members(models.Model):
         ('KH Core','Khacks Core Team'),
         ('3D','3D Printing Club'),
         ('AI','AI Club'),
-        ('WEB_AND_APP','Web And App Club'),
+        ('WEB AND APP','Web And App Club'),
         ('IOT AND ROBOTICS','Iot And Robotics Club'),
         ('XR','XR Club'),
         ('CYBER SECURITY','Cyber Security Club'),
@@ -51,7 +51,7 @@ class KH_Project(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     project_lead = models.ForeignKey(KH_Club_Members, on_delete = models.CASCADE, related_name='project_led')
-    kh_members = models.ManyToManyField(KH_Club_Members)
+    kh_members = models.ManyToManyField(KH_Club_Members, blank=True)
 
     STATUS_CHOICES = [
         ('accepted', 'Accepted'),
