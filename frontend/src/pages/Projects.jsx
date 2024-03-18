@@ -44,14 +44,15 @@ function Projects() {
   }, [memberData, memberVerificationStatus]);
 
   const handleLeaderVerification = async () => {
-    const apiUrl = "http://localhost:8000/kids/userid";
+    const apiUrl = "http://localhost:8000/kids/memberid";
 
     try {
       const response = await axios.post(apiUrl, { register_no: leaderNo });
 
       if (response.status === 201 || response.status === 200) {
         const data = response.data;
-        if (data && data.register_no) {
+        console.log(data)
+        if (data && data.regno.register_no) {
           setLeaderData(data);
           setLeaderVerificationStatus("verified");
         } else {
@@ -68,7 +69,7 @@ function Projects() {
   };
 
   const handleMemberVerification = async (register_no) => {
-    const apiUrl = "http://localhost:8000/kids/userid";
+    const apiUrl = "http://localhost:8000/kids/memberid";
 
     try {
       const response = await axios.post(apiUrl, { register_no: register_no });

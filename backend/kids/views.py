@@ -135,6 +135,19 @@ class Studentid(APIView):
             print(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response('User not found or invalid')
+    
+class Memberid(APIView):
+    permission_classes = [AllowAny]
+    def post(self,request):
+        reg = request.data.get('register_no')
+        student = Student.objects.filter(register_no = reg).first()
+        test = KH_Club_Members.objects.filter(regno = student).first()
+
+        if test:
+            serializer = ListKHClubMembersSerializer(test)
+            print(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response('User not found or invalid')
 
 
 class project_under_user(APIView):
@@ -164,6 +177,38 @@ class project_under_user(APIView):
             'lead':serializer_lead.data
         }
         return Response(res, status=status.HTTP_201_CREATED)
+    
+
+class project_under_member(APIView):
+    permission_classes = [AllowAny]
+
+    def get_user_object(self, reg):
+        try:
+            test =  Student.objects.filter(register_no=reg).first()
+            test2 = KH_Club_Members.objects.filter(regno = test).first()
+            serializer = ListKHClubMembersSerializer(test2)
+            print(serializer.data)
+            return serializer.data['id']
+        except Student.DoesNotExist:
+            return None
+
+    def post(self,request, *args, **kwargs):
+        reg = request.data.get('register_no')
+        userid = self.get_user_object(reg)
+
+        projects_member = KH_Project.objects.filter(kh_members =userid )
+        projects_lead = KH_Project.objects.filter(project_lead =userid )
+
+        serializer_member = ProjectSerializer(projects_member,many = True)
+        serializer_lead = ProjectSerializer(projects_lead,many = True)
+
+        res = {
+            'userid': userid,
+            'member' : serializer_member.data,
+            'lead':serializer_lead.data
+        }
+        return Response(res, status=status.HTTP_201_CREATED)
+
 
 
 class PermissionView(APIView):

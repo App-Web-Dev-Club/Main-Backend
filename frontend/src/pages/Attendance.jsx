@@ -21,7 +21,7 @@ const Attendance = () => {
 
   const handleVerify = useCallback(async () => {
     setIsLoading(true);
-    const apiUrl = "http://localhost:8000/kids/userid/projects";
+    const apiUrl = "http://localhost:8000/kids/memberid/projects";
 
     try {
       const response = await axios.post(apiUrl, { register_no: registerNo });
