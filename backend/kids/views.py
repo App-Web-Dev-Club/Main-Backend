@@ -220,15 +220,24 @@ class PermissionView(APIView):
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        serializer = Create_KH_PermissionSerializer(data=request.data)
-        if serializer.is_valid():
-            instance = serializer.save()
-            
-            data = KIDS_Permission.objects.filter(id = instance.id)
-            serializer = KHPermissionSerializer(data, many=True)
-            # return Response(serializer.data)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        form_type = request.data.get("form_type")
+        twenty_four_hours_ago = datetime.now() - timedelta(hours=24)
+        punch_times = KIDS_PunchTime.objects.filter(time__gte=twenty_four_hours_ago)
+        serializer = ListPunchTimeSerializer(punch_times, many=True)
+
+        main_data = {
+            'type':form_type,
+            'user': serializer.data
+        }
+
+        # serializer = Create_KH_PermissionSerializer(data=request.data)
+        # data = KIDS_Permission.objects.filter(id = instance.id)
+        # serializer = KHPermissionSerializer(data, many=True)
+        # return Response(serializer.data)
+
+        return Response(main_data, status=status.HTTP_201_CREATED)
+    
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
 
@@ -466,6 +475,9 @@ class ListProjectViewSet(ModelViewSet):
 
         serializer = ListProjectSerializer(queryset, many=True)
         return Response(serializer.data)
+    
+
+
 
 
 
