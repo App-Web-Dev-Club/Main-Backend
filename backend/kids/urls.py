@@ -26,6 +26,7 @@ urlpatterns = [
     path('hackathon', HackathonAPIView.as_view(), name="This is hackathon register site"),
     path('memberid',Memberid.as_view()),
     path('memberid/projects',project_under_member.as_view()),
+    path('sendmail',SendEmailView.as_view()),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

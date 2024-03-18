@@ -376,7 +376,7 @@ class SendEmailView(APIView):
     def post(self, request, *args, **kwargs):
         subject = request.data.get('subject', '')
         message = request.data.get('message', '')
-        from_email = 'biwinfelix@example.com'
+        from_email = 'J2r1N.04@gmail.com'
         recipient_list = [request.data.get('to_email', '')]
 
         try:

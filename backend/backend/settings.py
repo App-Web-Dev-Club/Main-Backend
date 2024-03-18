@@ -209,13 +209,19 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # load_dotenv(dotenv_path)
 
 
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = os.getenv('EMAIL_HOST', 'default_value_if_not_present')
+# EMAIL_PORT = 587  # Use 465 if you want to use SSL instead of TLS
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'default_value_if_not_present')  # Your Gmail address
+# EMAIL_HOST_PASSWORD =  os.getenv('EMAIL_HOST_PASSWORD', 'default_value_if_not_present')  # Your Gmail password or app-specific password
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'default_value_if_not_present')
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587  # Use 465 if you want to use SSL instead of TLS
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'default_value_if_not_present')  # Your Gmail address
-EMAIL_HOST_PASSWORD =  os.getenv('EMAIL_HOST_PASSWORD', 'default_value_if_not_present')  # Your Gmail password or app-specific password
-
+EMAIL_HOST_USER = "J2r1N.04@gmail.com" # Your Gmail address
+EMAIL_HOST_PASSWORD = "zppu zsla dcus cwif"  # Your Gmail password or app-specific password
 
 
 
