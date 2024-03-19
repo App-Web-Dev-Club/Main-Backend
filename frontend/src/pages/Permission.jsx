@@ -34,7 +34,7 @@ export default function Permission() {
         form_type: selectedForm,
       });
 
-      if (response.status === 201) {
+      if (response.status === 201 || response.status === 200) {
         console.log("Form updated  successfully!");
 
         // Generate and download the PDF

@@ -9,7 +9,7 @@ from reportlab.lib import colors
 def generate_permission_pdf(users):
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer, pagesize=letter)
-    
+    width, height = letter
     # Set font and size
     p.setFont("Helvetica", 12)
     
@@ -57,9 +57,16 @@ def generate_permission_pdf(users):
     table.wrapOn(p, 500, 500)
     table.drawOn(p, 50, 200)
 
-    # # Write closing remarks
-    # p.drawString(50, y_position, "Thank You.")
-    # p.drawString(50, y_position - 20, "(HOD CTC/KIDS)")
+    table_height = sum(table._rowHeights) + len(table._rowHeights) * 1  # Total height of the table
+    y_position = 200 - table_height - 10  # 30 units below the table
+
+    # Calculate the x-coordinate for centering the text
+    text_width = p.stringWidth("Thank You.", "Helvetica", 12)
+    x_position = (width - text_width) / 2  # Centering based on the canvas width
+
+    # Write closing remarks
+    p.drawString(x_position, y_position, "Thank You.")
+    p.drawString(width - text_width - 70, 50, "(HOD CTC/KIDS)")
     
     # Save the PDF
     p.showPage()
@@ -70,15 +77,6 @@ def generate_permission_pdf(users):
 
 # Generate the PDF
 # pdf_buffer = generate_permission_pdf()
-def save_permission_pdf():
-    # Generate the PDF
-    pdf_buffer = generate_permission_pdf()
-    
-    # Write the PDF content to a file
-    with open('/home/jerin/Downloads/permission_letter.pdf', 'wb') as f:
-        f.write(pdf_buffer.getvalue())
 
-# Save the PDF
-save_permission_pdf()
 
 # Now you can use the 'pdf_buffer' to save the PDF to a file or send it via email

@@ -11,7 +11,10 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from django.contrib.auth import authenticate
 from .serializers import *
 from rest_framework.viewsets import ModelViewSet
-from pdfgenerator import *
+from .pdfgenerator import *
+from django.urls import reverse
+import requests
+
 
 
 
@@ -210,8 +213,9 @@ class project_under_member(APIView):
         }
         return Response(res, status=status.HTTP_201_CREATED)
 
+from datetime import datetime, timedelta
 
-
+from django.core.mail import EmailMessage
 class PermissionView(APIView):
     permission_classes = [AllowAny]
 
@@ -230,26 +234,57 @@ class PermissionView(APIView):
 
         # Set the time to 5:00 PM for today's date
         start_of_day_5pm = datetime.combine(today_date, datetime.min.time()) + timedelta(hours=17)
-
+        print(start_of_day_5pm)
 
         # Set the time to 12:00 AM for today's date
         start_of_day = datetime.combine(today_date, datetime.min.time())
-        print(start_of_day)
+        # print(start_of_day)
         # Get the punch times within today's date starting from 12:00 AM
-        punch_times = KIDS_PunchTime.objects.filter(time__gte=start_of_day_5pm)
+        punch_times = KIDS_PunchTime.objects.filter(time__gte=start_of_day)
         serializer = ListPunchTimeSerializer(punch_times, many=True)
+
+        print(serializer.data)
 
         main_data = {
             'type':form_type,
             'user': serializer.data
         }
 
-        # serializer = Create_KH_PermissionSerializer(data=request.data)
-        # data = KIDS_Permission.objects.filter(id = instance.id)
-        # serializer = KHPermissionSerializer(data, many=True)
-        # return Response(serializer.data)
+        pdf_buffer = generate_permission_pdf(serializer.data)  # Assuming this function returns the PDF buffer
+
+        subject = "hello this is a subject"
+        message = "This is a message"
+        from_email = 'J2r1N.04@gmail.com'
+        recipient_list = ["chijithjerin@karunya.edu.in"]
+
+        email = EmailMessage(subject, message, from_email, recipient_list)
+        email.attach('permission.pdf', pdf_buffer.getvalue(), 'application/pdf')
+
+
+        try:
+            
+            email.send()
+            return Response({'detail': 'Email sent successfully','user': serializer.data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'detail': f'Failed to send email. Error: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+        # response = requests.post(url, data=payload)
+        # # print(response)
+        # # serializer = Create_KH_PermissionSerializer(data=request.data)
+        # # data = KIDS_Permission.objects.filter(id = instance.id)
+        # # serializer = KHPermissionSerializer(data, many=True)
+        # # return Response(serializer.data)
         
-        return Response(main_data, status=status.HTTP_201_CREATED)
+        # if response.status_code == 500:
+        #     # Email sent successfully
+        #     print("hello")
+        #     return Response(main_data, status=status.HTTP_201_CREATED)
+        # else:
+        #     # Failed to send email
+            
+        #     return Response({'detail': 'Failed to send email'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -403,19 +438,24 @@ class PunchTimeGETView(APIView):
 
 from django.core.mail import send_mail
 
+
 class SendEmailView(APIView):
     def post(self, request, *args, **kwargs):
         subject = request.data.get('subject', '')
         message = request.data.get('message', '')
         from_email = 'J2r1N.04@gmail.com'
-        recipient_list = [request.data.get('to_email', '')]
+        to_email = request.data.get('to_email', '')  # Assuming to_email is a string
+
+        # pdf_buffer = generate_permission_pdf()
 
         try:
-            send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+            email = EmailMessage(subject, message, from_email, [to_email])
+            # email.attach('permission.pdf', pdf_buffer.getvalue(), 'application/pdf')
+            email.send()
+
             return Response({'detail': 'Email sent successfully'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'detail': f'Failed to send email. Error: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
 class HackathonAPIView(APIView):
     permission_classes = [IsAuthenticated]
