@@ -11,6 +11,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from django.contrib.auth import authenticate
 from .serializers import *
 from rest_framework.viewsets import ModelViewSet
+from pdfgenerator import *
 
 
 
@@ -221,8 +222,21 @@ class PermissionView(APIView):
 
     def post(self, request, *args, **kwargs):
         form_type = request.data.get("form_type")
-        twenty_four_hours_ago = datetime.now() - timedelta(hours=24)
-        punch_times = KIDS_PunchTime.objects.filter(time__gte=twenty_four_hours_ago)
+        # twenty_four_hours_ago = datetime.now() - timedelta(hours=24)
+        # punch_times = KIDS_PunchTime.objects.filter(time__gte=twenty_four_hours_ago)
+        # serializer = ListPunchTimeSerializer(punch_times, many=True)
+
+        today_date = datetime.now().date()
+
+        # Set the time to 5:00 PM for today's date
+        start_of_day_5pm = datetime.combine(today_date, datetime.min.time()) + timedelta(hours=17)
+
+
+        # Set the time to 12:00 AM for today's date
+        start_of_day = datetime.combine(today_date, datetime.min.time())
+        print(start_of_day)
+        # Get the punch times within today's date starting from 12:00 AM
+        punch_times = KIDS_PunchTime.objects.filter(time__gte=start_of_day_5pm)
         serializer = ListPunchTimeSerializer(punch_times, many=True)
 
         main_data = {
@@ -234,7 +248,7 @@ class PermissionView(APIView):
         # data = KIDS_Permission.objects.filter(id = instance.id)
         # serializer = KHPermissionSerializer(data, many=True)
         # return Response(serializer.data)
-
+        
         return Response(main_data, status=status.HTTP_201_CREATED)
     
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -335,8 +349,16 @@ class PunchTimeGETView(APIView):
 
 
         if type == 'Day':
-            twenty_four_hours_ago = datetime.now() - timedelta(hours=24)
-            punch_times = KIDS_PunchTime.objects.filter(time__gte=twenty_four_hours_ago)
+            # twenty_four_hours_ago = datetime.now() - timedelta(hours=24)
+            # punch_times = KIDS_PunchTime.objects.filter(time__gte=twenty_four_hours_ago)
+            # serializer = ListPunchTimeSerializer(punch_times, many=True)
+            today_date = datetime.now().date()
+
+            # Set the time to 12:00 AM for today's date
+            start_of_day = datetime.combine(today_date, datetime.min.time())
+            print(start_of_day)
+            # Get the punch times within today's date starting from 12:00 AM
+            punch_times = KIDS_PunchTime.objects.filter(time__gte=start_of_day)
             serializer = ListPunchTimeSerializer(punch_times, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
