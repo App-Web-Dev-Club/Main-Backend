@@ -11,7 +11,7 @@ def generate_permission_pdf(users):
     p = canvas.Canvas(buffer, pagesize=letter)
     width, height = letter
     # Set font and size
-    p.setFont("Helvetica", 12)
+    p.setFont("Helvetica", 10)
     
 
     today_date = datetime.date.today().strftime("%d-%m-%Y")
@@ -24,22 +24,22 @@ def generate_permission_pdf(users):
     p.drawImage(logo_path, x=370, y=710,width=180,height=50,mask='auto')
     p.drawImage(stamp_path, x=50, y=700,width=220,height=60,mask='auto')
 
-    p.drawString(60, 650-60, "From") 
-    p.drawString(450, 650-60, f"Date: {today_date}")  
-    p.drawString(75, 620-60, "Head CTC/KIDS,")  
-    p.drawString(75, 595-60, "Karunya Institute of Technology and Sciences.")  
+    p.drawString(60, 650, "From") 
+    p.drawString(450, 650, f"Date: {today_date}")  
+    p.drawString(75, 620+10, "Head CTC/KIDS,")  
+    p.drawString(75, 595+20, "Karunya Institute of Technology and Sciences.")  
     
-    p.drawString(60, 550-60, "To")  
-    p.drawString(75, 520-60, "The Chief Warden (Boys Hostel),")  
-    p.drawString(75, 495-60, "Karunya Institute of Technology and Science,")  
-    p.drawString(75, 470-60, "Coimbatore-641114")  
+    p.drawString(60, 550+30, "To")  
+    p.drawString(75, 520+40, "The Chief Warden (Boys Hostel),")  
+    p.drawString(75, 495+50, "Karunya Institute of Technology and Science,")  
+    p.drawString(75, 470+60, "Coimbatore-641114")  
     
-    p.drawString(60, 425-60, "Subject")  
-    p.drawString(75, 395-60, "Re: Permission for late residence entry") 
+    p.drawString(60, 425+70, "Subject")  
+    p.drawString(75, 395+80, "Re: Permission for late residence entry") 
     
-    p.drawString(60, 350-60, "Respected Sir,")
-    p.drawString(75,320-60,f"The following students were working late at CTC on {today_date} Till 7:30 PM.")
-    p.drawString(75,300-60,"Kindly permit them to enter the hostel.")
+    p.drawString(60, 350+90, "Respected Sir,")
+    p.drawString(75,320+100,f"The following students were working late at CTC on {today_date} Till 7:30 PM.")
+    p.drawString(75,300+105,"Kindly permit them to enter the hostel.")
 
     # The following students were working late at CTC on 12-03-2024 Till 7:30 PM . Kindly permit  them to enter the hostel. 
     data = [['SI No.', 'Name', 'Register No.']]
@@ -71,18 +71,18 @@ def generate_permission_pdf(users):
     
     # Draw the table on the canvas
     table.wrapOn(p, width, height)
-    table.drawOn(p, (width - sum(col_widths)) / 2, 200-60)
+    table.drawOn(p, (width - table._width) / 2, 250)
 
     table_height = sum(table._rowHeights) + len(table._rowHeights) * 1  # Total height of the table
-    y_position = 200 - table_height - 10 - 40  # 40 units below the table
-
+    y_position = 310 - table_height - 10  # 30 units below the table
+    y = y_position - 40
     # Calculate the x-coordinate for centering the text
     text_width = p.stringWidth("Thank You.", "Helvetica", 12)
     x_position = (width - text_width) / 2  # Centering based on the canvas width
 
     # Write closing remarks
     p.drawString(x_position, y_position, "Thank You.")
-    p.drawString(width - text_width - 70, 50, "(HOD CTC/KIDS)")
+    p.drawString(width - text_width - 70, y, "(HOD CTC/KIDS)")
     
     # Save the PDF
     p.showPage()

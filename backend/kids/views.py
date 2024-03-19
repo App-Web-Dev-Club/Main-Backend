@@ -231,6 +231,7 @@ class PermissionView(APIView):
         # serializer = ListPunchTimeSerializer(punch_times, many=True)
 
         today_date = datetime.now().date()
+        # start_of_day_430pm = datetime.combine(today_date, datetime.min.time()) + timedelta(hours=16, minutes=30)
 
         # Set the time to 5:00 PM for today's date
         start_of_day_5pm = datetime.combine(today_date, datetime.min.time()) + timedelta(hours=17)
@@ -247,7 +248,8 @@ class PermissionView(APIView):
 
         main_data = {
             'type':form_type,
-            'user': serializer.data
+            'user': serializer.data,
+            
         }
 
         pdf_buffer = generate_permission_pdf(serializer.data)  # Assuming this function returns the PDF buffer

@@ -101,6 +101,11 @@ class Hackathon(models.Model):
     create_date = models.DateTimeField(auto_now_add= True)
     active = models.BooleanField(null=True,default = True,blank=True)
 
+class FormCode(models.Model):
+    code = models.IntegerField()
+    
+
+
 @receiver(post_save, sender=Hackathon)
 def deactivate_hackathon(sender, instance, **kwargs):
     if instance.end_Date <= timezone.now() and instance.active:

@@ -98,6 +98,13 @@ class HackathonSerializer(serializers.ModelSerializer):
         model = Hackathon
         fields = '__all__'
 
+
+class FormCodeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = FormCode
+        fields = '__all__'
+
 # class HackathonParticipantsSerializer(serializers.ModelSerializer):
 
 #     class Meta:
