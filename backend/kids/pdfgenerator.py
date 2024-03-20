@@ -5,6 +5,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
+from reportlab.lib.styles import ParagraphStyle
 
 
 def generate_permission_pdf(users):
@@ -47,7 +48,7 @@ def generate_permission_pdf(users):
         canvas.drawString(75, 300 + 105, "Kindly permit them to enter the hostel.")
 
     # Table content using Platypus
-    default_width = 120
+    default_width = 130
     elements.append(Spacer(1, 400))
     table_data = [['SI No.', 'Name', 'Reg No.']]
     for index, user in enumerate(users, start=1):
@@ -56,29 +57,45 @@ def generate_permission_pdf(users):
         table_data.append([index, name, register_no])
 
     table_style = TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('BACKGROUND', (0, 0), (-1, 0), colors.white),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.white),
         ('GRID', (0, 0), (-1, -1), 1, colors.black)
     ])
 
-    table = Table(table_data, style=table_style,colWidths=[default_width] * len(table_data[0]))
+    table = Table(table_data, style=table_style)
     table.wrap(doc.width, doc.bottomMargin)
     table_height = table._height
+    print(table_height)
     elements.append(table)
     
+    sign = ParagraphStyle(
+        name='sign',
+        fontName='Helvetica',
+        fontSize=10,
+        textColor="black",
+        alignment=2,
+        spaceBefore=50,
+    )
+
+    thank = ParagraphStyle(
+        name='thank',
+        fontName='Helvetica',
+        fontSize=10,
+        textColor="black",
+        alignment=1,
+        spaceBefore=20,
+    )
     
-
-    # Add Thank You message and signature using canvas
-    def add_thank_you_message(canvas, doc):
-        canvas.drawString(270,  table_height-300+140, "Thank You.")
-        canvas.drawString(450, table_height-300+50, "(HOD CTC/KIDS)")
-
+    thank_you_message = "Thank You."
+    hod_signature = "(HOD CTC/KIDS)"
+    elements.append(Paragraph(thank_you_message, thank))
+    elements.append(Paragraph(hod_signature, sign))
     # Build the PDF
-    doc.build(elements, onFirstPage=add_page_template, onLaterPages=add_thank_you_message)
+    doc.build(elements, onFirstPage=add_page_template)
 
     buffer.seek(0)
     return buffer
