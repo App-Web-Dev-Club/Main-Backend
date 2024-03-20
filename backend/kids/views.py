@@ -237,6 +237,7 @@ class PermissionView(APIView):
         start_of_day_5pm = datetime.combine(today_date, datetime.min.time()) + timedelta(hours=17)
         print(start_of_day_5pm)
 
+        
         # Set the time to 12:00 AM for today's date
         start_of_day = datetime.combine(today_date, datetime.min.time())
         # print(start_of_day)

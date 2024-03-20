@@ -24,6 +24,7 @@ def generate_permission_pdf(users):
     # Page template content using canvas
     def add_page_template(canvas, doc):
         today_date = datetime.date.today().strftime("%d-%m-%Y")
+        year = datetime.date.today().strftime("%Y")
         logo_path = "/home/jerin/Documents/Development/Main-Backend/backend/kids/images/KH_Logo.png"
         stamp_path = "/home/jerin/Documents/Development/Main-Backend/backend/kids/images/stamp.png"
 
@@ -31,6 +32,7 @@ def generate_permission_pdf(users):
         canvas.drawImage(stamp_path, x=50, y=700+35, width=220, height=60, mask='auto')
 
         canvas.drawString(60, 650, "From")
+        canvas.drawString(60, 650 + 45, f"KITS/KIDS/KH/LR/{year}/001")
         canvas.drawString(450, 650 + 45, f"Date: {today_date}")
         canvas.drawString(75, 620 + 10, "Head CTC/KIDS,")
         canvas.drawString(75, 595 + 20, "Karunya Institute of Technology and Sciences.")
