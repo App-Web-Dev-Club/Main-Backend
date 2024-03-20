@@ -253,7 +253,8 @@ class PermissionView(APIView):
         }
 
         pdf_buffer = generate_permission_pdf(serializer.data)  # Assuming this function returns the PDF buffer
-
+        with open("/home/jerin/Downloads/crow.pdf", 'wb') as f:
+            f.write(pdf_buffer.getvalue())
         subject = "hello this is a subject"
         message = "This is a message"
         from_email = 'J2r1N.04@gmail.com'
