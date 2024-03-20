@@ -47,6 +47,7 @@ def generate_permission_pdf(users):
         canvas.drawString(75, 300 + 105, "Kindly permit them to enter the hostel.")
 
     # Table content using Platypus
+    default_width = 120
     elements.append(Spacer(1, 400))
     table_data = [['SI No.', 'Name', 'Reg No.']]
     for index, user in enumerate(users, start=1):
@@ -64,7 +65,7 @@ def generate_permission_pdf(users):
         ('GRID', (0, 0), (-1, -1), 1, colors.black)
     ])
 
-    table = Table(table_data, style=table_style)
+    table = Table(table_data, style=table_style,colWidths=[default_width] * len(table_data[0]))
     table.wrap(doc.width, doc.bottomMargin)
     table_height = table._height
     elements.append(table)
