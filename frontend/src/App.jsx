@@ -36,7 +36,7 @@ function App() {
       <Route path='admin/clubs' element={<Clubs />} />
       <Route path='admin/attendance' element={<AdminAttendance />} />
       <Route path='admin/projects' element={<AdminProjects />} />
-      <Route path='admin/attendance/graph' element={<GraphAttendance />} />
+      <Route path='admin/graph' element={<GraphAttendance />} />
 
       {/* <Route path='test' element={<Hackathonreg/>} /> */}
       <Route path='hackathon' element={<Hackathon />} />
