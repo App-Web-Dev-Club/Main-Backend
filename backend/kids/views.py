@@ -253,7 +253,29 @@ class PermissionView(APIView):
             
         }
 
-        pdf_buffer = generate_permission_pdf(serializer.data)  # Assuming this function returns the PDF buffer
+        # code for, Form code -------------------------------------------
+
+        first_code = FormCode.objects.all()
+        first_code_serializer = FormCodeSerializer(first_code, many=True)
+
+        code = first_code_serializer.data[-1]['code']+1
+        # print(code)
+
+        code_data = {
+            'code':code
+        }
+        
+        second_code_serializer = FormCodeSerializer(data=code_data)
+        if second_code_serializer.is_valid():
+            second_code_serializer.save()
+            print(second_code_serializer.data['code'])
+        else:
+            print("oh shit")
+
+        code_pdf = second_code_serializer.data['code']
+        # end of the code --------------------------------------------------
+
+        pdf_buffer = generate_permission_pdf(serializer.data,code_pdf)  # Assuming this function returns the PDF buffer
         with open("/home/jerin/Downloads/crow.pdf", 'wb') as f:
             f.write(pdf_buffer.getvalue())
         subject = "hello this is a subject"
