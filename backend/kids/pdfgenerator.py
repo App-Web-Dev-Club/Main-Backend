@@ -1,11 +1,14 @@
 
 import io
 import datetime
+from pathlib import Path
 from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
 from reportlab.lib.styles import ParagraphStyle
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 def generate_permission_pdf(users,code):
@@ -25,8 +28,8 @@ def generate_permission_pdf(users,code):
     def add_page_template(canvas, doc):
         today_date = datetime.date.today().strftime("%d-%m-%Y")
         year = datetime.date.today().strftime("%Y")
-        logo_path = "/home/jerin/Documents/Development/Main-Backend/backend/kids/images/KH_Logo.png"
-        stamp_path = "/home/jerin/Documents/Development/Main-Backend/backend/kids/images/stamp.png"
+        logo_path = BASE_DIR / "kids/images/KH_Logo.png"
+        stamp_path = BASE_DIR / "kids/images/stamp.png"
 
         canvas.drawImage(logo_path, x=370, y=710+35, width=180, height=50, mask='auto')
         canvas.drawImage(stamp_path, x=50, y=700+35, width=220, height=60, mask='auto')
