@@ -276,10 +276,8 @@ class PermissionView(APIView):
         # end of the code --------------------------------------------------
 
         pdf_buffer = generate_permission_pdf(serializer.data,code_pdf)  # Assuming this function returns the PDF buffer
-        with open("/home/jerin/Downloads/crow.pdf", 'wb') as f:
-            f.write(pdf_buffer.getvalue())
-        subject = "hello this is a subject"
-        message = "This is a message"
+        subject = "Late Permission Form"
+        message = "This is a generated message"
         from_email = 'J2r1N.04@gmail.com'
         recipient_list = ["chijithjerin@karunya.edu.in"]
 
@@ -497,8 +495,6 @@ class HackathonAPIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 
 

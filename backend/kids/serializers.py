@@ -4,8 +4,6 @@ from .models import *
 from api.serializers import *
 
 class ListKHClubMembersSerializer(serializers.ModelSerializer):
-  
-
     class Meta:
         model = KH_Club_Members
         fields = '__all__'

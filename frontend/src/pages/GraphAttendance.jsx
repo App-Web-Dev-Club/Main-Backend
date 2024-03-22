@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Input, Button, Text, Spinner } from '@chakra-ui/react';
-// import CalendarHeatmap from 'react-calendar-heatmap';
-// import 'react-calendar-heatmap/dist/styles.css';
+import CalendarHeatmap from 'react-calendar-heatmap';
+import 'react-calendar-heatmap/dist/styles.css';
 import axios from 'axios';
 
 import AdminNavbar from "../components/AdminNavbar";
