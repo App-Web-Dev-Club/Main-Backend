@@ -61,7 +61,7 @@ class KH_Login(APIView):
 
 
 class Test(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def get(self,request):
         user = User.objects.all()
         serializer = UserSerializer(user, many=True)
@@ -69,7 +69,7 @@ class Test(APIView):
         
 
 class ProjectListCreateAPIView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def get(self, request, *args, **kwargs):
         projects = KH_Project.objects.all()
         serializer = KHProjectListSerializer(projects, many=True)
@@ -84,8 +84,8 @@ class ProjectListCreateAPIView(APIView):
 
 
 class AttendanceListCreateAPIView(APIView):
-    # permission_classes = [AllowAny]
-    permission_classes = [AllowAny]
+    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_user_object(self, reg):
         try:
@@ -130,7 +130,7 @@ class AttendanceListCreateAPIView(APIView):
 
 
 class Studentid(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def post(self,request):
         reg = request.data.get('register_no')
         student = Student.objects.filter(register_no = reg).first()
@@ -141,7 +141,7 @@ class Studentid(APIView):
         return Response('User not found or invalid')
     
 class Memberid(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def post(self,request):
         reg = request.data.get('register_no')
         student = Student.objects.filter(register_no = reg).first()
@@ -155,7 +155,7 @@ class Memberid(APIView):
 
 
 class project_under_user(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_user_object(self, reg):
         try:
@@ -184,7 +184,7 @@ class project_under_user(APIView):
     
 
 class project_under_member(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_user_object(self, reg):
         try:
@@ -217,7 +217,7 @@ from datetime import datetime, timedelta
 
 from django.core.mail import EmailMessage
 class PermissionView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         data = KIDS_Permission.objects.all()
@@ -353,7 +353,7 @@ class FaceAttendanceListCreateAPIView(APIView):
     
 
 class PunchTimeView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_user_object(self, reg):
         try:
@@ -404,7 +404,7 @@ class PunchTimeView(APIView):
     
 
 class PunchTimeGETView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def post(self,request):
         type = request.data.get('type')
 
@@ -504,7 +504,7 @@ class HackathonAPIView(APIView):
 
 
 class ClubsViewSet(ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     serializer_class = ListKHClubMembersSerializer
     queryset = KH_Club_Members.objects.all()
@@ -523,7 +523,7 @@ class ClubsViewSet(ModelViewSet):
 
 
 class ListAttendanceViewSet(ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     serializer_class = ListKHClubMembersAttendananceSerializer
     queryset = KH_Club_Members_Attendanance.objects.all()
@@ -547,7 +547,7 @@ class ListAttendanceViewSet(ModelViewSet):
 
 
 class ListProjectViewSet(ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     serializer_class = ListProjectSerializer
     queryset = KH_Project.objects.all()
@@ -571,7 +571,7 @@ class ListProjectViewSet(ModelViewSet):
 
 
 # class HackathonParticipantsAPIView(APIView):
-#     permission_classes = [AllowAny]
+#     permission_classes = [IsAuthenticated]
 #     def get(self, request,  *args, **kwargs):
 #         data = HackathonParticipants.objects.all()
 #         serializer = HackathonParticipantsSerializer(data, many=True)
