@@ -275,8 +275,13 @@ class PermissionView(APIView):
         code_pdf = second_code_serializer.data['code']
         # end of the code --------------------------------------------------
 
-        pdf_buffer = generate_permission_pdf(serializer.data,code_pdf)  # Assuming this function returns the PDF buffer
-        subject = "Late Permission Form"
+        if form_type == "Late Permission":
+            pdf_buffer = generate_permission_pdf(serializer.data,code_pdf)  # Assuming this function returns the PDF buffer
+            subject = "Late Permission Form"
+        else:
+            pdf_buffer = generate_night_permission_pdf(serializer.data,code_pdf)
+            subject = "Night Permission Form"
+        
         message = "This is a generated message"
         from_email = 'J2r1N.04@gmail.com'
         recipient_list = ["chijithjerin@karunya.edu.in"]
